@@ -1,6 +1,18 @@
 # Web Lukers — Sitio Institucional
 
-Sitio web institucional avanzado para **Lukers**, empresa peruana de outlets de moda masculina con más de 60 marcas originales de USA y Europa (John Holden, Donatelli, entre otras). Inspirado en [lukers.pe](https://www.lukers.pe/) y enfocado en presentar la empresa: su historia, valores, marcas, tiendas y canales de contacto.
+Sitio web institucional avanzado para **Lukers**, tienda de ropa de marca a buen precio. Concepto: **"Mejores marcas, mejores precios"**. Presenta la empresa: su historia, valores, marcas, tiendas y canales de contacto.
+
+## 🎨 Identidad de marca (Manual 2024)
+
+El sitio aplica el manual de marca oficial, disponible como skill del proyecto en `.claude/skills/marca-lukers/`:
+
+- **Azul Lukers `#008CFF`** como color dominante; **crema `#EFEFE8`** como fondo claro (nunca blanco puro).
+- Tipografía **Archivo / Archivo Black** (sustituto web de MD Nichrome).
+- El **brillo ✦** como hilo conductor gráfico (assets oficiales en `assets/`).
+- Pasteles (verde, turquesa, lila, rosa) solo como acentos puntuales.
+- Logos oficiales: positivo (azul sobre claro) y negativo (crema sobre azul); símbolo "LL" como favicon.
+- El toggle de tema alterna entre **modo positivo** (azul sobre crema) y **modo negativo** (crema sobre azul), las dos únicas versiones de color que admite el manual.
+- Sin rojo/amarillo: esa paleta está reservada exclusivamente a material de remate.
 
 ## ✨ Secciones y funcionalidades
 
@@ -12,16 +24,18 @@ Sitio web institucional avanzado para **Lukers**, empresa peruana de outlets de 
 - **Tiendas**: directorio filtrable por ciudad (Lima, Trujillo, Chiclayo, Tarapoto, Iquitos) con direcciones y horarios.
 - **Testimonios** de clientes, colaboradores y socios comerciales.
 - **Contacto**: formulario con validación (consultas, alianzas, trabajo, libro de reclamaciones) e información de atención.
-- **Modo claro / oscuro** con preferencia guardada y detección del tema del sistema.
-- **Animaciones**: reveal on scroll, contadores y micro-interacciones.
+- **Modo positivo / negativo** con preferencia guardada y detección del tema del sistema.
+- **Animaciones**: reveal on scroll, contadores, brillos flotantes y micro-interacciones.
 - **Diseño responsive** (desktop, tablet, móvil) y accesible (`prefers-reduced-motion`, ARIA).
 
 ## 🗂 Estructura
 
 ```
-├── index.html        # Página principal (one-page institucional)
-├── css/styles.css    # Estilos (variables CSS, dark mode, responsive)
-└── js/main.js        # Tema, animaciones, tiendas y formulario
+├── index.html                      # Página principal (one-page institucional)
+├── css/styles.css                  # Estilos según manual de marca
+├── js/main.js                      # Tema, animaciones, tiendas y formulario
+├── assets/                         # Logos oficiales y brillos (PNG del brandbook)
+└── .claude/skills/marca-lukers/    # Skill del manual de marca (se carga en cualquier sesión de Claude Code)
 ```
 
 ## 🚀 Cómo verlo
