@@ -1,0 +1,18 @@
+{
+  "name": "web-lukers",
+  "version": "1.0.0",
+  "description": "Sitio institucional Lukers con backend: newsletter (base de datos) y panel de administración de imágenes del diseño",
+  "type": "commonjs",
+  "main": "server/server.js",
+  "scripts": {
+    "start": "node --no-warnings server/server.js",
+    "dev": "node --no-warnings --watch server/server.js"
+  },
+  "engines": {
+    "node": ">=22.5.0"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "multer": "^2.1.1"
+  }
+}

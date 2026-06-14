@@ -1,0 +1,14 @@
+# Dependencias
+node_modules/
+
+# Datos en tiempo de ejecución (NO se versionan)
+data/
+uploads/*
+!uploads/.gitkeep
+
+# Variables de entorno
+.env
+
+# Sistema
+.DS_Store
+*.log

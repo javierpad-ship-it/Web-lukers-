@@ -1,0 +1,182 @@
+/* ============================================================
+   LUKERS — Panel de administración
+   Reutiliza variables de marca de styles.css
+   ============================================================ */
+
+.admin-body { background: var(--bg-alt); min-height: 100vh; }
+
+.btn-block { width: 100%; }
+.btn-sm { padding: 0.5rem 1rem; font-size: 0.82rem; }
+
+/* ---------- Login ---------- */
+.admin-login {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  background: radial-gradient(circle at 30% 20%, var(--azul) 0%, var(--azul-oscuro) 70%);
+}
+.admin-login-card {
+  width: min(380px, 100%);
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 2.2rem;
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+.admin-brand { text-align: center; margin-bottom: 0.8rem; }
+.admin-brand img { width: 64px; height: 64px; border-radius: var(--radius-btn); margin: 0 auto 0.7rem; }
+.admin-brand h1 { font-family: var(--font-black); font-weight: 400; font-size: 1.4rem; }
+.admin-brand p { color: var(--text-soft); font-size: 0.85rem; }
+.admin-login-card label { font-size: 0.82rem; font-weight: 700; color: var(--text-soft); }
+.admin-login-card input {
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  border-radius: 10px;
+  padding: 0.8rem 1rem;
+  font-size: 0.95rem;
+  font-family: inherit;
+  outline: none;
+}
+.admin-login-card input:focus { border-color: var(--accent); }
+.admin-msg { font-size: 0.82rem; font-weight: 700; color: #d12d2d; min-height: 1.1em; text-align: center; }
+
+/* ---------- Dashboard ---------- */
+.admin-header {
+  background: var(--azul);
+  color: var(--crema);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+.admin-header-inner {
+  width: min(1100px, 94%);
+  margin-inline: auto;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.admin-logo { font-family: var(--font-black); font-weight: 400; font-size: 1.2rem; color: var(--crema); }
+.admin-logo span { color: var(--crema); }
+.admin-logo small {
+  font-family: var(--font);
+  font-weight: 600;
+  font-size: 0.7rem;
+  opacity: 0.7;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+.admin-header-actions { display: flex; gap: 0.6rem; }
+.admin-header .btn-ghost { border-color: rgba(239,239,232,0.4); color: var(--crema); }
+.admin-header .btn-ghost:hover { border-color: var(--crema); color: #fff; }
+
+.admin-main { width: min(1100px, 94%); margin: 2rem auto 4rem; }
+
+.admin-tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.6rem;
+  flex-wrap: wrap;
+}
+.admin-tab {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text-soft);
+  border-radius: var(--radius-btn);
+  padding: 0.6rem 1.2rem;
+  font-weight: 700;
+  font-size: 0.88rem;
+  transition: var(--transition);
+}
+.admin-tab:hover { border-color: var(--accent); color: var(--accent); }
+.admin-tab.active { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+
+.admin-panel-head { margin-bottom: 1.4rem; }
+.admin-panel-head h2 { font-family: var(--font-black); font-weight: 400; font-size: 1.3rem; }
+.admin-panel-head p { color: var(--text-soft); font-size: 0.9rem; margin-top: 0.3rem; }
+.subs-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+
+/* ---------- Slots de imagen ---------- */
+.image-slots {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.2rem;
+}
+.slot-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.slot-preview {
+  height: 160px;
+  background: linear-gradient(145deg, var(--azul), var(--azul-oscuro));
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(239,239,232,0.85);
+  font-size: 0.8rem;
+  font-weight: 700;
+  position: relative;
+}
+.slot-preview.empty::after { content: "Sin imagen — se usa el diseño por defecto"; padding: 0 1rem; text-align: center; }
+.slot-body { padding: 1rem 1.1rem 1.2rem; display: flex; flex-direction: column; gap: 0.6rem; }
+.slot-body h3 { font-size: 0.95rem; }
+.slot-actions { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+.slot-file { display: none; }
+.slot-card .btn { font-size: 0.8rem; padding: 0.5rem 0.9rem; flex: 1; }
+.slot-reset {
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-soft);
+  border-radius: var(--radius-btn);
+  padding: 0.5rem 0.7rem;
+  font-size: 0.8rem;
+}
+.slot-reset:hover { border-color: #d12d2d; color: #d12d2d; }
+
+/* ---------- Tabla de suscriptores ---------- */
+.table-wrap {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.subs-table { width: 100%; border-collapse: collapse; }
+.subs-table th, .subs-table td {
+  text-align: left;
+  padding: 0.8rem 1rem;
+  font-size: 0.86rem;
+  border-bottom: 1px solid var(--border);
+}
+.subs-table th {
+  background: var(--bg-alt);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.72rem;
+  color: var(--text-soft);
+}
+.subs-table tr:last-child td { border-bottom: none; }
+.subs-table .del-sub {
+  border: none;
+  background: transparent;
+  color: var(--text-soft);
+  font-size: 1rem;
+  cursor: pointer;
+}
+.subs-table .del-sub:hover { color: #d12d2d; }
+.subs-empty { padding: 2.5rem; text-align: center; color: var(--text-soft); }
+
+@media (max-width: 520px) {
+  .subs-table th:nth-child(1), .subs-table td:nth-child(1) { display: none; }
+}

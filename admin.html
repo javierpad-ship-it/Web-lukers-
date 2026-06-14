@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Panel de administración — LUKERS</title>
+  <link rel="icon" type="image/png" href="assets/simbolo_LL_fondo_azul.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@400;600;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/admin.css" />
+</head>
+<body class="admin-body">
+
+  <!-- LOGIN -->
+  <div class="admin-login" id="loginView">
+    <form class="admin-login-card" id="loginForm">
+      <div class="admin-brand">
+        <img src="assets/simbolo_LL_fondo_azul.png" alt="Lukers" />
+        <h1>Panel Lukers</h1>
+        <p>Administración del sitio</p>
+      </div>
+      <label for="password">Contraseña</label>
+      <input type="password" id="password" placeholder="••••••••" autocomplete="current-password" required />
+      <button type="submit" class="btn btn-primary btn-block">Ingresar</button>
+      <p class="admin-msg" id="loginMsg" role="status"></p>
+    </form>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div class="admin-dash" id="dashView" hidden>
+    <header class="admin-header">
+      <div class="admin-header-inner">
+        <a href="/" class="admin-logo" target="_blank" rel="noopener">LUKERS<span>.</span> <small>admin</small></a>
+        <div class="admin-header-actions">
+          <a href="/" class="btn btn-ghost btn-sm" target="_blank" rel="noopener">Ver sitio ↗</a>
+          <button class="btn btn-ghost btn-sm" id="logoutBtn">Cerrar sesión</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="admin-main">
+      <!-- Tabs -->
+      <nav class="admin-tabs">
+        <button class="admin-tab active" data-tab="images">🎨 Imágenes del diseño</button>
+        <button class="admin-tab" data-tab="subs">📬 Suscriptores</button>
+      </nav>
+
+      <!-- IMÁGENES -->
+      <section class="admin-panel" id="tab-images">
+        <div class="admin-panel-head">
+          <h2>Imágenes del diseño</h2>
+          <p>Sube una imagen para reemplazar la que aparece en cada sección del sitio. Recomendado: JPG o PNG, máximo 5&nbsp;MB.</p>
+        </div>
+        <div class="image-slots" id="imageSlots"></div>
+      </section>
+
+      <!-- SUSCRIPTORES -->
+      <section class="admin-panel" id="tab-subs" hidden>
+        <div class="admin-panel-head subs-head">
+          <div>
+            <h2>Suscriptores del newsletter</h2>
+            <p>Total registrados: <strong id="subCount">0</strong></p>
+          </div>
+          <a class="btn btn-primary btn-sm" id="exportBtn" href="#">⬇ Exportar CSV</a>
+        </div>
+        <div class="table-wrap">
+          <table class="subs-table">
+            <thead>
+              <tr><th>#</th><th>Correo</th><th>Nombre</th><th>Fecha</th><th></th></tr>
+            </thead>
+            <tbody id="subsBody"></tbody>
+          </table>
+          <p class="subs-empty" id="subsEmpty" hidden>Aún no hay suscriptores.</p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="toast" id="toast" role="status"></div>
+
+  <script src="js/admin.js"></script>
+</body>
+</html>

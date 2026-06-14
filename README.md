@@ -1,50 +1,84 @@
-# Web Lukers — Sitio Institucional
+# Web Lukers — Sitio institucional + Backend
 
-Sitio web institucional avanzado para **Lukers**, tienda de ropa de marca a buen precio. Concepto: **"Mejores marcas, mejores precios"**. Presenta la empresa: su historia, valores, marcas, tiendas y canales de contacto.
+Sitio institucional de **Lukers** ("Mejores marcas, mejores precios") con un backend propio:
 
-## 🎨 Identidad de marca (Manual 2024)
+- 📬 **Newsletter con base de datos** — formulario de suscripción que guarda los correos en una base de datos SQLite.
+- 🎨 **Panel de administración** (`/admin`) — permite cambiar las imágenes del diseño (portada y categorías) y ver/exportar los suscriptores, protegido con contraseña.
 
-El sitio aplica el manual de marca oficial, disponible como skill del proyecto en `.claude/skills/marca-lukers/`:
+El sitio público sigue aplicando el **manual de marca Lukers 2024** (azul `#008CFF`, crema `#EFEFE8`, tipografía Archivo, el brillo ✦, logos oficiales).
 
-- **Azul Lukers `#008CFF`** como color dominante; **crema `#EFEFE8`** como fondo claro (nunca blanco puro).
-- Tipografía **Archivo / Archivo Black** (sustituto web de MD Nichrome).
-- El **brillo ✦** como hilo conductor gráfico (assets oficiales en `assets/`).
-- Pasteles (verde, turquesa, lila, rosa) solo como acentos puntuales.
-- Logos oficiales: positivo (azul sobre claro) y negativo (crema sobre azul); símbolo "LL" como favicon.
-- El toggle de tema alterna entre **modo positivo** (azul sobre crema) y **modo negativo** (crema sobre azul), las dos únicas versiones de color que admite el manual.
-- Sin rojo/amarillo: esa paleta está reservada exclusivamente a material de remate.
+## 🚀 Cómo ejecutarlo en local
 
-## ✨ Secciones y funcionalidades
+Requiere **Node.js 22.5 o superior** (usa el módulo `node:sqlite` integrado, sin bases de datos externas).
 
-- **Hero institucional** con estadísticas animadas (trayectoria, tiendas, marcas, colaboradores).
-- **Quiénes somos**: misión, visión y valores.
-- **Historia**: línea de tiempo interactiva con los hitos de la empresa (2001–2026).
-- **Compromiso**: garantía de originalidad, orgullo peruano, empleo formal y comercio responsable.
-- **Marcas**: marquee animado del portafolio y líneas de producto (formal, casual, calzado, accesorios) — sin precios ni venta.
-- **Tiendas**: directorio filtrable por ciudad (Lima, Trujillo, Chiclayo, Tarapoto, Iquitos) con direcciones y horarios.
-- **Testimonios** de clientes, colaboradores y socios comerciales.
-- **Contacto**: formulario con validación (consultas, alianzas, trabajo, libro de reclamaciones) e información de atención.
-- **Modo positivo / negativo** con preferencia guardada y detección del tema del sistema.
-- **Animaciones**: reveal on scroll, contadores, brillos flotantes y micro-interacciones.
-- **Diseño responsive** (desktop, tablet, móvil) y accesible (`prefers-reduced-motion`, ARIA).
+```bash
+npm install
+npm start
+```
+
+Luego abre:
+- Sitio: **http://localhost:3000**
+- Panel de administración: **http://localhost:3000/admin**
+
+La contraseña por defecto del panel es `lukers-admin`. Cámbiala creando un archivo `.env` (ver `.env.example`):
+
+```bash
+PORT=3000
+ADMIN_PASSWORD=tu-clave-segura
+SESSION_SECRET=un-texto-largo-y-aleatorio
+```
+
+## ☁️ Desplegar en Railway
+
+1. En [railway.app](https://railway.app) → **New Project → Deploy from GitHub repo** y elige este repositorio.
+2. Railway detecta Node y ejecuta `npm start` automáticamente (ya configurado en `railway.json`). El puerto lo asigna Railway vía la variable `PORT`.
+3. En **Variables**, define:
+   - `ADMIN_PASSWORD` → tu contraseña del panel.
+   - `SESSION_SECRET` → cualquier texto largo y aleatorio.
+4. **IMPORTANTE — Persistencia.** El disco de Railway se borra en cada despliegue. Para que NO se pierdan los suscriptores ni las imágenes subidas:
+   - Crea un **Volume** y móntalo en, por ejemplo, `/data`.
+   - Añade estas variables para que la base de datos y las imágenes vivan en el volumen:
+     - `DATA_DIR=/data`
+     - `UPLOADS_DIR=/data/uploads`
+
+Con eso, cada `git push` actualiza el sitio y los datos se conservan entre despliegues.
+
+> Nota: GitHub Pages **no** sirve para esta versión, porque solo aloja archivos estáticos y no puede ejecutar el backend (base de datos / panel). Para el newsletter y el panel necesitas un host que corra Node, como Railway.
 
 ## 🗂 Estructura
 
 ```
-├── index.html                      # Página principal (one-page institucional)
-├── css/styles.css                  # Estilos según manual de marca
-├── js/main.js                      # Tema, animaciones, tiendas y formulario
-├── assets/                         # Logos oficiales y brillos (PNG del brandbook)
-└── .claude/skills/marca-lukers/    # Skill del manual de marca (se carga en cualquier sesión de Claude Code)
+├── index.html            # Sitio público
+├── admin.html            # Panel de administración
+├── css/
+│   ├── styles.css        # Estilos del sitio (manual de marca)
+│   └── admin.css         # Estilos del panel
+├── js/
+│   ├── main.js           # Sitio: newsletter, imágenes dinámicas, animaciones
+│   └── admin.js          # Panel: login, imágenes, suscriptores
+├── server/
+│   ├── server.js         # Servidor Express + API
+│   └── db.js             # Base de datos SQLite (node:sqlite)
+├── assets/               # Logos y brillos oficiales del brandbook
+├── uploads/              # Imágenes subidas desde el panel (no se versiona)
+├── data/                 # Base de datos en tiempo de ejecución (no se versiona)
+├── package.json
+└── railway.json          # Configuración de despliegue en Railway
 ```
 
-## 🚀 Cómo verlo
+## 🔌 API
 
-No requiere build ni dependencias. Abre `index.html` directamente en el navegador, o sirve la carpeta:
+| Método | Ruta | Descripción |
+|---|---|---|
+| `POST` | `/api/subscribe` | Suscribe un correo al newsletter |
+| `GET` | `/api/images` | Imágenes del diseño actuales (público) |
+| `POST` | `/api/admin/login` | Inicia sesión en el panel |
+| `POST` | `/api/admin/images/:slot` | Sube/reemplaza una imagen del diseño |
+| `DELETE` | `/api/admin/images/:slot` | Quita una imagen (vuelve al diseño por defecto) |
+| `GET` | `/api/admin/subscribers` | Lista de suscriptores |
+| `GET` | `/api/admin/subscribers.csv` | Exporta los suscriptores a CSV |
+| `DELETE` | `/api/admin/subscribers/:id` | Elimina un suscriptor |
 
-```bash
-python3 -m http.server 8080
-# → http://localhost:8080
-```
+Las rutas `/api/admin/*` (salvo el login) requieren el token de sesión.
 
-> Sitio demostrativo: los formularios no envían datos reales y las direcciones/hitos son referenciales.
+> El sitio degrada con elegancia: si se abre sin el backend activo, las imágenes muestran el diseño por defecto y el formulario avisa que necesita el servidor.

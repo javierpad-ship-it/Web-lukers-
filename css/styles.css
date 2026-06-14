@@ -777,6 +777,55 @@ h3 { font-size: 1.1rem; }
   .reveal { opacity: 1; transform: none; }
 }
 
+/* ---------- Imágenes del diseño gestionadas desde el panel ---------- */
+.product-art.has-img,
+.cat-art.has-img { background-size: cover; background-position: center; }
+.product-art.has-img::before,
+.cat-art.has-img::before { content: none; }
+.product-art.has-img::after,
+.cat-art.has-img::after { background: linear-gradient(to top, rgba(33,33,33,0.25), transparent 55%); }
+
+/* ---------- Newsletter ---------- */
+.newsletter {
+  position: relative;
+  background: var(--azul);
+  color: var(--crema);
+  padding: 4rem 0;
+  overflow: hidden;
+}
+.newsletter-inner {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.5rem;
+  align-items: center;
+}
+.newsletter-text h2 { font-size: clamp(1.6rem, 3.2vw, 2.3rem); }
+.newsletter-text p { color: rgba(239, 239, 232, 0.85); margin-top: 0.5rem; }
+.eyebrow-crema { color: var(--crema); opacity: 0.9; }
+.newsletter-form { display: flex; flex-direction: column; gap: 0.7rem; }
+.newsletter-form input {
+  border: none;
+  border-radius: var(--radius-btn);
+  padding: 0.9rem 1.1rem;
+  font-size: 0.95rem;
+  font-family: inherit;
+  outline: none;
+  width: 100%;
+  background: var(--crema);
+  color: var(--negro);
+}
+.newsletter-form input::placeholder { color: #8a8a82; }
+.nl-row { display: flex; gap: 0.6rem; }
+.nl-row input { flex: 1; }
+.nl-row .btn { white-space: nowrap; }
+.nl-msg { color: var(--crema); font-weight: 700; min-height: 1.1em; margin-top: 0.2rem; }
+.nl-msg.ok { color: #d9ffd9; }
+
+/* Enlace de administración en el footer */
+.footer-admin { opacity: 0.45; font-size: 0.78rem; margin-top: 0.4rem; }
+.footer-admin:hover { opacity: 1; }
+
 /* ---------- Responsive ---------- */
 @media (max-width: 1024px) {
   .cat-grid { grid-template-columns: repeat(2, 1fr); }
@@ -814,6 +863,8 @@ h3 { font-size: 1.1rem; }
 
   .values-grid, .testi-grid, .store-grid { grid-template-columns: repeat(2, 1fr); }
   .contact-layout { grid-template-columns: 1fr; }
+  .newsletter-inner { grid-template-columns: 1fr; text-align: center; }
+  .nl-row { flex-direction: column; }
 }
 
 @media (max-width: 520px) {
