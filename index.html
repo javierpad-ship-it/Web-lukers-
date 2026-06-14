@@ -75,7 +75,7 @@
         </div>
         <div class="hero-visual reveal" aria-hidden="true">
           <div class="hero-card main-card">
-            <div class="product-art" data-art="terno">
+            <div class="product-art" data-art="terno" data-slot="hero_main">
               <img src="assets/brillo_turquesa.png" class="art-brillo ab1" alt="" />
               <img src="assets/brillo_rosa.png" class="art-brillo ab2" alt="" />
             </div>
@@ -193,10 +193,10 @@
       </div>
       <div class="container">
         <div class="cat-grid lines-grid">
-          <div class="cat-card reveal"><div class="cat-art" data-art="terno"></div><h3>Línea Formal</h3><p>Ternos, camisas y corbatas para cada ocasión importante.</p></div>
-          <div class="cat-card reveal"><div class="cat-art" data-art="polo"></div><h3>Línea Casual</h3><p>Polos, jeans y casacas para el día a día con estilo.</p></div>
-          <div class="cat-card reveal"><div class="cat-art" data-art="zapato"></div><h3>Calzado</h3><p>De vestir y urbano, con cueros y materiales de primera.</p></div>
-          <div class="cat-card reveal"><div class="cat-art" data-art="reloj"></div><h3>Accesorios</h3><p>Correas, billeteras y relojes que completan el look.</p></div>
+          <div class="cat-card reveal"><div class="cat-art" data-art="terno" data-slot="cat_formal"></div><h3>Línea Formal</h3><p>Ternos, camisas y corbatas para cada ocasión importante.</p></div>
+          <div class="cat-card reveal"><div class="cat-art" data-art="polo" data-slot="cat_casual"></div><h3>Línea Casual</h3><p>Polos, jeans y casacas para el día a día con estilo.</p></div>
+          <div class="cat-card reveal"><div class="cat-art" data-art="zapato" data-slot="cat_calzado"></div><h3>Calzado</h3><p>De vestir y urbano, con cueros y materiales de primera.</p></div>
+          <div class="cat-card reveal"><div class="cat-art" data-art="reloj" data-slot="cat_accesorios"></div><h3>Accesorios</h3><p>Correas, billeteras y relojes que completan el look.</p></div>
         </div>
       </div>
     </section>
@@ -296,6 +296,27 @@
         </div>
       </div>
     </section>
+
+    <!-- ====== NEWSLETTER ====== -->
+    <section class="newsletter reveal" id="newsletter">
+      <img src="assets/brillo_turquesa.png" class="banner-brillo bb1" alt="" aria-hidden="true" />
+      <img src="assets/brillo_lila.png" class="banner-brillo bb2" alt="" aria-hidden="true" />
+      <div class="container newsletter-inner">
+        <div class="newsletter-text">
+          <span class="eyebrow eyebrow-crema">✦ Newsletter</span>
+          <h2>Suscríbete y entérate primero</h2>
+          <p>Recibe nuestras mejores ofertas, novedades y la llegada de nuevas marcas directo en tu correo.</p>
+        </div>
+        <form class="newsletter-form" id="newsletterForm" novalidate>
+          <input type="text" id="nlName" placeholder="Tu nombre (opcional)" aria-label="Nombre" autocomplete="name" />
+          <div class="nl-row">
+            <input type="email" id="nlEmail" placeholder="Tu correo electrónico" aria-label="Correo electrónico" autocomplete="email" required />
+            <button type="submit" class="btn btn-light">Suscribirme</button>
+          </div>
+          <p class="form-msg nl-msg" id="nlMsg" role="status"></p>
+        </form>
+      </div>
+    </section>
   </main>
 
   <!-- ====== FOOTER ====== -->
@@ -329,6 +350,7 @@
         <a href="mailto:hola@lukers.pe">hola@lukers.pe</a>
         <a href="tel:+5116000000">(01) 600-0000</a>
         <p>Lun a Dom · 10 a.m. – 10 p.m.</p>
+        <a href="/admin" class="footer-admin">Administración</a>
       </div>
     </div>
     <div class="footer-concept">Mejores marcas ✦ Mejores precios</div>

@@ -161,6 +161,63 @@ function showToast(text) {
   toastTimer = setTimeout(() => toast.classList.remove("show"), 2600);
 }
 
+/* ---------- Newsletter (conecta con el backend) ---------- */
+const newsletterForm = $("#newsletterForm");
+if (newsletterForm) {
+  newsletterForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const email = $("#nlEmail").value.trim();
+    const name = $("#nlName").value.trim();
+    const msg = $("#nlMsg");
+    msg.classList.remove("ok");
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
+      msg.textContent = "✗ Ingresa un correo válido";
+      return;
+    }
+
+    msg.textContent = "Enviando…";
+    try {
+      const res = await fetch("/api/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, name }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        msg.textContent = "✗ " + (data.error || "No se pudo suscribir");
+        return;
+      }
+      msg.classList.add("ok");
+      msg.textContent = "✓ " + data.message;
+      newsletterForm.reset();
+      showToast(data.duplicate ? "Ese correo ya estaba suscrito 🙂" : "🎉 ¡Bienvenido al newsletter de Lukers!");
+    } catch {
+      // Sin backend (p. ej. abierto como archivo estático): degradación elegante
+      msg.textContent = "✗ El newsletter necesita el servidor activo (npm start).";
+    }
+  });
+}
+
+/* ---------- Imágenes del diseño (cargadas desde el backend) ---------- */
+async function loadDesignImages() {
+  try {
+    const res = await fetch("/api/images");
+    if (!res.ok) return;
+    const { images } = await res.json();
+    Object.entries(images).forEach(([slot, url]) => {
+      const el = document.querySelector(`[data-slot="${slot}"]`);
+      if (el) {
+        el.style.backgroundImage = `url('${url}')`;
+        el.classList.add("has-img");
+      }
+    });
+  } catch {
+    /* Sin backend: se conservan las imágenes/placeholders por defecto del diseño */
+  }
+}
+
 /* ---------- Init ---------- */
 $("#year").textContent = new Date().getFullYear();
 renderStores();
+loadDesignImages();
