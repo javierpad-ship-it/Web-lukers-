@@ -69,8 +69,10 @@ document.querySelectorAll(".admin-tab").forEach((tab) => {
     tab.classList.add("active");
     const target = tab.dataset.tab;
     $("#tab-images").hidden = target !== "images";
+    $("#tab-offers").hidden = target !== "offers";
     $("#tab-subs").hidden = target !== "subs";
     if (target === "subs") loadSubscribers();
+    if (target === "offers") loadOffers();
   });
 });
 
@@ -175,6 +177,58 @@ function escapeHtml(str) {
   return String(str).replace(/[&<>"']/g, (c) => (
     { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]
   ));
+}
+
+/* ---------- Ofertas / novedades ---------- */
+$("#offerForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const msg = $("#offerMsg");
+  msg.classList.remove("ok");
+  const tag = $("#offerTag").value.trim();
+  const title = $("#offerTitle").value.trim();
+  const description = $("#offerDesc").value.trim();
+  if (!title) { msg.textContent = "El título es obligatorio"; return; }
+  try {
+    const r = await api("/api/admin/offers", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ tag, title, description }),
+    });
+    if (!r.ok) { const d = await r.json(); msg.textContent = d.error || "Error"; return; }
+    e.target.reset();
+    showToast("✓ Oferta publicada");
+    loadOffers();
+  } catch (err) {
+    msg.textContent = err.message || "Error de conexión";
+  }
+});
+
+async function loadOffers() {
+  const res = await fetch("/api/offers");
+  const { offers } = await res.json();
+  const box = $("#offersAdminList");
+  if (!offers.length) {
+    box.innerHTML = `<p class="subs-empty">Aún no hay ofertas publicadas.</p>`;
+    return;
+  }
+  box.innerHTML = "";
+  offers.forEach((o) => {
+    const row = document.createElement("div");
+    row.className = "offer-admin-row";
+    row.innerHTML = `
+      <div>
+        ${o.tag ? `<span class="offer-admin-tag">${escapeHtml(o.tag)}</span>` : ""}
+        <b>${escapeHtml(o.title)}</b>
+        ${o.description ? `<span class="offer-admin-desc">${escapeHtml(o.description)}</span>` : ""}
+      </div>
+      <button class="del-sub" title="Eliminar">🗑</button>`;
+    row.querySelector(".del-sub").addEventListener("click", async () => {
+      if (!confirm(`¿Eliminar la oferta "${o.title}"?`)) return;
+      const r = await api(`/api/admin/offers/${o.id}`, { method: "DELETE" });
+      if (r.ok) { showToast("Oferta eliminada"); loadOffers(); }
+    });
+    box.appendChild(row);
+  });
 }
 
 /* Exportar CSV (incluye el token vía descarga autenticada con fetch -> blob) */
