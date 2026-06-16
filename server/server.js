@@ -232,6 +232,30 @@ app.delete("/api/admin/subscribers/:id", requireAuth, (req, res) => {
   res.json({ ok: true });
 });
 
+/* ----------------------------- Ofertas / novedades ---------------- */
+app.get("/api/offers", (req, res) => {
+  const offers = db
+    .prepare("SELECT id, tag, title, description, created_at FROM offers ORDER BY id DESC")
+    .all();
+  res.json({ offers });
+});
+
+app.post("/api/admin/offers", requireAuth, (req, res) => {
+  const tag = String(req.body.tag || "").trim().slice(0, 24);
+  const title = String(req.body.title || "").trim().slice(0, 120);
+  const description = String(req.body.description || "").trim().slice(0, 300);
+  if (!title) return res.status(400).json({ error: "El título es obligatorio" });
+  const info = db
+    .prepare("INSERT INTO offers (tag, title, description, created_at) VALUES (?, ?, ?, ?)")
+    .run(tag || null, title, description || null, new Date().toISOString());
+  res.json({ ok: true, id: Number(info.lastInsertRowid) });
+});
+
+app.delete("/api/admin/offers/:id", requireAuth, (req, res) => {
+  db.prepare("DELETE FROM offers WHERE id = ?").run(Number(req.params.id));
+  res.json({ ok: true });
+});
+
 /* ----------------------------- Manejo de errores ------------------ */
 app.use((err, req, res, next) => {
   if (err) return res.status(400).json({ error: err.message || "Error en la solicitud" });

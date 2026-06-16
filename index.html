@@ -28,6 +28,7 @@
 
       <ul class="nav-links" id="navLinks">
         <li><a href="#inicio" class="active">Inicio</a></li>
+        <li><a href="#ofertas">Ofertas</a></li>
         <li><a href="#nosotros">Nosotros</a></li>
         <li><a href="#historia">Historia</a></li>
         <li><a href="#marcas">Marcas</a></li>
@@ -59,18 +60,18 @@
       </div>
       <div class="container hero-grid">
         <div class="hero-content reveal">
-          <span class="hero-badge">✦ Tienda de ropa de marca a buen precio</span>
+          <span class="hero-badge">✦ Marcas originales de USA y Europa</span>
           <h1>Mejores marcas,<br /><span class="text-blue">mejores precios.</span></h1>
-          <p>Somos <strong>Lukers</strong>. Acercamos las mejores marcas de ropa a todos los peruanos, con garantía de autenticidad y precios que se sienten bien. Presentes en Lima y en las principales ciudades del país.</p>
+          <p>Encuentra ropa de marca <strong>100% original hasta -70%</strong> en tu tienda Lukers. Más de 60 marcas de USA y Europa, cerca de ti en todo el Perú.</p>
           <div class="hero-cta">
-            <a href="#nosotros" class="btn btn-primary">Conócenos</a>
-            <a href="#tiendas" class="btn btn-ghost">Nuestras tiendas</a>
+            <a href="#tiendas" class="btn btn-primary">📍 Encuentra tu tienda más cercana</a>
+            <a href="#ofertas" class="btn btn-ghost">Ver novedades</a>
           </div>
           <div class="hero-stats">
-            <div><b data-count="25">0</b><span>años de trayectoria</span></div>
-            <div><b data-count="12">0</b><span>tiendas en Perú</span></div>
             <div><b data-count="60">0</b><span>+ marcas originales</span></div>
-            <div><b data-count="300">0</b><span>colaboradores</span></div>
+            <div><b data-count="12">0</b><span>tiendas cerca de ti</span></div>
+            <div><b data-count="70">0</b><span>% de descuento</span></div>
+            <div><b>100%</b><span>original</span></div>
           </div>
         </div>
         <div class="hero-visual reveal" aria-hidden="true">
@@ -176,6 +177,18 @@
       </div>
     </section>
 
+    <!-- ====== OFERTAS / NOVEDADES ====== -->
+    <section class="section section-alt" id="ofertas" hidden>
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="eyebrow">✦ Esta temporada</span>
+          <h2>Ofertas y novedades</h2>
+          <p>Lo último que llegó a nuestras tiendas. ¡Ven antes de que se acabe!</p>
+        </div>
+        <div class="offers-grid" id="offersGrid"></div>
+      </div>
+    </section>
+
     <!-- ====== MARCAS ====== -->
     <section class="section" id="marcas">
       <div class="container">
@@ -207,10 +220,10 @@
       <img src="assets/brillo_rosa.png" class="banner-brillo bb2" alt="" aria-hidden="true" />
       <div class="container promo-inner">
         <div>
-          <h2>¿Quieres ser parte del equipo Lukers?</h2>
-          <p>Buscamos personas con vocación de servicio y pasión por la moda. Únete a una empresa en crecimiento.</p>
+          <h2>Tu próxima marca favorita te espera</h2>
+          <p>Visita tu tienda Lukers más cercana y descubre marcas originales a precios que no vas a creer.</p>
         </div>
-        <a href="#contacto" class="btn btn-light">Trabaja con nosotros</a>
+        <a href="#tiendas" class="btn btn-light">📍 Ver tiendas</a>
       </div>
     </section>
 
@@ -304,8 +317,8 @@
       <div class="container newsletter-inner">
         <div class="newsletter-text">
           <span class="eyebrow eyebrow-crema">✦ Newsletter</span>
-          <h2>Suscríbete y entérate primero</h2>
-          <p>Recibe nuestras mejores ofertas, novedades y la llegada de nuevas marcas directo en tu correo.</p>
+          <h2>Suscríbete y llévate un cupón de bienvenida</h2>
+          <p>Recibe un <strong>cupón de descuento</strong> para tu próxima visita, además de ofertas y la llegada de nuevas marcas antes que nadie.</p>
         </div>
         <form class="newsletter-form" id="newsletterForm" novalidate>
           <input type="text" id="nlName" placeholder="Tu nombre (opcional)" aria-label="Nombre" autocomplete="name" />
@@ -358,6 +371,12 @@
       <p>© <span id="year"></span> Lukers. Todos los derechos reservados. Sitio demostrativo.</p>
     </div>
   </footer>
+
+  <!-- ====== WHATSAPP FLOTANTE ====== -->
+  <a href="#" class="whatsapp-fab" id="whatsappFab" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp">
+    <svg viewBox="0 0 32 32" width="28" height="28" fill="currentColor" aria-hidden="true"><path d="M16.04 3C9.4 3 4 8.4 4 15.04c0 2.12.56 4.18 1.6 6L4 29l8.16-1.56a12 12 0 0 0 3.88.64h.01C22.7 28.08 28.1 22.68 28.1 16.04 28.1 8.4 22.7 3 16.04 3Zm0 21.9h-.01a9.9 9.9 0 0 1-5.04-1.38l-.36-.22-4.84.93.97-4.72-.24-.38a9.86 9.86 0 0 1-1.5-5.25c0-5.46 4.45-9.9 9.92-9.9 2.65 0 5.14 1.03 7.01 2.9a9.84 9.84 0 0 1 2.9 7.01c0 5.47-4.45 9.91-9.91 9.91Zm5.44-7.42c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51l-.57-.01c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.06 2.88 1.21 3.08.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.62.71.23 1.36.2 1.87.12.57-.08 1.76-.72 2-1.41.25-.7.25-1.29.17-1.42-.07-.13-.27-.2-.57-.35Z"/></svg>
+    <span class="whatsapp-fab-text">WhatsApp</span>
+  </a>
 
   <!-- ====== TOAST ====== -->
   <div class="toast" id="toast" role="status"></div>

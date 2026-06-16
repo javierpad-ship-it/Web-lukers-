@@ -40,6 +40,17 @@ function getDb() {
     );
   `);
 
+  // Ofertas / novedades mostradas en la portada y editables desde el panel
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS offers (
+      id         INTEGER PRIMARY KEY AUTOINCREMENT,
+      tag        TEXT,
+      title      TEXT NOT NULL,
+      description TEXT,
+      created_at TEXT NOT NULL
+    );
+  `);
+
   return db;
 }
 

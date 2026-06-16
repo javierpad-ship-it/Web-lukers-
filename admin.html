@@ -44,6 +44,7 @@
       <!-- Tabs -->
       <nav class="admin-tabs">
         <button class="admin-tab active" data-tab="images">🎨 Imágenes del diseño</button>
+        <button class="admin-tab" data-tab="offers">✦ Ofertas / Novedades</button>
         <button class="admin-tab" data-tab="subs">📬 Suscriptores</button>
       </nav>
 
@@ -54,6 +55,24 @@
           <p>Sube una imagen para reemplazar la que aparece en cada sección del sitio. Recomendado: JPG o PNG, máximo 5&nbsp;MB.</p>
         </div>
         <div class="image-slots" id="imageSlots"></div>
+      </section>
+
+      <!-- OFERTAS / NOVEDADES -->
+      <section class="admin-panel" id="tab-offers" hidden>
+        <div class="admin-panel-head">
+          <h2>Ofertas y novedades</h2>
+          <p>Lo que publiques aquí aparece en la portada del sitio. Úsalo para anunciar promociones, llegada de stock o campañas.</p>
+        </div>
+        <form class="offer-form" id="offerForm">
+          <div class="form-row">
+            <input type="text" id="offerTag" placeholder="Etiqueta (ej. NUEVO, -50%, REMATE)" maxlength="24" />
+            <input type="text" id="offerTitle" placeholder="Título de la oferta *" maxlength="120" required />
+          </div>
+          <textarea id="offerDesc" rows="2" placeholder="Descripción breve (opcional)" maxlength="300"></textarea>
+          <button type="submit" class="btn btn-primary btn-sm">Publicar oferta</button>
+          <p class="admin-msg" id="offerMsg" role="status"></p>
+        </form>
+        <div class="offers-admin-list" id="offersAdminList"></div>
       </section>
 
       <!-- SUSCRIPTORES -->

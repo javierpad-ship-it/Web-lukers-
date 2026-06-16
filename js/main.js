@@ -24,6 +24,27 @@ const STORES = [
 const $ = (sel) => document.querySelector(sel);
 const $$ = (sel) => [...document.querySelectorAll(sel)];
 
+/* ============================================================
+   CONFIGURACIÓN — EDITA AQUÍ
+   Número de WhatsApp de Lukers en formato internacional, solo
+   dígitos (código de país + número). Perú = 51.
+   Ejemplo: "51987654321". Mientras esté el placeholder, el
+   botón invita a configurarlo.
+   ============================================================ */
+const WHATSAPP_NUMBER = "51000000000"; // ← REEMPLAZAR por el número real
+const WHATSAPP_CONFIGURED = !/^510{8,}$/.test(WHATSAPP_NUMBER);
+
+function whatsappLink(message) {
+  const base = `https://wa.me/${WHATSAPP_NUMBER}`;
+  return message ? `${base}?text=${encodeURIComponent(message)}` : base;
+}
+
+function mapsLink(address) {
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+    address + ", Perú"
+  )}`;
+}
+
 /* ---------- Tema claro / oscuro ---------- */
 const themeToggle = $("#themeToggle");
 const savedTheme = localStorage.getItem("lukers-theme");
@@ -112,6 +133,12 @@ function renderStores(city = "todas") {
       <h3>${s.name}</h3>
       <p>📍 ${s.address}</p>
       <p class="hours">🕙 Lun a Dom · 10:00 a.m. – 10:00 p.m.</p>
+      <div class="store-actions">
+        <a class="store-btn store-btn-maps" href="${mapsLink(s.address)}" target="_blank" rel="noopener">📍 Cómo llegar</a>
+        <a class="store-btn store-btn-wa" href="${whatsappLink(
+          `Hola Lukers 👋 quiero consultar por la tienda ${s.name}.`
+        )}" target="_blank" rel="noopener">💬 WhatsApp</a>
+      </div>
     </div>`).join("");
 }
 
@@ -217,7 +244,56 @@ async function loadDesignImages() {
   }
 }
 
+/* ---------- Ofertas / novedades (desde el backend) ---------- */
+async function loadOffers() {
+  const section = $("#ofertas");
+  const grid = $("#offersGrid");
+  if (!section || !grid) return;
+  try {
+    const res = await fetch("/api/offers");
+    if (!res.ok) return;
+    const { offers } = await res.json();
+    if (!offers.length) return; // sin ofertas: la sección queda oculta
+    grid.innerHTML = offers
+      .map(
+        (o) => `
+        <article class="offer-card reveal in">
+          ${o.tag ? `<span class="offer-tag">${escapeHtml(o.tag)}</span>` : ""}
+          <h3>${escapeHtml(o.title)}</h3>
+          ${o.description ? `<p>${escapeHtml(o.description)}</p>` : ""}
+          <a class="offer-cta" href="#tiendas">Ver en tienda →</a>
+        </article>`
+      )
+      .join("");
+    section.hidden = false;
+  } catch {
+    /* Sin backend: la sección de ofertas permanece oculta */
+  }
+}
+
+function escapeHtml(str) {
+  return String(str).replace(/[&<>"']/g, (c) => (
+    { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]
+  ));
+}
+
+/* ---------- WhatsApp flotante ---------- */
+function initWhatsApp() {
+  const fab = $("#whatsappFab");
+  if (!fab) return;
+  fab.href = whatsappLink("Hola Lukers 👋 quisiera más información.");
+  if (!WHATSAPP_CONFIGURED) {
+    // Aún sin número real: evita abrir un chat inválido
+    fab.addEventListener("click", (e) => {
+      e.preventDefault();
+      showToast("Configura el número de WhatsApp en js/main.js");
+    });
+  }
+}
+
 /* ---------- Init ---------- */
 $("#year").textContent = new Date().getFullYear();
 renderStores();
 loadDesignImages();
+loadOffers();
+initWhatsApp();

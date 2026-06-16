@@ -177,6 +177,56 @@
 .subs-table .del-sub:hover { color: #d12d2d; }
 .subs-empty { padding: 2.5rem; text-align: center; color: var(--text-soft); }
 
+/* ---------- Ofertas (panel) ---------- */
+.offer-form {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  margin-bottom: 1.6rem;
+}
+.offer-form .form-row { display: grid; grid-template-columns: 1fr 2fr; gap: 0.8rem; }
+.offer-form input, .offer-form textarea {
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  border-radius: 10px;
+  padding: 0.7rem 0.9rem;
+  font-size: 0.9rem;
+  font-family: inherit;
+  outline: none;
+  resize: vertical;
+}
+.offer-form input:focus, .offer-form textarea:focus { border-color: var(--accent); }
+.offer-form .btn { align-self: flex-start; }
+
+.offers-admin-list { display: flex; flex-direction: column; gap: 0.7rem; }
+.offer-admin-row {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-btn);
+  padding: 0.9rem 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.offer-admin-row > div { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; }
+.offer-admin-tag {
+  background: var(--accent);
+  color: var(--on-accent);
+  font-size: 0.68rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  border-radius: 999px;
+  padding: 0.2rem 0.6rem;
+}
+.offer-admin-desc { color: var(--text-soft); font-size: 0.85rem; }
+
 @media (max-width: 520px) {
   .subs-table th:nth-child(1), .subs-table td:nth-child(1) { display: none; }
+  .offer-form .form-row { grid-template-columns: 1fr; }
 }
