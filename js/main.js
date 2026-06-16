@@ -258,10 +258,13 @@ async function loadOffers() {
       .map(
         (o) => `
         <article class="offer-card reveal in">
-          ${o.tag ? `<span class="offer-tag">${escapeHtml(o.tag)}</span>` : ""}
-          <h3>${escapeHtml(o.title)}</h3>
-          ${o.description ? `<p>${escapeHtml(o.description)}</p>` : ""}
-          <a class="offer-cta" href="#tiendas">Ver en tienda →</a>
+          <div class="offer-img"></div>
+          <div class="offer-body">
+            ${o.tag ? `<span class="offer-tag">${escapeHtml(o.tag)}</span>` : ""}
+            <h3>${escapeHtml(o.title)}</h3>
+            ${o.description ? `<p>${escapeHtml(o.description)}</p>` : ""}
+            <a class="offer-cta" href="#tiendas">Ver en tienda →</a>
+          </div>
         </article>`
       )
       .join("");
