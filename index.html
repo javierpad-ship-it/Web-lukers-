@@ -29,10 +29,9 @@
       <ul class="nav-links" id="navLinks">
         <li><a href="#inicio" class="active">Inicio</a></li>
         <li><a href="#ofertas">Ofertas</a></li>
-        <li><a href="#nosotros">Nosotros</a></li>
-        <li><a href="#historia">Historia</a></li>
         <li><a href="#marcas">Marcas</a></li>
         <li><a href="#tiendas">Tiendas</a></li>
+        <li><a href="#nosotros">Nosotros</a></li>
         <li><a href="#contacto">Contacto</a></li>
       </ul>
 
@@ -40,7 +39,7 @@
         <button class="icon-btn" id="themeToggle" aria-label="Cambiar entre modo positivo y negativo" title="Modo positivo / negativo">
           <span class="brillo-icon" aria-hidden="true">✦</span>
         </button>
-        <a href="#contacto" class="btn btn-primary btn-nav">Escríbenos</a>
+        <a href="#tiendas" class="btn btn-primary btn-nav">📍 Ver tiendas</a>
         <button class="hamburger" id="hamburger" aria-label="Abrir menú">
           <span></span><span></span><span></span>
         </button>
@@ -89,7 +88,133 @@
           <div class="hero-card float-card fc2"><span>✦</span> Garantía de originalidad</div>
         </div>
       </div>
-      <a href="#nosotros" class="scroll-hint" aria-label="Bajar a la siguiente sección"><span></span></a>
+      <a href="#ofertas" class="scroll-hint" aria-label="Bajar a la siguiente sección"><span></span></a>
+    </section>
+
+    <!-- ====== OFERTAS / LOOKBOOK ASPIRACIONAL ====== -->
+    <section class="section" id="ofertas">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="eyebrow">✦ Esta temporada</span>
+          <h2>Looks que vas a querer estrenar</h2>
+          <p>Marcas originales que te hacen ver y sentir increíble. Ven a tu tienda Lukers y encuéntralos a precios que sí puedes pagar.</p>
+        </div>
+
+        <div class="lookbook">
+          <article class="look-card reveal">
+            <div class="look-art" data-look="ella" data-slot="look_ella"></div>
+            <div class="look-info">
+              <span class="look-tag">Para ella</span>
+              <h3>Estilo que enamora</h3>
+              <p>Jeans, casacas y básicos de las mejores marcas.</p>
+              <a class="look-cta" href="#tiendas">Verlo en tienda →</a>
+            </div>
+          </article>
+          <article class="look-card reveal">
+            <div class="look-art" data-look="el" data-slot="look_el"></div>
+            <div class="look-info">
+              <span class="look-tag">Para él</span>
+              <h3>Del trabajo al finde</h3>
+              <p>Ternos, polos y zapatillas que combinan con todo.</p>
+              <a class="look-cta" href="#tiendas">Verlo en tienda →</a>
+            </div>
+          </article>
+          <article class="look-card reveal">
+            <div class="look-art" data-look="urbano" data-slot="look_urbano"></div>
+            <div class="look-info">
+              <span class="look-tag">Urbano</span>
+              <h3>Para toda la familia</h3>
+              <p>Las marcas que amas, para grandes y chicos.</p>
+              <a class="look-cta" href="#tiendas">Verlo en tienda →</a>
+            </div>
+          </article>
+        </div>
+
+        <!-- Novedades publicadas desde el panel (se llenan dinámicamente) -->
+        <div class="offers-grid" id="offersGrid"></div>
+      </div>
+    </section>
+
+    <!-- ====== MARCAS ====== -->
+    <section class="section section-alt" id="marcas">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="eyebrow">✦ Nuestro portafolio</span>
+          <h2>Marcas que encuentras en Lukers</h2>
+          <p>Las mejores marcas de ropa, seleccionadas por su calidad y trayectoria, a precios que se sienten bien.</p>
+        </div>
+      </div>
+      <div class="marquee-stack reveal" aria-hidden="true">
+        <div class="marquee marquee-fast">
+          <div class="marquee-track">
+            <span>JOHN HOLDEN</span><span>✦</span><span>LEVI'S</span><span>✦</span><span>BEVERLY HILLS POLO CLUB</span><span>✦</span><span>DONATELLI</span><span>✦</span><span>REGATA</span><span>✦</span><span>DOCKERS</span><span>✦</span><span>ADIDAS</span><span>✦</span><span>US POLO ASSN</span><span>✦</span>
+            <span>JOHN HOLDEN</span><span>✦</span><span>LEVI'S</span><span>✦</span><span>BEVERLY HILLS POLO CLUB</span><span>✦</span><span>DONATELLI</span><span>✦</span><span>REGATA</span><span>✦</span><span>DOCKERS</span><span>✦</span><span>ADIDAS</span><span>✦</span><span>US POLO ASSN</span><span>✦</span>
+          </div>
+        </div>
+        <div class="marquee marquee-med">
+          <div class="marquee-track marquee-reverse">
+            <span>PIERRE CARDIN</span><span>✦</span><span>IZOD</span><span>✦</span><span>PUMA</span><span>✦</span><span>JACK &amp; JONES</span><span>✦</span><span>VERO MODA</span><span>✦</span><span>TERRANOVA</span><span>✦</span><span>OLD NAVY</span><span>✦</span><span>NIKE</span><span>✦</span>
+            <span>PIERRE CARDIN</span><span>✦</span><span>IZOD</span><span>✦</span><span>PUMA</span><span>✦</span><span>JACK &amp; JONES</span><span>✦</span><span>VERO MODA</span><span>✦</span><span>TERRANOVA</span><span>✦</span><span>OLD NAVY</span><span>✦</span><span>NIKE</span><span>✦</span>
+          </div>
+        </div>
+        <div class="marquee marquee-slow">
+          <div class="marquee-track">
+            <span>WRANGLER</span><span>✦</span><span>LEE</span><span>✦</span><span>PIONIER</span><span>✦</span><span>ONLY</span><span>✦</span><span>GIACOMO BRIZZI</span><span>✦</span><span>VAN HEUSEN</span><span>✦</span><span>CK</span><span>✦</span><span>TALLY WEiJL</span><span>✦</span>
+            <span>WRANGLER</span><span>✦</span><span>LEE</span><span>✦</span><span>PIONIER</span><span>✦</span><span>ONLY</span><span>✦</span><span>GIACOMO BRIZZI</span><span>✦</span><span>VAN HEUSEN</span><span>✦</span><span>CK</span><span>✦</span><span>TALLY WEiJL</span><span>✦</span>
+          </div>
+        </div>
+      </div>
+      <div class="container">
+        <div class="cat-grid lines-grid">
+          <div class="cat-card reveal"><div class="cat-art" data-art="terno" data-slot="cat_formal"></div><h3>Línea Formal</h3><p>Ternos, camisas y corbatas para cada ocasión importante.</p></div>
+          <div class="cat-card reveal"><div class="cat-art" data-art="polo" data-slot="cat_casual"></div><h3>Línea Casual</h3><p>Polos, jeans y casacas para el día a día con estilo.</p></div>
+          <div class="cat-card reveal"><div class="cat-art" data-art="zapato" data-slot="cat_calzado"></div><h3>Calzado</h3><p>De vestir y urbano, con cueros y materiales de primera.</p></div>
+          <div class="cat-card reveal"><div class="cat-art" data-art="reloj" data-slot="cat_accesorios"></div><h3>Accesorios</h3><p>Correas, billeteras y relojes que completan el look.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== TIENDAS ====== -->
+    <section class="section" id="tiendas">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="eyebrow">✦ Visítanos</span>
+          <h2>Encuentra tu tienda Lukers</h2>
+          <p>Abiertas todos los días de <strong>10:00 a.m. a 10:00 p.m.</strong> Toca <strong>Cómo llegar</strong> y te llevamos directo.</p>
+        </div>
+        <div class="stores-layout reveal">
+          <div class="store-tabs" id="storeTabs" role="tablist" aria-label="Filtrar tiendas por ciudad">
+            <button class="store-tab active" data-city="todas">Todas</button>
+            <button class="store-tab" data-city="Lima">Lima</button>
+            <button class="store-tab" data-city="Trujillo">Trujillo</button>
+            <button class="store-tab" data-city="Chiclayo">Chiclayo</button>
+            <button class="store-tab" data-city="Tarapoto">Tarapoto</button>
+            <button class="store-tab" data-city="Iquitos">Iquitos</button>
+          </div>
+          <div class="store-grid" id="storeGrid"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== NEWSLETTER ====== -->
+    <section class="newsletter reveal" id="newsletter">
+      <img src="assets/brillo_turquesa.png" class="banner-brillo bb1" alt="" aria-hidden="true" />
+      <img src="assets/brillo_lila.png" class="banner-brillo bb2" alt="" aria-hidden="true" />
+      <div class="container newsletter-inner">
+        <div class="newsletter-text">
+          <span class="eyebrow eyebrow-crema">✦ Newsletter</span>
+          <h2>Suscríbete y llévate un cupón de bienvenida</h2>
+          <p>Recibe un <strong>cupón de descuento</strong> para tu próxima visita, además de ofertas y la llegada de nuevas marcas antes que nadie.</p>
+        </div>
+        <form class="newsletter-form" id="newsletterForm" novalidate>
+          <input type="text" id="nlName" placeholder="Tu nombre (opcional)" aria-label="Nombre" autocomplete="name" />
+          <div class="nl-row">
+            <input type="email" id="nlEmail" placeholder="Tu correo electrónico" aria-label="Correo electrónico" autocomplete="email" required />
+            <button type="submit" class="btn btn-light">Suscribirme</button>
+          </div>
+          <p class="form-msg nl-msg" id="nlMsg" role="status"></p>
+        </form>
+      </div>
     </section>
 
     <!-- ====== QUIÉNES SOMOS ====== -->
@@ -177,57 +302,6 @@
       </div>
     </section>
 
-    <!-- ====== OFERTAS / NOVEDADES ====== -->
-    <section class="section section-alt" id="ofertas" hidden>
-      <div class="container">
-        <div class="section-head reveal">
-          <span class="eyebrow">✦ Esta temporada</span>
-          <h2>Ofertas y novedades</h2>
-          <p>Lo último que llegó a nuestras tiendas. ¡Ven antes de que se acabe!</p>
-        </div>
-        <div class="offers-grid" id="offersGrid"></div>
-      </div>
-    </section>
-
-    <!-- ====== MARCAS ====== -->
-    <section class="section" id="marcas">
-      <div class="container">
-        <div class="section-head reveal">
-          <span class="eyebrow">✦ Nuestro portafolio</span>
-          <h2>Marcas que encuentras en Lukers</h2>
-          <p>Las mejores marcas de ropa, seleccionadas por su calidad y trayectoria, a precios que se sienten bien.</p>
-        </div>
-      </div>
-      <div class="marquee-stack reveal" aria-hidden="true">
-        <div class="marquee marquee-fast">
-          <div class="marquee-track">
-            <span>JOHN HOLDEN</span><span>✦</span><span>LEVI'S</span><span>✦</span><span>BEVERLY HILLS POLO CLUB</span><span>✦</span><span>DONATELLI</span><span>✦</span><span>REGATA</span><span>✦</span><span>DOCKERS</span><span>✦</span><span>ADIDAS</span><span>✦</span><span>US POLO ASSN</span><span>✦</span>
-            <span>JOHN HOLDEN</span><span>✦</span><span>LEVI'S</span><span>✦</span><span>BEVERLY HILLS POLO CLUB</span><span>✦</span><span>DONATELLI</span><span>✦</span><span>REGATA</span><span>✦</span><span>DOCKERS</span><span>✦</span><span>ADIDAS</span><span>✦</span><span>US POLO ASSN</span><span>✦</span>
-          </div>
-        </div>
-        <div class="marquee marquee-med">
-          <div class="marquee-track marquee-reverse">
-            <span>PIERRE CARDIN</span><span>✦</span><span>IZOD</span><span>✦</span><span>PUMA</span><span>✦</span><span>JACK &amp; JONES</span><span>✦</span><span>VERO MODA</span><span>✦</span><span>TERRANOVA</span><span>✦</span><span>OLD NAVY</span><span>✦</span><span>NIKE</span><span>✦</span>
-            <span>PIERRE CARDIN</span><span>✦</span><span>IZOD</span><span>✦</span><span>PUMA</span><span>✦</span><span>JACK &amp; JONES</span><span>✦</span><span>VERO MODA</span><span>✦</span><span>TERRANOVA</span><span>✦</span><span>OLD NAVY</span><span>✦</span><span>NIKE</span><span>✦</span>
-          </div>
-        </div>
-        <div class="marquee marquee-slow">
-          <div class="marquee-track">
-            <span>WRANGLER</span><span>✦</span><span>LEE</span><span>✦</span><span>PIONIER</span><span>✦</span><span>ONLY</span><span>✦</span><span>GIACOMO BRIZZI</span><span>✦</span><span>VAN HEUSEN</span><span>✦</span><span>CK</span><span>✦</span><span>TALLY WEiJL</span><span>✦</span>
-            <span>WRANGLER</span><span>✦</span><span>LEE</span><span>✦</span><span>PIONIER</span><span>✦</span><span>ONLY</span><span>✦</span><span>GIACOMO BRIZZI</span><span>✦</span><span>VAN HEUSEN</span><span>✦</span><span>CK</span><span>✦</span><span>TALLY WEiJL</span><span>✦</span>
-          </div>
-        </div>
-      </div>
-      <div class="container">
-        <div class="cat-grid lines-grid">
-          <div class="cat-card reveal"><div class="cat-art" data-art="terno" data-slot="cat_formal"></div><h3>Línea Formal</h3><p>Ternos, camisas y corbatas para cada ocasión importante.</p></div>
-          <div class="cat-card reveal"><div class="cat-art" data-art="polo" data-slot="cat_casual"></div><h3>Línea Casual</h3><p>Polos, jeans y casacas para el día a día con estilo.</p></div>
-          <div class="cat-card reveal"><div class="cat-art" data-art="zapato" data-slot="cat_calzado"></div><h3>Calzado</h3><p>De vestir y urbano, con cueros y materiales de primera.</p></div>
-          <div class="cat-card reveal"><div class="cat-art" data-art="reloj" data-slot="cat_accesorios"></div><h3>Accesorios</h3><p>Correas, billeteras y relojes que completan el look.</p></div>
-        </div>
-      </div>
-    </section>
-
     <!-- ====== BANNER INSTITUCIONAL ====== -->
     <section class="promo-banner reveal">
       <img src="assets/brillo_verde.png" class="banner-brillo bb1" alt="" aria-hidden="true" />
@@ -238,28 +312,6 @@
           <p>Visita tu tienda Lukers más cercana y descubre marcas originales a precios que no vas a creer.</p>
         </div>
         <a href="#tiendas" class="btn btn-light">📍 Ver tiendas</a>
-      </div>
-    </section>
-
-    <!-- ====== TIENDAS ====== -->
-    <section class="section" id="tiendas">
-      <div class="container">
-        <div class="section-head reveal">
-          <span class="eyebrow">✦ Visítanos</span>
-          <h2>Nuestras tiendas</h2>
-          <p>Abiertas todos los días de <strong>10:00 a.m. a 10:00 p.m.</strong></p>
-        </div>
-        <div class="stores-layout reveal">
-          <div class="store-tabs" id="storeTabs" role="tablist" aria-label="Filtrar tiendas por ciudad">
-            <button class="store-tab active" data-city="todas">Todas</button>
-            <button class="store-tab" data-city="Lima">Lima</button>
-            <button class="store-tab" data-city="Trujillo">Trujillo</button>
-            <button class="store-tab" data-city="Chiclayo">Chiclayo</button>
-            <button class="store-tab" data-city="Tarapoto">Tarapoto</button>
-            <button class="store-tab" data-city="Iquitos">Iquitos</button>
-          </div>
-          <div class="store-grid" id="storeGrid"></div>
-        </div>
       </div>
     </section>
 
@@ -321,27 +373,6 @@
             <p class="form-msg" id="formMsg" role="status"></p>
           </form>
         </div>
-      </div>
-    </section>
-
-    <!-- ====== NEWSLETTER ====== -->
-    <section class="newsletter reveal" id="newsletter">
-      <img src="assets/brillo_turquesa.png" class="banner-brillo bb1" alt="" aria-hidden="true" />
-      <img src="assets/brillo_lila.png" class="banner-brillo bb2" alt="" aria-hidden="true" />
-      <div class="container newsletter-inner">
-        <div class="newsletter-text">
-          <span class="eyebrow eyebrow-crema">✦ Newsletter</span>
-          <h2>Suscríbete y llévate un cupón de bienvenida</h2>
-          <p>Recibe un <strong>cupón de descuento</strong> para tu próxima visita, además de ofertas y la llegada de nuevas marcas antes que nadie.</p>
-        </div>
-        <form class="newsletter-form" id="newsletterForm" novalidate>
-          <input type="text" id="nlName" placeholder="Tu nombre (opcional)" aria-label="Nombre" autocomplete="name" />
-          <div class="nl-row">
-            <input type="email" id="nlEmail" placeholder="Tu correo electrónico" aria-label="Correo electrónico" autocomplete="email" required />
-            <button type="submit" class="btn btn-light">Suscribirme</button>
-          </div>
-          <p class="form-msg nl-msg" id="nlMsg" role="status"></p>
-        </form>
       </div>
     </section>
   </main>

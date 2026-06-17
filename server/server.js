@@ -43,6 +43,9 @@ const db = getDb();
 /* ------------------------------------------------------------------ */
 const SLOTS = [
   { slot: "hero_main", label: "Imagen principal (portada / hero)" },
+  { slot: "look_ella", label: "Oferta — Look para ella (foto aspiracional)" },
+  { slot: "look_el", label: "Oferta — Look para él (foto aspiracional)" },
+  { slot: "look_urbano", label: "Oferta — Look urbano / familia (foto aspiracional)" },
   { slot: "cat_formal", label: "Categoría — Línea Formal" },
   { slot: "cat_casual", label: "Categoría — Línea Casual" },
   { slot: "cat_calzado", label: "Categoría — Calzado" },
