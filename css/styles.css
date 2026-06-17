@@ -833,12 +833,98 @@ h3 { font-size: 1.1rem; }
 .footer-admin { opacity: 0.45; font-size: 0.78rem; margin-top: 0.4rem; }
 .footer-admin:hover { opacity: 1; }
 
-/* ---------- Ofertas / novedades ---------- */
+/* ---------- Ofertas: lookbook aspiracional ---------- */
+.lookbook {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.4rem;
+}
+.look-card {
+  position: relative;
+  min-height: 460px;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: flex-end;
+  box-shadow: var(--shadow);
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+.look-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); }
+.look-card:hover .look-art { transform: scale(1.05); }
+
+/* Imagen de fondo (foto aspiracional gestionada desde /admin) */
+.look-art {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(160deg, var(--azul), var(--azul-oscuro));
+  background-size: cover;
+  background-position: center top;
+  z-index: 0;
+  transition: transform 0.5s ease;
+}
+/* Placeholder mientras no hay foto: ícono de persona + nota */
+.look-art::before {
+  position: absolute;
+  top: 38%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 4.5rem;
+  filter: drop-shadow(0 10px 18px rgba(0, 60, 120, 0.35));
+  opacity: 0.9;
+}
+.look-art[data-look="ella"]::before   { content: "🧍‍♀️"; }
+.look-art[data-look="el"]::before     { content: "🧍‍♂️"; }
+.look-art[data-look="urbano"]::before { content: "👨‍👩‍👧"; }
+.look-art.has-img::before { content: none; }
+
+/* Degradado para legibilidad del texto sobre la foto */
+.look-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 30, 60, 0.82) 0%, rgba(0, 30, 60, 0.25) 45%, transparent 70%);
+  z-index: 1;
+}
+.look-info {
+  position: relative;
+  z-index: 2;
+  padding: 1.6rem 1.5rem;
+  color: var(--crema);
+}
+.look-tag {
+  display: inline-block;
+  background: var(--crema);
+  color: var(--azul);
+  font-size: 0.68rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  border-radius: 999px;
+  padding: 0.25rem 0.8rem;
+  margin-bottom: 0.7rem;
+}
+.look-info h3 { color: #fff; font-size: 1.35rem; line-height: 1.15; }
+.look-info p { color: rgba(255, 255, 255, 0.88); font-size: 0.9rem; margin-top: 0.3rem; }
+.look-cta {
+  display: inline-block;
+  margin-top: 0.9rem;
+  color: #fff;
+  font-weight: 800;
+  font-size: 0.9rem;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.5);
+  padding-bottom: 2px;
+  transition: var(--transition);
+}
+.look-cta:hover { border-color: #fff; }
+
+/* ---------- Ofertas / novedades (promos del panel) ---------- */
 .offers-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: 1.4rem;
 }
+.offers-grid:not(:empty) { margin-top: 1.6rem; }
 .offer-card {
   position: relative;
   background: var(--surface);
@@ -987,14 +1073,15 @@ h3 { font-size: 1.1rem; }
   .btn-nav { display: none; }
   .logo img { height: 32px; }
 
-  .values-grid, .testi-grid, .store-grid { grid-template-columns: repeat(2, 1fr); }
+  .values-grid, .testi-grid, .store-grid, .lookbook { grid-template-columns: repeat(2, 1fr); }
   .contact-layout { grid-template-columns: 1fr; }
   .newsletter-inner { grid-template-columns: 1fr; text-align: center; }
   .nl-row { flex-direction: column; }
 }
 
 @media (max-width: 520px) {
-  .values-grid, .testi-grid, .store-grid, .cat-grid, .perks-grid { grid-template-columns: 1fr; }
+  .values-grid, .testi-grid, .store-grid, .cat-grid, .perks-grid, .lookbook { grid-template-columns: 1fr; }
+  .look-card { min-height: 380px; }
   .form-row { grid-template-columns: 1fr; }
   .footer-grid { grid-template-columns: 1fr; gap: 1.8rem; }
   .section { padding: 3.8rem 0; }

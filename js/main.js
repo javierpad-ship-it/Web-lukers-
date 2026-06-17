@@ -246,14 +246,13 @@ async function loadDesignImages() {
 
 /* ---------- Ofertas / novedades (desde el backend) ---------- */
 async function loadOffers() {
-  const section = $("#ofertas");
   const grid = $("#offersGrid");
-  if (!section || !grid) return;
+  if (!grid) return; // la sección de ofertas siempre es visible (lookbook)
   try {
     const res = await fetch("/api/offers");
     if (!res.ok) return;
     const { offers } = await res.json();
-    if (!offers.length) return; // sin ofertas: la sección queda oculta
+    if (!offers.length) return; // sin promos: solo se muestra el lookbook
     grid.innerHTML = offers
       .map(
         (o) => `
@@ -268,9 +267,8 @@ async function loadOffers() {
         </article>`
       )
       .join("");
-    section.hidden = false;
   } catch {
-    /* Sin backend: la sección de ofertas permanece oculta */
+    /* Sin backend: solo se muestra el lookbook estático */
   }
 }
 
