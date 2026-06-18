@@ -42,14 +42,14 @@ const db = getDb();
 /*  Slots de imágenes del diseño que se pueden cambiar desde el panel  */
 /* ------------------------------------------------------------------ */
 const SLOTS = [
-  { slot: "hero_main", label: "Imagen principal (portada / hero)" },
-  { slot: "look_ella", label: "Oferta — Look para ella (foto aspiracional)" },
-  { slot: "look_el", label: "Oferta — Look para él (foto aspiracional)" },
-  { slot: "look_urbano", label: "Oferta — Look urbano / familia (foto aspiracional)" },
-  { slot: "cat_formal", label: "Categoría — Línea Formal" },
-  { slot: "cat_casual", label: "Categoría — Línea Casual" },
-  { slot: "cat_calzado", label: "Categoría — Calzado" },
-  { slot: "cat_accesorios", label: "Categoría — Accesorios" },
+  { slot: "hero_main", label: "Imagen principal (portada / hero)", hint: "Cuadrada · 800 × 800 px", ratio: "1 / 1" },
+  { slot: "look_ella", label: "Oferta — Look para ella (foto aspiracional)", hint: "Vertical (retrato) · 800 × 1100 px", ratio: "4 / 5" },
+  { slot: "look_el", label: "Oferta — Look para él (foto aspiracional)", hint: "Vertical (retrato) · 800 × 1100 px", ratio: "4 / 5" },
+  { slot: "look_urbano", label: "Oferta — Look urbano / familia (foto aspiracional)", hint: "Vertical (retrato) · 800 × 1100 px", ratio: "4 / 5" },
+  { slot: "cat_formal", label: "Categoría — Línea Formal", hint: "Horizontal · 800 × 500 px", ratio: "16 / 10" },
+  { slot: "cat_casual", label: "Categoría — Línea Casual", hint: "Horizontal · 800 × 500 px", ratio: "16 / 10" },
+  { slot: "cat_calzado", label: "Categoría — Calzado", hint: "Horizontal · 800 × 500 px", ratio: "16 / 10" },
+  { slot: "cat_accesorios", label: "Categoría — Accesorios", hint: "Horizontal · 800 × 500 px", ratio: "16 / 10" },
 ];
 const SLOT_IDS = new Set(SLOTS.map((s) => s.slot));
 
