@@ -301,41 +301,6 @@ function escapeHtml(str) {
   ));
 }
 
-/* ---------- Formulario trabaja con nosotros ---------- */
-const jobForm = $("#jobForm");
-if (jobForm) {
-  jobForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const msg = $("#jobMsg");
-    msg.classList.remove("ok");
-    const name  = $("#jobName").value.trim();
-    const email = $("#jobEmail").value.trim();
-    if (name.length < 3) { msg.textContent = "✗ Ingresa tu nombre completo"; return; }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) { msg.textContent = "✗ Ingresa un correo válido"; return; }
-    msg.textContent = "Enviando…";
-    try {
-      const res = await fetch("/api/jobs", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name, email,
-          phone:   $("#jobPhone").value.trim(),
-          city:    $("#jobCity").value.trim(),
-          message: $("#jobMessage").value.trim(),
-        }),
-      });
-      const data = await res.json();
-      if (!res.ok) { msg.textContent = "✗ " + (data.error || "No se pudo enviar"); return; }
-      msg.classList.add("ok");
-      msg.textContent = "✓ " + data.message;
-      jobForm.reset();
-      showToast("🎉 ¡Recibimos tu postulación! Te contactaremos pronto.");
-    } catch {
-      msg.textContent = "✗ El formulario necesita el servidor activo.";
-    }
-  });
-}
-
 /* ---------- WhatsApp flotante ---------- */
 function initWhatsApp() {
   const fab = $("#whatsappFab");

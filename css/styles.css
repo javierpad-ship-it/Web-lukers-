@@ -688,6 +688,73 @@ h3 { font-size: 1.1rem; }
 .form-msg.ok { color: var(--accent); }
 
 /* ---------- Trabaja con nosotros ---------- */
+.jobs-hero {
+  position: relative;
+  background: var(--azul);
+  color: var(--crema);
+  padding: 4.5rem 0 3.5rem;
+  overflow: hidden;
+  text-align: center;
+}
+.jobs-hero-inner { position: relative; max-width: 680px; margin-inline: auto; }
+.jobs-hero h1 { color: #fff; margin: 0.5rem 0 0.8rem; }
+.jobs-hero p { color: rgba(239, 239, 232, 0.9); font-size: 1.05rem; }
+
+.jobs-label {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: var(--text-soft);
+  margin-top: 0.3rem;
+}
+.jobs-form select {
+  width: 100%;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  border-radius: 10px;
+  padding: 0.8rem 1rem;
+  font-size: 0.92rem;
+  font-family: inherit;
+  outline: none;
+  transition: border-color var(--transition);
+}
+.jobs-form select:focus { border-color: var(--accent); }
+
+.schedule-options { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+.schedule-chip {
+  flex: 1;
+  min-width: 110px;
+  position: relative;
+  cursor: pointer;
+}
+.schedule-chip input {
+  position: absolute;
+  opacity: 0;
+  width: 0; height: 0;
+}
+.schedule-chip span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-btn);
+  padding: 0.7rem 0.6rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-soft);
+  transition: var(--transition);
+  white-space: nowrap;
+}
+.schedule-chip:hover span { border-color: var(--accent); color: var(--accent); }
+.schedule-chip input:checked + span {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--on-accent);
+}
+.schedule-chip input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: 2px; }
+
 .jobs-layout {
   display: grid;
   grid-template-columns: 1fr 1fr;
