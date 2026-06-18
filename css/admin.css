@@ -245,7 +245,19 @@
 }
 .offer-admin-desc { color: var(--text-soft); font-size: 0.85rem; }
 
+.store-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.8rem;
+}
+.store-form-grid input:nth-child(3),
+.store-form-grid input:nth-child(4) { grid-column: span 1; }
+
+/* Columna mensaje/postulación */
+#jobsBody tr { cursor: help; }
+
 @media (max-width: 520px) {
   .subs-table th:nth-child(1), .subs-table td:nth-child(1) { display: none; }
   .offer-form .form-row { grid-template-columns: 1fr; }
+  .store-form-grid { grid-template-columns: 1fr; }
 }

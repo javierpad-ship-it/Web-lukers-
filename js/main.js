@@ -125,14 +125,16 @@ const statObserver = new IntersectionObserver((entries) => {
 $$("[data-count]").forEach((el) => statObserver.observe(el));
 
 /* ---------- Tiendas ---------- */
+let allStores = STORES; // fallback a las tiendas hardcodeadas
+
 function renderStores(city = "todas") {
-  const list = STORES.filter((s) => city === "todas" || s.city === city);
+  const list = allStores.filter((s) => city === "todas" || s.city === city);
   $("#storeGrid").innerHTML = list.map((s, i) => `
     <div class="store-card" style="animation-delay:${i * 0.05}s">
-      <span class="store-city">${s.city}</span>
-      <h3>${s.name}</h3>
-      <p>📍 ${s.address}</p>
-      <p class="hours">🕙 Lun a Dom · 10:00 a.m. – 10:00 p.m.</p>
+      <span class="store-city">${escapeHtml(s.city)}</span>
+      <h3>${escapeHtml(s.name)}</h3>
+      <p>📍 ${escapeHtml(s.address)}</p>
+      <p class="hours">🕙 ${escapeHtml(s.hours || "Lun a Dom · 10:00 a.m. – 10:00 p.m.")}</p>
       <div class="store-actions">
         <a class="store-btn store-btn-maps" href="${mapsLink(s.address)}" target="_blank" rel="noopener">📍 Cómo llegar</a>
         <a class="store-btn store-btn-wa" href="${whatsappLink(
@@ -140,6 +142,27 @@ function renderStores(city = "todas") {
         )}" target="_blank" rel="noopener">💬 WhatsApp</a>
       </div>
     </div>`).join("");
+}
+
+async function loadStores() {
+  try {
+    const res = await fetch("/api/stores");
+    if (!res.ok) return;
+    const { stores } = await res.json();
+    if (stores && stores.length) {
+      allStores = stores;
+      // Reconstruir tabs con ciudades únicas del backend
+      const cities = [...new Set(stores.map((s) => s.city))];
+      const tabsEl = $("#storeTabs");
+      if (tabsEl) {
+        tabsEl.innerHTML = `<button class="store-tab active" data-city="todas">Todas</button>` +
+          cities.map((c) => `<button class="store-tab" data-city="${escapeHtml(c)}">${escapeHtml(c)}</button>`).join("");
+      }
+      renderStores();
+    }
+  } catch {
+    renderStores(); // sin backend: usa el array hardcodeado
+  }
 }
 
 $("#storeTabs").addEventListener("click", (e) => {
@@ -278,6 +301,41 @@ function escapeHtml(str) {
   ));
 }
 
+/* ---------- Formulario trabaja con nosotros ---------- */
+const jobForm = $("#jobForm");
+if (jobForm) {
+  jobForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const msg = $("#jobMsg");
+    msg.classList.remove("ok");
+    const name  = $("#jobName").value.trim();
+    const email = $("#jobEmail").value.trim();
+    if (name.length < 3) { msg.textContent = "✗ Ingresa tu nombre completo"; return; }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) { msg.textContent = "✗ Ingresa un correo válido"; return; }
+    msg.textContent = "Enviando…";
+    try {
+      const res = await fetch("/api/jobs", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name, email,
+          phone:   $("#jobPhone").value.trim(),
+          city:    $("#jobCity").value.trim(),
+          message: $("#jobMessage").value.trim(),
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) { msg.textContent = "✗ " + (data.error || "No se pudo enviar"); return; }
+      msg.classList.add("ok");
+      msg.textContent = "✓ " + data.message;
+      jobForm.reset();
+      showToast("🎉 ¡Recibimos tu postulación! Te contactaremos pronto.");
+    } catch {
+      msg.textContent = "✗ El formulario necesita el servidor activo.";
+    }
+  });
+}
+
 /* ---------- WhatsApp flotante ---------- */
 function initWhatsApp() {
   const fab = $("#whatsappFab");
@@ -294,7 +352,7 @@ function initWhatsApp() {
 
 /* ---------- Init ---------- */
 $("#year").textContent = new Date().getFullYear();
-renderStores();
+loadStores();
 loadDesignImages();
 loadOffers();
 initWhatsApp();
