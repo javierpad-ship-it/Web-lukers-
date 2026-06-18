@@ -150,6 +150,14 @@
 .slot-preview.empty::after { content: "Sin imagen — se usa el diseño por defecto"; padding: 0 1rem; text-align: center; }
 .slot-body { padding: 1rem 1.1rem 1.2rem; display: flex; flex-direction: column; gap: 0.6rem; }
 .slot-body h3 { font-size: 0.95rem; }
+.slot-hint {
+  font-size: 0.78rem;
+  color: var(--text-soft);
+  background: var(--bg-alt);
+  border-radius: 8px;
+  padding: 0.4rem 0.6rem;
+}
+.slot-hint b { color: var(--accent); }
 .slot-actions { display: flex; gap: 0.5rem; flex-wrap: wrap; }
 .slot-file { display: none; }
 .slot-card .btn { font-size: 0.8rem; padding: 0.5rem 0.9rem; flex: 1; }

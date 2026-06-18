@@ -110,9 +110,10 @@ async function loadImages() {
     const card = document.createElement("div");
     card.className = "slot-card";
     card.innerHTML = `
-      <div class="slot-preview ${url ? "" : "empty"}" ${url ? `style="background-image:url('${url}')"` : ""}></div>
+      <div class="slot-preview ${url ? "" : "empty"}" style="${s.ratio ? `aspect-ratio:${s.ratio};height:auto;` : ""}${url ? `background-image:url('${url}')` : ""}"></div>
       <div class="slot-body">
         <h3>${s.label}</h3>
+        ${s.hint ? `<p class="slot-hint">📐 Tamaño ideal: <b>${s.hint}</b></p>` : ""}
         <input type="file" class="slot-file" accept="image/*" />
         <div class="slot-actions">
           <button class="btn btn-primary slot-upload">Subir imagen</button>
