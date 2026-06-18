@@ -86,10 +86,17 @@ function getDb() {
       email      TEXT NOT NULL,
       phone      TEXT,
       city       TEXT,
+      store      TEXT,
+      schedule   TEXT,
       message    TEXT,
       created_at TEXT NOT NULL
     );
   `);
+
+  // Migración suave: agrega columnas store/schedule si la tabla ya existía
+  const jobCols = db.prepare("PRAGMA table_info(job_applications)").all().map((c) => c.name);
+  if (!jobCols.includes("store"))    db.exec("ALTER TABLE job_applications ADD COLUMN store TEXT");
+  if (!jobCols.includes("schedule")) db.exec("ALTER TABLE job_applications ADD COLUMN schedule TEXT");
 
   return db;
 }

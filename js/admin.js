@@ -267,9 +267,7 @@ let editingStoreId = null;
 
 async function loadStores() {
   try {
-    const res = await api("/api/admin/stores" + "?t=" + Date.now()); // evita caché
-    // El endpoint de admin no existe; usamos el público y lo mostramos igual
-    const pub = await fetch("/api/stores");
+    const pub = await fetch("/api/stores?t=" + Date.now()); // evita caché
     const { stores } = await pub.json();
     const body = $("#storesBody");
     body.innerHTML = "";
@@ -361,8 +359,9 @@ async function loadJobs() {
       tr.innerHTML = `
         <td>${j.id}</td>
         <td><b>${escapeHtml(j.name)}</b>${j.phone ? `<br><small>${escapeHtml(j.phone)}</small>` : ""}</td>
-        <td>${escapeHtml(j.email)}</td>
-        <td>${escapeHtml(j.city || "—")}</td>
+        <td style="font-size:0.82rem">${escapeHtml(j.email)}</td>
+        <td style="font-size:0.82rem">${escapeHtml(j.store || "—")}</td>
+        <td>${j.schedule ? `<span class="offer-admin-tag">${escapeHtml(j.schedule)}</span>` : "—"}</td>
         <td>${fecha}</td>`;
       if (j.message) tr.title = j.message;
       body.appendChild(tr);

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Trabaja con nosotros — LUKERS</title>
+  <meta name="description" content="Únete al equipo Lukers. Postula a nuestras tiendas en todo el Perú. Empleo formal, línea de carrera y capacitación constante." />
+  <link rel="icon" type="image/png" href="assets/simbolo_LL_fondo_azul.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@400;600;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+  <!-- ====== HEADER ====== -->
+  <header class="header scrolled" id="header">
+    <nav class="nav container" aria-label="Navegación principal">
+      <a href="/" class="logo" aria-label="Lukers — inicio">
+        <img class="logo-positivo" src="assets/logo_azul_transparente.png" alt="Lukers — Mejores marcas, mejores precios" />
+        <img class="logo-negativo" src="assets/logo_crema_transparente.png" alt="Lukers — Mejores marcas, mejores precios" />
+      </a>
+
+      <ul class="nav-links" id="navLinks">
+        <li><a href="/#inicio">Inicio</a></li>
+        <li><a href="/#ofertas">Ofertas</a></li>
+        <li><a href="/#marcas">Marcas</a></li>
+        <li><a href="/#tiendas">Tiendas</a></li>
+        <li><a href="/trabaja" class="active">Trabaja con nosotros</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <button class="icon-btn" id="themeToggle" aria-label="Cambiar entre modo positivo y negativo" title="Modo positivo / negativo">
+          <span class="brillo-icon" aria-hidden="true">✦</span>
+        </button>
+        <a href="/" class="btn btn-primary btn-nav">← Volver al inicio</a>
+        <button class="hamburger" id="hamburger" aria-label="Abrir menú">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <!-- ====== INTRO ====== -->
+    <section class="jobs-hero">
+      <img src="assets/brillo_turquesa.png" class="banner-brillo bb1" alt="" aria-hidden="true" />
+      <img src="assets/brillo_rosa.png" class="banner-brillo bb2" alt="" aria-hidden="true" />
+      <div class="container jobs-hero-inner">
+        <span class="eyebrow eyebrow-crema">✦ Únete al equipo</span>
+        <h1>Trabaja con nosotros</h1>
+        <p>En Lukers creemos en el talento peruano. Buscamos personas con energía, vocación de servicio y muchas ganas de crecer. Postula a la tienda más cercana a ti.</p>
+      </div>
+    </section>
+
+    <!-- ====== BENEFICIOS + FORMULARIO ====== -->
+    <section class="section">
+      <div class="container">
+        <div class="jobs-layout">
+          <div class="jobs-left reveal">
+            <h2>¿Por qué Lukers?</h2>
+            <div class="jobs-perks">
+              <div class="job-perk"><span>📈</span><div><b>Línea de carrera real</b><p>Crecimiento desde vendedor hasta jefe de tienda y más.</p></div></div>
+              <div class="job-perk"><span>🎓</span><div><b>Capacitación constante</b><p>Te enseñamos sobre marcas, atención al cliente y ventas.</p></div></div>
+              <div class="job-perk"><span>💼</span><div><b>Empleo formal</b><p>Planilla, beneficios de ley y un ambiente de trabajo sano.</p></div></div>
+              <div class="job-perk"><span>🤝</span><div><b>Gran equipo</b><p>Más de 300 compañeros en todo el Perú que te van a recibir bien.</p></div></div>
+            </div>
+          </div>
+
+          <div class="jobs-right reveal">
+            <form class="jobs-form" id="jobForm" novalidate>
+              <h3>Postula aquí</h3>
+              <div class="form-row">
+                <input type="text" id="jobName" placeholder="Nombre completo *" aria-label="Nombre completo" required />
+                <input type="email" id="jobEmail" placeholder="Correo electrónico *" aria-label="Correo" required />
+              </div>
+              <input type="tel" id="jobPhone" placeholder="Teléfono / celular" aria-label="Teléfono" />
+
+              <label class="jobs-label" for="jobStore">¿En qué tienda te gustaría trabajar? *</label>
+              <select id="jobStore" aria-label="Tienda" required>
+                <option value="">Selecciona una tienda…</option>
+              </select>
+
+              <label class="jobs-label">Jornada que buscas *</label>
+              <div class="schedule-options" id="scheduleOptions">
+                <label class="schedule-chip">
+                  <input type="radio" name="schedule" value="Full time" required />
+                  <span>🕘 Full time</span>
+                </label>
+                <label class="schedule-chip">
+                  <input type="radio" name="schedule" value="Part time" />
+                  <span>🕓 Part time</span>
+                </label>
+                <label class="schedule-chip">
+                  <input type="radio" name="schedule" value="Cualquiera" />
+                  <span>✦ Cualquiera</span>
+                </label>
+              </div>
+
+              <textarea id="jobMessage" rows="4" placeholder="Cuéntanos un poco sobre ti, qué experiencia tienes y a qué área te gustaría postular…" aria-label="Mensaje"></textarea>
+              <button type="submit" class="btn btn-primary">Enviar postulación</button>
+              <p class="form-msg" id="jobMsg" role="status"></p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ====== FOOTER ====== -->
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div>
+        <a href="/" class="logo" aria-label="Lukers — inicio">
+          <img src="assets/logo_crema_transparente.png" alt="Lukers — Mejores marcas, mejores precios" />
+        </a>
+        <p>Tienda de ropa de marca a buen precio. Acercamos las mejores marcas a todos los peruanos, con garantía de autenticidad.</p>
+        <div class="socials">
+          <a href="https://www.facebook.com/Lukers.pe/" target="_blank" rel="noopener" aria-label="Facebook">ⓕ</a>
+          <a href="https://www.instagram.com/lukers.pe/" target="_blank" rel="noopener" aria-label="Instagram">◎</a>
+          <a href="https://www.tiktok.com/@lukers.pe" target="_blank" rel="noopener" aria-label="TikTok">♪</a>
+        </div>
+      </div>
+      <div>
+        <h4>Institucional</h4>
+        <a href="/#nosotros">Quiénes somos</a>
+        <a href="/#historia">Nuestra historia</a>
+        <a href="/#marcas">Marcas</a>
+      </div>
+      <div>
+        <h4>Atención</h4>
+        <a href="/#tiendas">Tiendas y horarios</a>
+        <a href="/#contacto">Contacto</a>
+        <a href="/trabaja">Trabaja con nosotros</a>
+      </div>
+      <div>
+        <h4>Contacto</h4>
+        <a href="mailto:hola@lukers.pe">hola@lukers.pe</a>
+        <a href="tel:+5116000000">(01) 600-0000</a>
+        <p>Lun a Dom · 10 a.m. – 10 p.m.</p>
+        <a href="/admin" class="footer-admin">Administración</a>
+      </div>
+    </div>
+    <div class="footer-concept">Mejores marcas ✦ Mejores precios</div>
+    <div class="footer-bottom">
+      <p>© <span id="year"></span> Lukers. Todos los derechos reservados. Sitio demostrativo.</p>
+    </div>
+  </footer>
+
+  <!-- ====== WHATSAPP FLOTANTE ====== -->
+  <a href="#" class="whatsapp-fab" id="whatsappFab" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp">
+    <svg viewBox="0 0 32 32" width="28" height="28" fill="currentColor" aria-hidden="true"><path d="M16.04 3C9.4 3 4 8.4 4 15.04c0 2.12.56 4.18 1.6 6L4 29l8.16-1.56a12 12 0 0 0 3.88.64h.01C22.7 28.08 28.1 22.68 28.1 16.04 28.1 8.4 22.7 3 16.04 3Zm0 21.9h-.01a9.9 9.9 0 0 1-5.04-1.38l-.36-.22-4.84.93.97-4.72-.24-.38a9.86 9.86 0 0 1-1.5-5.25c0-5.46 4.45-9.9 9.92-9.9 2.65 0 5.14 1.03 7.01 2.9a9.84 9.84 0 0 1 2.9 7.01c0 5.47-4.45 9.91-9.91 9.91Zm5.44-7.42c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51l-.57-.01c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.06 2.88 1.21 3.08.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.62.71.23 1.36.2 1.87.12.57-.08 1.76-.72 2-1.41.25-.7.25-1.29.17-1.42-.07-.13-.27-.2-.57-.35Z"/></svg>
+    <span class="whatsapp-fab-text">WhatsApp</span>
+  </a>
+
+  <!-- ====== TOAST ====== -->
+  <div class="toast" id="toast" role="status"></div>
+
+  <script src="js/trabaja.js"></script>
+</body>
+</html>

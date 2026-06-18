@@ -124,6 +124,9 @@ app.use("/assets", express.static(path.join(ROOT, "assets")));
 
 app.get("/", (req, res) => res.sendFile(path.join(ROOT, "index.html")));
 app.get("/admin", (req, res) => res.sendFile(path.join(ROOT, "admin.html")));
+app.get(["/trabaja", "/trabaja.html"], (req, res) =>
+  res.sendFile(path.join(ROOT, "trabaja.html"))
+);
 
 /* ----------------------------- Newsletter ------------------------- */
 app.post("/api/subscribe", (req, res) => {
@@ -276,23 +279,24 @@ app.delete("/api/admin/stores/:id", requireAuth, (req, res) => {
 
 /* ----------------------------- Postulaciones (trabaja con nosotros) */
 app.post("/api/jobs", (req, res) => {
-  const name    = String(req.body.name    || "").trim().slice(0, 80);
-  const email   = String(req.body.email   || "").trim().toLowerCase();
-  const phone   = String(req.body.phone   || "").trim().slice(0, 30);
-  const city    = String(req.body.city    || "").trim().slice(0, 60);
-  const message = String(req.body.message || "").trim().slice(0, 600);
+  const name     = String(req.body.name     || "").trim().slice(0, 80);
+  const email    = String(req.body.email    || "").trim().toLowerCase();
+  const phone    = String(req.body.phone    || "").trim().slice(0, 30);
+  const store    = String(req.body.store    || "").trim().slice(0, 100);
+  const schedule = String(req.body.schedule || "").trim().slice(0, 40);
+  const message  = String(req.body.message  || "").trim().slice(0, 600);
   if (!name || !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
     return res.status(400).json({ error: "Nombre y correo válido son obligatorios" });
   }
   db.prepare(
-    "INSERT INTO job_applications (name, email, phone, city, message, created_at) VALUES (?, ?, ?, ?, ?, ?)"
-  ).run(name, email, phone || null, city || null, message || null, new Date().toISOString());
+    "INSERT INTO job_applications (name, email, phone, city, store, schedule, message, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
+  ).run(name, email, phone || null, null, store || null, schedule || null, message || null, new Date().toISOString());
   res.json({ ok: true, message: "¡Gracias! Revisaremos tu postulación y te contactaremos pronto." });
 });
 
 app.get("/api/admin/jobs", requireAuth, (req, res) => {
   const rows = db
-    .prepare("SELECT id, name, email, phone, city, message, created_at FROM job_applications ORDER BY id DESC")
+    .prepare("SELECT id, name, email, phone, store, schedule, message, created_at FROM job_applications ORDER BY id DESC")
     .all();
   res.json({ count: rows.length, applications: rows });
 });
