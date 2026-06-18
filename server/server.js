@@ -235,6 +235,68 @@ app.delete("/api/admin/subscribers/:id", requireAuth, (req, res) => {
   res.json({ ok: true });
 });
 
+/* ----------------------------- Tiendas (público) ------------------ */
+app.get("/api/stores", (req, res) => {
+  const stores = db
+    .prepare("SELECT id, name, city, address, hours FROM stores WHERE active = 1 ORDER BY sort_order, id")
+    .all();
+  res.json({ stores });
+});
+
+/* ----------------------------- Admin: tiendas --------------------- */
+app.post("/api/admin/stores", requireAuth, (req, res) => {
+  const name    = String(req.body.name    || "").trim().slice(0, 100);
+  const city    = String(req.body.city    || "").trim().slice(0, 60);
+  const address = String(req.body.address || "").trim().slice(0, 200);
+  const hours   = String(req.body.hours   || "Lun a Dom · 10:00 a.m. – 10:00 p.m.").trim().slice(0, 100);
+  if (!name || !city || !address) return res.status(400).json({ error: "Nombre, ciudad y dirección son obligatorios" });
+  const maxOrder = db.prepare("SELECT COALESCE(MAX(sort_order),0) as m FROM stores").get().m;
+  const info = db
+    .prepare("INSERT INTO stores (name, city, address, hours, active, sort_order, created_at) VALUES (?, ?, ?, ?, 1, ?, ?)")
+    .run(name, city, address, hours, maxOrder + 1, new Date().toISOString());
+  res.json({ ok: true, id: Number(info.lastInsertRowid) });
+});
+
+app.put("/api/admin/stores/:id", requireAuth, (req, res) => {
+  const id      = Number(req.params.id);
+  const name    = String(req.body.name    || "").trim().slice(0, 100);
+  const city    = String(req.body.city    || "").trim().slice(0, 60);
+  const address = String(req.body.address || "").trim().slice(0, 200);
+  const hours   = String(req.body.hours   || "").trim().slice(0, 100);
+  if (!name || !city || !address) return res.status(400).json({ error: "Datos incompletos" });
+  db.prepare("UPDATE stores SET name=?, city=?, address=?, hours=? WHERE id=?")
+    .run(name, city, address, hours, id);
+  res.json({ ok: true });
+});
+
+app.delete("/api/admin/stores/:id", requireAuth, (req, res) => {
+  db.prepare("DELETE FROM stores WHERE id = ?").run(Number(req.params.id));
+  res.json({ ok: true });
+});
+
+/* ----------------------------- Postulaciones (trabaja con nosotros) */
+app.post("/api/jobs", (req, res) => {
+  const name    = String(req.body.name    || "").trim().slice(0, 80);
+  const email   = String(req.body.email   || "").trim().toLowerCase();
+  const phone   = String(req.body.phone   || "").trim().slice(0, 30);
+  const city    = String(req.body.city    || "").trim().slice(0, 60);
+  const message = String(req.body.message || "").trim().slice(0, 600);
+  if (!name || !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
+    return res.status(400).json({ error: "Nombre y correo válido son obligatorios" });
+  }
+  db.prepare(
+    "INSERT INTO job_applications (name, email, phone, city, message, created_at) VALUES (?, ?, ?, ?, ?, ?)"
+  ).run(name, email, phone || null, city || null, message || null, new Date().toISOString());
+  res.json({ ok: true, message: "¡Gracias! Revisaremos tu postulación y te contactaremos pronto." });
+});
+
+app.get("/api/admin/jobs", requireAuth, (req, res) => {
+  const rows = db
+    .prepare("SELECT id, name, email, phone, city, message, created_at FROM job_applications ORDER BY id DESC")
+    .all();
+  res.json({ count: rows.length, applications: rows });
+});
+
 /* ----------------------------- Ofertas / novedades ---------------- */
 app.get("/api/offers", (req, res) => {
   const offers = db

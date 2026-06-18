@@ -50,8 +50,10 @@
     <main class="admin-main">
       <!-- Tabs -->
       <nav class="admin-tabs">
-        <button class="admin-tab active" data-tab="images">🎨 Imágenes del diseño</button>
-        <button class="admin-tab" data-tab="offers">✦ Ofertas / Novedades</button>
+        <button class="admin-tab active" data-tab="images">🎨 Imágenes</button>
+        <button class="admin-tab" data-tab="offers">✦ Ofertas</button>
+        <button class="admin-tab" data-tab="stores">🏪 Tiendas</button>
+        <button class="admin-tab" data-tab="jobs">💼 Postulaciones</button>
         <button class="admin-tab" data-tab="subs">📬 Suscriptores</button>
       </nav>
 
@@ -80,6 +82,50 @@
           <p class="admin-msg" id="offerMsg" role="status"></p>
         </form>
         <div class="offers-admin-list" id="offersAdminList"></div>
+      </section>
+
+      <!-- TIENDAS -->
+      <section class="admin-panel" id="tab-stores" hidden>
+        <div class="admin-panel-head">
+          <h2>Tiendas</h2>
+          <p>Agrega, edita o elimina tiendas. Los cambios se reflejan en el mapa de tiendas del sitio.</p>
+        </div>
+        <form class="offer-form" id="storeForm">
+          <input type="hidden" id="storeEditId" value="" />
+          <div class="store-form-grid">
+            <input type="text" id="storeName"    placeholder="Nombre de la tienda *" maxlength="100" required />
+            <input type="text" id="storeCity"    placeholder="Ciudad *" maxlength="60" required />
+            <input type="text" id="storeAddress" placeholder="Dirección completa *" maxlength="200" required />
+            <input type="text" id="storeHours"   placeholder="Horario (ej. Lun a Dom · 10:00 a.m. – 10:00 p.m.)" maxlength="100" />
+          </div>
+          <div style="display:flex;gap:0.6rem;align-items:center;">
+            <button type="submit" class="btn btn-primary btn-sm" id="storeSaveBtn">Agregar tienda</button>
+            <button type="button" class="slot-reset" id="storeCancelEdit" style="display:none">Cancelar edición</button>
+          </div>
+          <p class="admin-msg" id="storeMsg" role="status"></p>
+        </form>
+        <div class="table-wrap">
+          <table class="subs-table" id="storesTable">
+            <thead><tr><th>Tienda</th><th>Ciudad</th><th>Dirección</th><th>Horario</th><th></th></tr></thead>
+            <tbody id="storesBody"></tbody>
+          </table>
+          <p class="subs-empty" id="storesEmpty" hidden>Aún no hay tiendas.</p>
+        </div>
+      </section>
+
+      <!-- POSTULACIONES -->
+      <section class="admin-panel" id="tab-jobs" hidden>
+        <div class="admin-panel-head">
+          <h2>Postulaciones — Trabaja con nosotros</h2>
+          <p>Personas que postularon desde el sitio web.</p>
+        </div>
+        <div class="table-wrap">
+          <table class="subs-table">
+            <thead><tr><th>#</th><th>Nombre</th><th>Correo</th><th>Ciudad</th><th>Fecha</th></tr></thead>
+            <tbody id="jobsBody"></tbody>
+          </table>
+          <p class="subs-empty" id="jobsEmpty" hidden>Aún no hay postulaciones.</p>
+        </div>
       </section>
 
       <!-- SUSCRIPTORES -->

@@ -78,11 +78,15 @@ document.querySelectorAll(".admin-tab").forEach((tab) => {
     document.querySelectorAll(".admin-tab").forEach((t) => t.classList.remove("active"));
     tab.classList.add("active");
     const target = tab.dataset.tab;
-    $("#tab-images").hidden = target !== "images";
-    $("#tab-offers").hidden = target !== "offers";
-    $("#tab-subs").hidden = target !== "subs";
-    if (target === "subs") loadSubscribers();
-    if (target === "offers") loadOffers();
+    $("#tab-images").hidden  = target !== "images";
+    $("#tab-offers").hidden  = target !== "offers";
+    $("#tab-stores").hidden  = target !== "stores";
+    $("#tab-jobs").hidden    = target !== "jobs";
+    $("#tab-subs").hidden    = target !== "subs";
+    if (target === "subs")    loadSubscribers();
+    if (target === "offers")  loadOffers();
+    if (target === "stores")  loadStores();
+    if (target === "jobs")    loadJobs();
   });
 });
 
@@ -258,9 +262,118 @@ $("#exportBtn").addEventListener("click", async (e) => {
   }
 });
 
+/* ---------- Tiendas ---------- */
+let editingStoreId = null;
+
+async function loadStores() {
+  try {
+    const res = await api("/api/admin/stores" + "?t=" + Date.now()); // evita caché
+    // El endpoint de admin no existe; usamos el público y lo mostramos igual
+    const pub = await fetch("/api/stores");
+    const { stores } = await pub.json();
+    const body = $("#storesBody");
+    body.innerHTML = "";
+    $("#storesEmpty").hidden = stores.length > 0;
+    stores.forEach((s) => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td><b>${escapeHtml(s.name)}</b></td>
+        <td>${escapeHtml(s.city)}</td>
+        <td style="font-size:0.82rem">${escapeHtml(s.address)}</td>
+        <td style="font-size:0.78rem;color:var(--text-soft)">${escapeHtml(s.hours || "")}</td>
+        <td style="display:flex;gap:0.4rem">
+          <button class="del-sub edit-store" title="Editar" data-id="${s.id}">✏️</button>
+          <button class="del-sub del-store"  title="Eliminar" data-id="${s.id}">🗑</button>
+        </td>`;
+      tr.querySelector(".edit-store").addEventListener("click", () => startEditStore(s));
+      tr.querySelector(".del-store").addEventListener("click", async () => {
+        if (!confirm(`¿Eliminar la tienda "${s.name}"?`)) return;
+        const r = await api(`/api/admin/stores/${s.id}`, { method: "DELETE" });
+        if (r.ok) { showToast("Tienda eliminada"); loadStores(); }
+      });
+      body.appendChild(tr);
+    });
+  } catch (e) {
+    showToast(e.message || "Error al cargar tiendas");
+  }
+}
+
+function startEditStore(s) {
+  editingStoreId = s.id;
+  $("#storeName").value    = s.name;
+  $("#storeCity").value    = s.city;
+  $("#storeAddress").value = s.address;
+  $("#storeHours").value   = s.hours || "";
+  $("#storeEditId").value  = s.id;
+  $("#storeSaveBtn").textContent = "Actualizar tienda";
+  $("#storeCancelEdit").style.display = "inline-flex";
+  $("#storeName").focus();
+}
+
+function resetStoreForm() {
+  editingStoreId = null;
+  $("#storeForm").reset();
+  $("#storeEditId").value = "";
+  $("#storeSaveBtn").textContent = "Agregar tienda";
+  $("#storeCancelEdit").style.display = "none";
+  $("#storeMsg").textContent = "";
+}
+
+$("#storeCancelEdit").addEventListener("click", resetStoreForm);
+
+$("#storeForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const msg  = $("#storeMsg");
+  msg.textContent = "";
+  const body = {
+    name:    $("#storeName").value.trim(),
+    city:    $("#storeCity").value.trim(),
+    address: $("#storeAddress").value.trim(),
+    hours:   $("#storeHours").value.trim(),
+  };
+  try {
+    const isEdit = !!editingStoreId;
+    const r = await api(
+      isEdit ? `/api/admin/stores/${editingStoreId}` : "/api/admin/stores",
+      { method: isEdit ? "PUT" : "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) }
+    );
+    const d = await r.json();
+    if (!r.ok) { msg.textContent = d.error || "Error"; return; }
+    showToast(isEdit ? "✓ Tienda actualizada" : "✓ Tienda agregada");
+    resetStoreForm();
+    loadStores();
+  } catch (err) {
+    msg.textContent = err.message || "Error de conexión";
+  }
+});
+
+/* ---------- Postulaciones (trabaja con nosotros) ---------- */
+async function loadJobs() {
+  try {
+    const res = await api("/api/admin/jobs");
+    const { applications } = await res.json();
+    const body = $("#jobsBody");
+    body.innerHTML = "";
+    $("#jobsEmpty").hidden = applications.length > 0;
+    applications.forEach((j) => {
+      const tr = document.createElement("tr");
+      const fecha = new Date(j.created_at).toLocaleDateString("es-PE", { year: "numeric", month: "short", day: "numeric" });
+      tr.innerHTML = `
+        <td>${j.id}</td>
+        <td><b>${escapeHtml(j.name)}</b>${j.phone ? `<br><small>${escapeHtml(j.phone)}</small>` : ""}</td>
+        <td>${escapeHtml(j.email)}</td>
+        <td>${escapeHtml(j.city || "—")}</td>
+        <td>${fecha}</td>`;
+      if (j.message) tr.title = j.message;
+      body.appendChild(tr);
+    });
+  } catch (e) {
+    showToast(e.message || "Error al cargar postulaciones");
+  }
+}
+
 /* ---------- Init ---------- */
 if (token) {
-  // Validamos el token cargando algo protegido
   api("/api/admin/subscribers")
     .then((r) => { if (r.ok) enterDashboard(); else logout(); })
     .catch(() => logout());
