@@ -90,6 +90,7 @@ document.querySelectorAll(".admin-tab").forEach((tab) => {
 function enterDashboard() {
   $("#loginView").hidden = true;
   $("#dashView").hidden = false;
+  window.scrollTo({ top: 0, behavior: "instant" });
   loadImages();
 }
 
