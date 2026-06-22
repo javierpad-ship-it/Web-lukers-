@@ -41,6 +41,7 @@
       <div class="admin-header-inner">
         <a href="/" class="admin-logo" target="_blank" rel="noopener">LUKERS<span>.</span> <small>admin</small></a>
         <div class="admin-header-actions">
+          <a href="/postulaciones" class="btn btn-ghost btn-sm" target="_blank" rel="noopener">💼 Postulaciones ↗</a>
           <a href="/" class="btn btn-ghost btn-sm" target="_blank" rel="noopener">Ver sitio ↗</a>
           <button class="btn btn-ghost btn-sm" id="logoutBtn">Cerrar sesión</button>
         </div>
@@ -52,8 +53,8 @@
       <nav class="admin-tabs">
         <button class="admin-tab active" data-tab="images">🎨 Imágenes</button>
         <button class="admin-tab" data-tab="offers">✦ Ofertas</button>
+        <button class="admin-tab" data-tab="brands">🏷️ Marcas</button>
         <button class="admin-tab" data-tab="stores">🏪 Tiendas</button>
-        <button class="admin-tab" data-tab="jobs">💼 Postulaciones</button>
         <button class="admin-tab" data-tab="subs">📬 Suscriptores</button>
       </nav>
 
@@ -106,26 +107,32 @@
         </form>
         <div class="table-wrap">
           <table class="subs-table" id="storesTable">
-            <thead><tr><th>Tienda</th><th>Ciudad</th><th>Dirección</th><th>Horario</th><th></th></tr></thead>
+            <thead><tr><th>Foto</th><th>Tienda</th><th>Ciudad</th><th>Dirección</th><th></th></tr></thead>
             <tbody id="storesBody"></tbody>
           </table>
           <p class="subs-empty" id="storesEmpty" hidden>Aún no hay tiendas.</p>
         </div>
       </section>
 
-      <!-- POSTULACIONES -->
-      <section class="admin-panel" id="tab-jobs" hidden>
+      <!-- MARCAS DEL CARRUSEL -->
+      <section class="admin-panel" id="tab-brands" hidden>
         <div class="admin-panel-head">
-          <h2>Postulaciones — Trabaja con nosotros</h2>
-          <p>Personas que postularon desde el sitio web.</p>
+          <h2>Marcas del carrusel</h2>
+          <p>Edita las marcas que se mueven en las 3 cintas de la portada. Elige en qué cinta va cada una.</p>
         </div>
-        <div class="table-wrap">
-          <table class="subs-table">
-            <thead><tr><th>#</th><th>Nombre</th><th>Correo</th><th>Tienda</th><th>Jornada</th><th>Fecha</th></tr></thead>
-            <tbody id="jobsBody"></tbody>
-          </table>
-          <p class="subs-empty" id="jobsEmpty" hidden>Aún no hay postulaciones.</p>
-        </div>
+        <form class="offer-form" id="brandForm">
+          <div class="form-row">
+            <input type="text" id="brandName" placeholder="Nombre de la marca (ej. LEVI'S)" maxlength="60" required />
+            <select id="brandLane" aria-label="Cinta">
+              <option value="1">Cinta 1 (rápida)</option>
+              <option value="2">Cinta 2 (media)</option>
+              <option value="3">Cinta 3 (lenta)</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary btn-sm">Agregar marca</button>
+          <p class="admin-msg" id="brandMsg" role="status"></p>
+        </form>
+        <div class="brands-lanes" id="brandsLanes"></div>
       </section>
 
       <!-- SUSCRIPTORES -->

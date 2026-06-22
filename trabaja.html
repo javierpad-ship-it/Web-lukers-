@@ -74,7 +74,10 @@
                 <input type="text" id="jobName" placeholder="Nombre completo *" aria-label="Nombre completo" required />
                 <input type="email" id="jobEmail" placeholder="Correo electrónico *" aria-label="Correo" required />
               </div>
-              <input type="tel" id="jobPhone" placeholder="Teléfono / celular" aria-label="Teléfono" />
+              <div class="form-row">
+                <input type="tel" id="jobPhone" placeholder="Celular *" aria-label="Celular" required />
+                <input type="text" id="jobDni" placeholder="DNI *" aria-label="DNI" inputmode="numeric" maxlength="12" required />
+              </div>
 
               <label class="jobs-label" for="jobStore">¿En qué tienda te gustaría trabajar? *</label>
               <select id="jobStore" aria-label="Tienda" required>
@@ -94,6 +97,18 @@
                 <label class="schedule-chip">
                   <input type="radio" name="schedule" value="Cualquiera" />
                   <span>✦ Cualquiera</span>
+                </label>
+              </div>
+
+              <label class="jobs-label">¿Actualmente estás estudiando? *</label>
+              <div class="schedule-options" id="studyingOptions">
+                <label class="schedule-chip">
+                  <input type="radio" name="studying" value="Sí, estudio" required />
+                  <span>📚 Sí, estudio</span>
+                </label>
+                <label class="schedule-chip">
+                  <input type="radio" name="studying" value="No estudio" />
+                  <span>💼 No estudio</span>
                 </label>
               </div>
 

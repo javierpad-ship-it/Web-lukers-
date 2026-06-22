@@ -80,13 +80,13 @@ document.querySelectorAll(".admin-tab").forEach((tab) => {
     const target = tab.dataset.tab;
     $("#tab-images").hidden  = target !== "images";
     $("#tab-offers").hidden  = target !== "offers";
+    $("#tab-brands").hidden  = target !== "brands";
     $("#tab-stores").hidden  = target !== "stores";
-    $("#tab-jobs").hidden    = target !== "jobs";
     $("#tab-subs").hidden    = target !== "subs";
     if (target === "subs")    loadSubscribers();
     if (target === "offers")  loadOffers();
+    if (target === "brands")  loadBrands();
     if (target === "stores")  loadStores();
-    if (target === "jobs")    loadJobs();
   });
 });
 
@@ -276,10 +276,14 @@ async function loadStores() {
     stores.forEach((s) => {
       const tr = document.createElement("tr");
       tr.innerHTML = `
-        <td><b>${escapeHtml(s.name)}</b></td>
+        <td>
+          <div class="store-thumb ${s.photo ? "" : "empty"}" ${s.photo ? `style="background-image:url('${s.photo}')"` : ""}></div>
+          <input type="file" class="store-file" accept="image/*" hidden />
+          <button class="store-photo-btn" title="${s.photo ? "Cambiar foto" : "Subir foto"}">${s.photo ? "Cambiar" : "+ Foto"}</button>
+        </td>
+        <td><b>${escapeHtml(s.name)}</b><br><small style="color:var(--text-soft)">🕙 ${escapeHtml(s.hours || "")}</small></td>
         <td>${escapeHtml(s.city)}</td>
         <td style="font-size:0.82rem">${escapeHtml(s.address)}</td>
-        <td style="font-size:0.78rem;color:var(--text-soft)">${escapeHtml(s.hours || "")}</td>
         <td style="display:flex;gap:0.4rem">
           <button class="del-sub edit-store" title="Editar" data-id="${s.id}">✏️</button>
           <button class="del-sub del-store"  title="Eliminar" data-id="${s.id}">🗑</button>
@@ -289,6 +293,23 @@ async function loadStores() {
         if (!confirm(`¿Eliminar la tienda "${s.name}"?`)) return;
         const r = await api(`/api/admin/stores/${s.id}`, { method: "DELETE" });
         if (r.ok) { showToast("Tienda eliminada"); loadStores(); }
+      });
+      const fileInput = tr.querySelector(".store-file");
+      tr.querySelector(".store-photo-btn").addEventListener("click", () => fileInput.click());
+      fileInput.addEventListener("change", async () => {
+        const file = fileInput.files[0];
+        if (!file) return;
+        const fd = new FormData();
+        fd.append("photo", file);
+        try {
+          const r = await api(`/api/admin/stores/${s.id}/photo`, { method: "POST", body: fd });
+          const d = await r.json();
+          if (!r.ok) return showToast(d.error || "Error al subir");
+          showToast("✓ Foto actualizada");
+          loadStores();
+        } catch (e) {
+          showToast(e.message || "Error de conexión");
+        }
       });
       body.appendChild(tr);
     });
@@ -346,30 +367,56 @@ $("#storeForm").addEventListener("submit", async (e) => {
   }
 });
 
-/* ---------- Postulaciones (trabaja con nosotros) ---------- */
-async function loadJobs() {
+/* ---------- Marcas del carrusel ---------- */
+const LANE_LABELS = { 1: "Cinta 1 (rápida)", 2: "Cinta 2 (media)", 3: "Cinta 3 (lenta)" };
+
+$("#brandForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const msg = $("#brandMsg");
+  msg.textContent = "";
+  const name = $("#brandName").value.trim();
+  const lane = Number($("#brandLane").value);
+  if (!name) { msg.textContent = "Escribe el nombre de la marca"; return; }
   try {
-    const res = await api("/api/admin/jobs");
-    const { applications } = await res.json();
-    const body = $("#jobsBody");
-    body.innerHTML = "";
-    $("#jobsEmpty").hidden = applications.length > 0;
-    applications.forEach((j) => {
-      const tr = document.createElement("tr");
-      const fecha = new Date(j.created_at).toLocaleDateString("es-PE", { year: "numeric", month: "short", day: "numeric" });
-      tr.innerHTML = `
-        <td>${j.id}</td>
-        <td><b>${escapeHtml(j.name)}</b>${j.phone ? `<br><small>${escapeHtml(j.phone)}</small>` : ""}</td>
-        <td style="font-size:0.82rem">${escapeHtml(j.email)}</td>
-        <td style="font-size:0.82rem">${escapeHtml(j.store || "—")}</td>
-        <td>${j.schedule ? `<span class="offer-admin-tag">${escapeHtml(j.schedule)}</span>` : "—"}</td>
-        <td>${fecha}</td>`;
-      if (j.message) tr.title = j.message;
-      body.appendChild(tr);
+    const r = await api("/api/admin/brands", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, lane }),
     });
-  } catch (e) {
-    showToast(e.message || "Error al cargar postulaciones");
+    if (!r.ok) { const d = await r.json(); msg.textContent = d.error || "Error"; return; }
+    $("#brandName").value = "";
+    showToast("✓ Marca agregada");
+    loadBrands();
+  } catch (err) {
+    msg.textContent = err.message || "Error de conexión";
   }
+});
+
+async function loadBrands() {
+  const res = await fetch("/api/brands?t=" + Date.now());
+  const { lanes } = await res.json();
+  const box = $("#brandsLanes");
+  box.innerHTML = "";
+  [1, 2, 3].forEach((lane) => {
+    const items = lanes[lane] || [];
+    const group = document.createElement("div");
+    group.className = "brands-lane-group";
+    group.innerHTML = `<h3>${LANE_LABELS[lane]} <small>${items.length} marcas</small></h3>
+      <div class="brands-chips" id="laneChips${lane}"></div>`;
+    box.appendChild(group);
+    const chips = group.querySelector(`#laneChips${lane}`);
+    if (!items.length) { chips.innerHTML = `<span class="brands-empty">Sin marcas en esta cinta.</span>`; return; }
+    items.forEach((b) => {
+      const chip = document.createElement("span");
+      chip.className = "brand-chip";
+      chip.innerHTML = `${escapeHtml(b.name)} <button title="Eliminar" aria-label="Eliminar ${escapeHtml(b.name)}">✕</button>`;
+      chip.querySelector("button").addEventListener("click", async () => {
+        const r = await api(`/api/admin/brands/${b.id}`, { method: "DELETE" });
+        if (r.ok) { showToast("Marca eliminada"); loadBrands(); }
+      });
+      chips.appendChild(chip);
+    });
+  });
 }
 
 /* ---------- Init ---------- */

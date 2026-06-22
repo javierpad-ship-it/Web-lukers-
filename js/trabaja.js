@@ -90,13 +90,19 @@ jobForm.addEventListener("submit", async (e) => {
 
   const name  = $("#jobName").value.trim();
   const email = $("#jobEmail").value.trim();
+  const phone = $("#jobPhone").value.trim();
+  const dni   = $("#jobDni").value.trim();
   const store = $("#jobStore").value;
   const scheduleEl = document.querySelector('input[name="schedule"]:checked');
+  const studyingEl = document.querySelector('input[name="studying"]:checked');
 
   if (name.length < 3) { msg.textContent = "✗ Ingresa tu nombre completo"; return; }
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) { msg.textContent = "✗ Ingresa un correo válido"; return; }
+  if (phone.length < 6) { msg.textContent = "✗ Ingresa tu número de celular"; return; }
+  if (dni.length < 6) { msg.textContent = "✗ Ingresa tu DNI"; return; }
   if (!store) { msg.textContent = "✗ Elige la tienda donde quieres trabajar"; return; }
   if (!scheduleEl) { msg.textContent = "✗ Elige una jornada (full time / part time)"; return; }
+  if (!studyingEl) { msg.textContent = "✗ Indícanos si estás estudiando"; return; }
 
   msg.textContent = "Enviando…";
   try {
@@ -106,9 +112,11 @@ jobForm.addEventListener("submit", async (e) => {
       body: JSON.stringify({
         name,
         email,
-        phone:    $("#jobPhone").value.trim(),
+        phone,
+        dni,
         store,
         schedule: scheduleEl.value,
+        studying: studyingEl.value,
         message:  $("#jobMessage").value.trim(),
       }),
     });
