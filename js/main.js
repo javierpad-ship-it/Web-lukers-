@@ -127,21 +127,70 @@ $$("[data-count]").forEach((el) => statObserver.observe(el));
 /* ---------- Tiendas ---------- */
 let allStores = STORES; // fallback a las tiendas hardcodeadas
 
+function mapEmbed(address) {
+  return `https://maps.google.com/maps?q=${encodeURIComponent(address + ", Perú")}&output=embed`;
+}
+
 function renderStores(city = "todas") {
   const list = allStores.filter((s) => city === "todas" || s.city === city);
   $("#storeGrid").innerHTML = list.map((s, i) => `
     <div class="store-card" style="animation-delay:${i * 0.05}s">
-      <span class="store-city">${escapeHtml(s.city)}</span>
-      <h3>${escapeHtml(s.name)}</h3>
-      <p>📍 ${escapeHtml(s.address)}</p>
-      <p class="hours">🕙 ${escapeHtml(s.hours || "Lun a Dom · 10:00 a.m. – 10:00 p.m.")}</p>
-      <div class="store-actions">
-        <a class="store-btn store-btn-maps" href="${mapsLink(s.address)}" target="_blank" rel="noopener">📍 Cómo llegar</a>
-        <a class="store-btn store-btn-wa" href="${whatsappLink(
-          `Hola Lukers 👋 quiero consultar por la tienda ${s.name}.`
-        )}" target="_blank" rel="noopener">💬 WhatsApp</a>
+      ${s.photo
+        ? `<div class="store-photo" style="background-image:url('${s.photo}')"></div>`
+        : `<div class="store-photo store-photo-empty"><span>🏬</span></div>`}
+      <div class="store-body">
+        <span class="store-city">${escapeHtml(s.city)}</span>
+        <h3>${escapeHtml(s.name)}</h3>
+        <p>📍 ${escapeHtml(s.address)}</p>
+        <p class="hours">🕙 ${escapeHtml(s.hours || "Lun a Dom · 10:00 a.m. – 10:00 p.m.")}</p>
+        <div class="store-actions">
+          <button type="button" class="store-btn store-btn-maps" data-map="${escapeHtml(s.address)}">📍 Cómo llegar</button>
+          <a class="store-btn store-btn-wa" href="${whatsappLink(
+            `Hola Lukers 👋 quiero consultar por la tienda ${s.name}.`
+          )}" target="_blank" rel="noopener">💬 WhatsApp</a>
+        </div>
+        <div class="store-map" hidden></div>
       </div>
     </div>`).join("");
+}
+
+/* Mostrar el mapa embebido dentro de la tarjeta (sin abrir otra página) */
+$("#storeGrid").addEventListener("click", (e) => {
+  const btn = e.target.closest(".store-btn-maps");
+  if (!btn) return;
+  const card = btn.closest(".store-card");
+  const mapBox = card.querySelector(".store-map");
+  const address = btn.dataset.map;
+  if (mapBox.hidden) {
+    if (!mapBox.dataset.loaded) {
+      mapBox.innerHTML = `<iframe title="Mapa de ${escapeHtml(address)}" src="${mapEmbed(address)}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+        <a class="store-map-open" href="${mapsLink(address)}" target="_blank" rel="noopener">Abrir en Google Maps ↗</a>`;
+      mapBox.dataset.loaded = "1";
+    }
+    mapBox.hidden = false;
+    btn.textContent = "✕ Ocultar mapa";
+  } else {
+    mapBox.hidden = true;
+    btn.textContent = "📍 Cómo llegar";
+  }
+});
+
+/* ---------- Marcas del carrusel (desde el backend) ---------- */
+async function loadBrands() {
+  try {
+    const res = await fetch("/api/brands");
+    if (!res.ok) return;
+    const { lanes } = await res.json();
+    [1, 2, 3].forEach((lane) => {
+      const track = document.querySelector(`.marquee-track[data-lane="${lane}"]`);
+      const items = lanes[lane];
+      if (!track || !items || !items.length) return;
+      const seq = items.map((b) => `<span>${escapeHtml(b.name)}</span><span>✦</span>`).join("");
+      track.innerHTML = seq + seq; // duplicado para bucle continuo
+    });
+  } catch {
+    /* Sin backend: se conservan las marcas estáticas del HTML */
+  }
 }
 
 async function loadStores() {
@@ -318,6 +367,7 @@ function initWhatsApp() {
 /* ---------- Init ---------- */
 $("#year").textContent = new Date().getFullYear();
 loadStores();
+loadBrands();
 loadDesignImages();
 loadOffers();
 initWhatsApp();

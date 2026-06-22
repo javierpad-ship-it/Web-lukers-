@@ -264,6 +264,59 @@
 /* Columna mensaje/postulación */
 #jobsBody tr { cursor: help; }
 
+/* ---------- Marcas del carrusel ---------- */
+.brands-lanes { display: flex; flex-direction: column; gap: 1.4rem; }
+.brands-lane-group h3 { font-size: 0.95rem; margin-bottom: 0.7rem; }
+.brands-lane-group h3 small { color: var(--text-soft); font-weight: 600; font-size: 0.78rem; }
+.brands-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.brands-empty { color: var(--text-soft); font-size: 0.85rem; }
+.brand-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.35rem 0.4rem 0.35rem 0.85rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+.brand-chip button {
+  border: none;
+  background: var(--bg-alt);
+  color: var(--text-soft);
+  border-radius: 50%;
+  width: 20px; height: 20px;
+  font-size: 0.7rem;
+  line-height: 1;
+  cursor: pointer;
+}
+.brand-chip button:hover { background: #d12d2d; color: #fff; }
+
+/* ---------- Miniatura de foto de tienda ---------- */
+.store-thumb {
+  width: 64px; height: 44px;
+  border-radius: 8px;
+  background-size: cover;
+  background-position: center;
+  background-color: var(--bg-alt);
+  margin-bottom: 0.3rem;
+}
+.store-thumb.empty {
+  background: linear-gradient(145deg, var(--azul), var(--azul-oscuro));
+}
+.store-photo-btn {
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--accent);
+  border-radius: 8px;
+  padding: 0.2rem 0.5rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+.store-photo-btn:hover { border-color: var(--accent); }
+
 @media (max-width: 520px) {
   .subs-table th:nth-child(1), .subs-table td:nth-child(1) { display: none; }
   .offer-form .form-row { grid-template-columns: 1fr; }

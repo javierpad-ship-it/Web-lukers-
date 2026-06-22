@@ -24,6 +24,16 @@ const INITIAL_STORES = [
   { name: "Lukers Iquitos",         city: "Iquitos",  address: "Jr. Próspero 615, Iquitos",                    hours: "Lun a Dom · 10:00 a.m. – 10:00 p.m." },
 ];
 
+const INITIAL_BRANDS = {
+  1: ["JOHN HOLDEN", "LEVI'S", "BEVERLY HILLS POLO CLUB", "DONATELLI", "REGATA", "DOCKERS", "ADIDAS", "US POLO ASSN"],
+  2: ["PIERRE CARDIN", "IZOD", "PUMA", "JACK & JONES", "VERO MODA", "TERRANOVA", "OLD NAVY", "NIKE"],
+  3: ["WRANGLER", "LEE", "PIONIER", "ONLY", "GIACOMO BRIZZI", "VAN HEUSEN", "CK", "TALLY WEiJL"],
+};
+
+function columns(table) {
+  return db.prepare(`PRAGMA table_info(${table})`).all().map((c) => c.name);
+}
+
 function getDb() {
   if (db) return db;
 
@@ -56,6 +66,7 @@ function getDb() {
     );
   `);
 
+  /* ---------------- Tiendas ---------------- */
   db.exec(`
     CREATE TABLE IF NOT EXISTS stores (
       id         INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -63,15 +74,16 @@ function getDb() {
       city       TEXT NOT NULL,
       address    TEXT NOT NULL,
       hours      TEXT NOT NULL DEFAULT 'Lun a Dom · 10:00 a.m. – 10:00 p.m.',
+      photo      TEXT,
       active     INTEGER NOT NULL DEFAULT 1,
       sort_order INTEGER NOT NULL DEFAULT 0,
       created_at TEXT NOT NULL
     );
   `);
+  if (!columns("stores").includes("photo")) db.exec("ALTER TABLE stores ADD COLUMN photo TEXT");
 
-  // Sembrar tiendas iniciales si la tabla está vacía
-  const count = db.prepare("SELECT COUNT(*) as c FROM stores").get();
-  if (count.c === 0) {
+  const storeCount = db.prepare("SELECT COUNT(*) as c FROM stores").get();
+  if (storeCount.c === 0) {
     const ins = db.prepare(
       "INSERT INTO stores (name, city, address, hours, active, sort_order, created_at) VALUES (?, ?, ?, ?, 1, ?, ?)"
     );
@@ -79,24 +91,46 @@ function getDb() {
     INITIAL_STORES.forEach((s, i) => ins.run(s.name, s.city, s.address, s.hours, i, now));
   }
 
+  /* ---------------- Marcas del carrusel ---------------- */
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS brands (
+      id         INTEGER PRIMARY KEY AUTOINCREMENT,
+      name       TEXT NOT NULL,
+      lane       INTEGER NOT NULL DEFAULT 1,
+      sort_order INTEGER NOT NULL DEFAULT 0,
+      created_at TEXT NOT NULL
+    );
+  `);
+  const brandCount = db.prepare("SELECT COUNT(*) as c FROM brands").get();
+  if (brandCount.c === 0) {
+    const ins = db.prepare("INSERT INTO brands (name, lane, sort_order, created_at) VALUES (?, ?, ?, ?)");
+    const now = new Date().toISOString();
+    Object.entries(INITIAL_BRANDS).forEach(([lane, names]) => {
+      names.forEach((n, i) => ins.run(n, Number(lane), i, now));
+    });
+  }
+
+  /* ---------------- Postulaciones ---------------- */
   db.exec(`
     CREATE TABLE IF NOT EXISTS job_applications (
       id         INTEGER PRIMARY KEY AUTOINCREMENT,
       name       TEXT NOT NULL,
       email      TEXT NOT NULL,
       phone      TEXT,
+      dni        TEXT,
       city       TEXT,
       store      TEXT,
       schedule   TEXT,
+      studying   TEXT,
       message    TEXT,
       created_at TEXT NOT NULL
     );
   `);
-
-  // Migración suave: agrega columnas store/schedule si la tabla ya existía
-  const jobCols = db.prepare("PRAGMA table_info(job_applications)").all().map((c) => c.name);
+  const jobCols = columns("job_applications");
   if (!jobCols.includes("store"))    db.exec("ALTER TABLE job_applications ADD COLUMN store TEXT");
   if (!jobCols.includes("schedule")) db.exec("ALTER TABLE job_applications ADD COLUMN schedule TEXT");
+  if (!jobCols.includes("dni"))      db.exec("ALTER TABLE job_applications ADD COLUMN dni TEXT");
+  if (!jobCols.includes("studying")) db.exec("ALTER TABLE job_applications ADD COLUMN studying TEXT");
 
   return db;
 }
