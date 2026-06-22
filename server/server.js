@@ -20,8 +20,10 @@ const crypto = require("crypto");
 const { getDb } = require("./db");
 
 const ROOT = path.join(__dirname, "..");
-// Configurable para apuntar a un volumen persistente (p. ej. en Railway).
-const UPLOADS_DIR = process.env.UPLOADS_DIR || path.join(ROOT, "uploads");
+// Carpeta de datos persistente (volumen de Railway). Una sola variable
+// DATA_DIR cubre la base de datos y, por defecto, las imágenes subidas.
+const DATA_DIR = process.env.DATA_DIR || path.join(ROOT, "data");
+const UPLOADS_DIR = process.env.UPLOADS_DIR || path.join(DATA_DIR, "uploads");
 fs.mkdirSync(UPLOADS_DIR, { recursive: true });
 
 const PORT = process.env.PORT || 3000;
@@ -449,5 +451,12 @@ app.use((err, req, res, next) => {
 
 app.listen(PORT, () => {
   console.log(`\n✦ Lukers corriendo en  http://localhost:${PORT}`);
-  console.log(`  Panel de administración: http://localhost:${PORT}/admin\n`);
+  console.log(`  Panel de administración: http://localhost:${PORT}/admin`);
+  console.log(`  Datos:     ${DATA_DIR}`);
+  console.log(`  Imágenes:  ${UPLOADS_DIR}`);
+  if (!process.env.DATA_DIR) {
+    console.warn("  ⚠  DATA_DIR no está definido: los datos NO son persistentes.\n");
+  } else {
+    console.log("  ✓ Volumen persistente activo.\n");
+  }
 });
