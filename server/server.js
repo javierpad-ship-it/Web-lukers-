@@ -20,6 +20,37 @@ const crypto = require("crypto");
 const { getDb } = require("./db");
 
 const ROOT = path.join(__dirname, "..");
+
+/* ------------------------------------------------------------------ */
+/*  Lectura del archivo .env (sin dependencias externas)               */
+/*  Las variables ya definidas en el entorno (Railway) tienen          */
+/*  prioridad: el archivo .env solo rellena las que falten.            */
+/* ------------------------------------------------------------------ */
+function loadEnvFile(file) {
+  let raw;
+  try {
+    raw = fs.readFileSync(file, "utf8");
+  } catch {
+    return; // no hay .env: normal en producción
+  }
+  for (const line of raw.split(/\r?\n/)) {
+    const trimmed = line.trim();
+    if (!trimmed || trimmed.startsWith("#")) continue;
+    const eq = trimmed.indexOf("=");
+    if (eq < 1) continue;
+    const key = trimmed.slice(0, eq).trim();
+    let value = trimmed.slice(eq + 1).trim();
+    if (
+      (value.startsWith('"') && value.endsWith('"')) ||
+      (value.startsWith("'") && value.endsWith("'"))
+    ) {
+      value = value.slice(1, -1);
+    }
+    if (!(key in process.env)) process.env[key] = value;
+  }
+}
+loadEnvFile(path.join(ROOT, ".env"));
+
 // Carpeta de datos persistente (volumen de Railway). Una sola variable
 // DATA_DIR cubre la base de datos y, por defecto, las imágenes subidas.
 const DATA_DIR = process.env.DATA_DIR || path.join(ROOT, "data");
@@ -27,22 +58,44 @@ const UPLOADS_DIR = process.env.UPLOADS_DIR || path.join(DATA_DIR, "uploads");
 fs.mkdirSync(UPLOADS_DIR, { recursive: true });
 
 const PORT = process.env.PORT || 3000;
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "lukers-admin";
+
+// Dirección pública definitiva del sitio (para robots.txt, sitemap y
+// enlaces canónicos). Se cambia con la variable SITE_URL.
+const SITE_URL = (process.env.SITE_URL || "https://lukers.pe").replace(/\/+$/, "");
+
+/**
+ * Contraseñas de acceso. NUNCA hay una contraseña por defecto conocida:
+ * si la variable de entorno no está definida se genera una aleatoria y se
+ * imprime en el arranque. El sitio público sigue funcionando; lo único que
+ * queda inaccesible es el panel, que es exactamente lo que queremos.
+ */
+function requiredPassword(varName, label) {
+  const fromEnv = process.env[varName];
+  if (fromEnv && fromEnv.length >= 8) return fromEnv;
+  const generated = crypto.randomBytes(12).toString("base64url");
+  if (fromEnv) {
+    console.warn(
+      `\n⚠  ${varName} es demasiado corta (mínimo 8 caracteres). Se ignora.`
+    );
+  }
+  console.warn(
+    `\n⚠  ${varName} no está definida. ${label} usará esta contraseña temporal,\n` +
+      `   que cambia en cada reinicio:\n\n      ${generated}\n\n` +
+      `   Define ${varName} en las variables de entorno para fijarla.\n`
+  );
+  return generated;
+}
+
+const ADMIN_PASSWORD = requiredPassword("ADMIN_PASSWORD", "El panel de administración");
 // Acceso independiente al módulo de postulaciones (RR.HH.)
-const JOBS_PASSWORD = process.env.JOBS_PASSWORD || "lukers-rrhh";
+const JOBS_PASSWORD = requiredPassword("JOBS_PASSWORD", "El módulo de RR.HH.");
+
 const SESSION_SECRET =
   process.env.SESSION_SECRET || crypto.randomBytes(32).toString("hex");
-
-if (!process.env.ADMIN_PASSWORD) {
+if (!process.env.SESSION_SECRET) {
   console.warn(
-    "\n⚠  Usando la contraseña de administrador por defecto: \"lukers-admin\".\n" +
-      "   Define ADMIN_PASSWORD en producción para protegerlo.\n"
-  );
-}
-if (!process.env.JOBS_PASSWORD) {
-  console.warn(
-    "⚠  Usando la contraseña de RR.HH. por defecto: \"lukers-rrhh\".\n" +
-      "   Define JOBS_PASSWORD en producción para protegerlo.\n"
+    "⚠  SESSION_SECRET no está definida: las sesiones abiertas se cerrarán\n" +
+      "   en cada reinicio del servidor.\n"
   );
 }
 
@@ -109,59 +162,187 @@ function requireScope(...allowed) {
 const requireAuth = requireScope("admin");
 
 /* ------------------------------------------------------------------ */
+/*  Límite de intentos de acceso (anti fuerza bruta)                   */
+/*  5 intentos fallidos por IP; después, bloqueo de 15 minutos.        */
+/* ------------------------------------------------------------------ */
+const LOGIN_MAX_ATTEMPTS = 5;
+const LOGIN_WINDOW_MS = 15 * 60 * 1000;
+const loginAttempts = new Map(); // ip -> { count, resetAt }
+
+// Limpieza periódica para que el mapa no crezca sin control.
+setInterval(() => {
+  const now = Date.now();
+  for (const [ip, entry] of loginAttempts) {
+    if (entry.resetAt <= now) loginAttempts.delete(ip);
+  }
+}, LOGIN_WINDOW_MS).unref();
+
+function loginRateLimit(req, res, next) {
+  const ip = req.ip || "desconocida";
+  const now = Date.now();
+  const entry = loginAttempts.get(ip);
+  if (entry && entry.resetAt > now && entry.count >= LOGIN_MAX_ATTEMPTS) {
+    const minutes = Math.ceil((entry.resetAt - now) / 60000);
+    return res.status(429).json({
+      error: `Demasiados intentos fallidos. Vuelve a intentarlo en ${minutes} minuto(s).`,
+    });
+  }
+  next();
+}
+
+function registerFailedLogin(req) {
+  const ip = req.ip || "desconocida";
+  const now = Date.now();
+  const entry = loginAttempts.get(ip);
+  if (!entry || entry.resetAt <= now) {
+    loginAttempts.set(ip, { count: 1, resetAt: now + LOGIN_WINDOW_MS });
+  } else {
+    entry.count += 1;
+  }
+}
+
+function clearFailedLogins(req) {
+  loginAttempts.delete(req.ip || "desconocida");
+}
+
+/** Comparación de contraseñas en tiempo constante, sin filtrar la longitud. */
+function passwordMatches(candidate, expected) {
+  const a = crypto.createHash("sha256").update(String(candidate)).digest();
+  const b = crypto.createHash("sha256").update(String(expected)).digest();
+  return crypto.timingSafeEqual(a, b);
+}
+
+/** Convierte el :id de la URL en un entero positivo, o null si no lo es. */
+function parseId(value) {
+  const n = Number(value);
+  return Number.isInteger(n) && n > 0 ? n : null;
+}
+
+/**
+ * Prepara un valor para el CSV. Además de las comillas, neutraliza las
+ * celdas que empiezan por = + - @ (y tabulador o retorno de carro), que
+ * Excel interpretaría como fórmulas: así nadie puede ejecutar nada
+ * escribiendo una fórmula en el formulario público.
+ */
+function csvCell(value) {
+  let text = String(value ?? "");
+  if (/^[=+\-@\t\r]/.test(text)) text = `'${text}`;
+  return `"${text.replace(/"/g, '""')}"`;
+}
+
+/* ------------------------------------------------------------------ */
 /*  Subida de imágenes (multer)                                        */
 /* ------------------------------------------------------------------ */
+/**
+ * La extensión del archivo SIEMPRE se deriva del tipo de imagen declarado,
+ * nunca del nombre que envía quien sube el archivo. Así es imposible dejar
+ * un .html o un .svg dentro de /uploads haciéndolo pasar por imagen.
+ */
+const EXT_BY_MIME = {
+  "image/png": ".png",
+  "image/jpeg": ".jpg",
+  "image/jpg": ".jpg",
+  "image/webp": ".webp",
+  "image/gif": ".gif",
+  "image/avif": ".avif",
+};
+
+function imageOnly(req, file, cb) {
+  if (EXT_BY_MIME[file.mimetype]) cb(null, true);
+  else cb(new Error("Solo se permiten imágenes (PNG, JPG, WEBP, GIF, AVIF)"));
+}
+
+// Nombre aleatorio: ni el slot ni el id llegan nunca al sistema de archivos.
+function safeName(prefix, file) {
+  const ext = EXT_BY_MIME[file.mimetype] || ".png";
+  return `${prefix}_${Date.now()}_${crypto.randomBytes(6).toString("hex")}${ext}`;
+}
+
 const upload = multer({
   storage: multer.diskStorage({
     destination: (req, file, cb) => cb(null, UPLOADS_DIR),
-    filename: (req, file, cb) => {
-      const ext = (path.extname(file.originalname) || ".png").toLowerCase();
-      cb(null, `${req.params.slot}_${Date.now()}${ext}`);
-    },
+    filename: (req, file, cb) => cb(null, safeName("img", file)),
   }),
-  limits: { fileSize: 5 * 1024 * 1024 }, // 5 MB
-  fileFilter: (req, file, cb) => {
-    if (/^image\/(png|jpe?g|webp|gif|avif)$/.test(file.mimetype)) cb(null, true);
-    else cb(new Error("Solo se permiten imágenes (PNG, JPG, WEBP, GIF, AVIF)"));
-  },
+  limits: { fileSize: 5 * 1024 * 1024, files: 1 }, // 5 MB
+  fileFilter: imageOnly,
 });
 
-// Subida de fotos de tienda (nombre basado en el id de la tienda)
+// Subida de fotos de tienda
 const uploadStore = multer({
   storage: multer.diskStorage({
     destination: (req, file, cb) => cb(null, UPLOADS_DIR),
-    filename: (req, file, cb) => {
-      const ext = (path.extname(file.originalname) || ".jpg").toLowerCase();
-      cb(null, `store_${req.params.id}_${Date.now()}${ext}`);
-    },
+    filename: (req, file, cb) => cb(null, safeName("store", file)),
   }),
-  limits: { fileSize: 5 * 1024 * 1024 },
-  fileFilter: (req, file, cb) => {
-    if (/^image\/(png|jpe?g|webp|gif|avif)$/.test(file.mimetype)) cb(null, true);
-    else cb(new Error("Solo se permiten imágenes"));
-  },
+  limits: { fileSize: 5 * 1024 * 1024, files: 1 },
+  fileFilter: imageOnly,
 });
 
 /* ------------------------------------------------------------------ */
 /*  App                                                                */
 /* ------------------------------------------------------------------ */
 const app = express();
-app.use(express.json());
+
+// Railway sirve detrás de un proxy: sin esto, req.ip sería siempre la del
+// proxy y el límite de intentos de login no distinguiría a los visitantes.
+app.set("trust proxy", 1);
+
+app.disable("x-powered-by");
+app.use(express.json({ limit: "100kb" }));
+
+// Cabeceras de seguridad para todas las respuestas.
+app.use((req, res, next) => {
+  res.setHeader("X-Content-Type-Options", "nosniff");
+  res.setHeader("X-Frame-Options", "SAMEORIGIN");
+  res.setHeader("Referrer-Policy", "strict-origin-when-cross-origin");
+  next();
+});
 
 // Recursos estáticos del sitio (no exponemos server/, data/, package.json…)
-app.use("/uploads", express.static(UPLOADS_DIR));
+app.use(
+  "/uploads",
+  express.static(UPLOADS_DIR, {
+    // Nada de /uploads se interpreta como página: siempre se descarga o
+    // se muestra como imagen, nunca se ejecuta.
+    setHeaders: (res) => res.setHeader("Content-Security-Policy", "default-src 'none'"),
+  })
+);
 app.use("/css", express.static(path.join(ROOT, "css")));
 app.use("/js", express.static(path.join(ROOT, "js")));
 app.use("/assets", express.static(path.join(ROOT, "assets")));
 
+// Las páginas internas nunca deben aparecer en Google.
+function noIndex(req, res, next) {
+  res.setHeader("X-Robots-Tag", "noindex, nofollow, noarchive");
+  next();
+}
+
 app.get("/", (req, res) => res.sendFile(path.join(ROOT, "index.html")));
-app.get("/admin", (req, res) => res.sendFile(path.join(ROOT, "admin.html")));
+app.get("/admin", noIndex, (req, res) => res.sendFile(path.join(ROOT, "admin.html")));
 app.get(["/trabaja", "/trabaja.html"], (req, res) =>
   res.sendFile(path.join(ROOT, "trabaja.html"))
 );
-app.get(["/postulaciones", "/postulaciones.html"], (req, res) =>
+app.get(["/postulaciones", "/postulaciones.html"], noIndex, (req, res) =>
   res.sendFile(path.join(ROOT, "postulaciones.html"))
 );
+app.get(["/privacidad", "/privacidad.html"], (req, res) =>
+  res.sendFile(path.join(ROOT, "privacidad.html"))
+);
+
+// robots.txt — le dice a Google qué NO debe indexar.
+app.get("/robots.txt", (req, res) => {
+  res.type("text/plain").send(
+    [
+      "User-agent: *",
+      "Disallow: /admin",
+      "Disallow: /postulaciones",
+      "Disallow: /uploads/",
+      "Allow: /",
+      "",
+      `Sitemap: ${SITE_URL}/sitemap.xml`,
+      "",
+    ].join("\n")
+  );
+});
 
 /* ----------------------------- Newsletter ------------------------- */
 app.post("/api/subscribe", (req, res) => {
@@ -199,12 +380,12 @@ app.get("/api/images", (req, res) => {
 });
 
 /* ----------------------------- Admin: login ----------------------- */
-app.post("/api/admin/login", (req, res) => {
-  const password = String(req.body.password || "");
-  const a = Buffer.from(password);
-  const b = Buffer.from(ADMIN_PASSWORD);
-  const ok = a.length === b.length && crypto.timingSafeEqual(a, b);
-  if (!ok) return res.status(401).json({ error: "Contraseña incorrecta" });
+app.post("/api/admin/login", loginRateLimit, (req, res) => {
+  if (!passwordMatches(req.body.password || "", ADMIN_PASSWORD)) {
+    registerFailedLogin(req);
+    return res.status(401).json({ error: "Contraseña incorrecta" });
+  }
+  clearFailedLogins(req);
   res.json({ ok: true, token: makeToken() });
 });
 
@@ -258,10 +439,9 @@ app.get("/api/admin/subscribers.csv", requireAuth, (req, res) => {
   const rows = db
     .prepare("SELECT id, email, name, created_at FROM subscribers ORDER BY id DESC")
     .all();
-  const escape = (v) => `"${String(v ?? "").replace(/"/g, '""')}"`;
   const csv = [
     "id,email,nombre,fecha",
-    ...rows.map((r) => [r.id, r.email, r.name, r.created_at].map(escape).join(",")),
+    ...rows.map((r) => [r.id, r.email, r.name, r.created_at].map(csvCell).join(",")),
   ].join("\n");
   res.setHeader("Content-Type", "text/csv; charset=utf-8");
   res.setHeader("Content-Disposition", "attachment; filename=suscriptores-lukers.csv");
@@ -269,7 +449,9 @@ app.get("/api/admin/subscribers.csv", requireAuth, (req, res) => {
 });
 
 app.delete("/api/admin/subscribers/:id", requireAuth, (req, res) => {
-  db.prepare("DELETE FROM subscribers WHERE id = ?").run(Number(req.params.id));
+  const id = parseId(req.params.id);
+  if (id === null) return res.status(400).json({ error: "Identificador no válido" });
+  db.prepare("DELETE FROM subscribers WHERE id = ?").run(id);
   res.json({ ok: true });
 });
 
@@ -300,7 +482,8 @@ app.post("/api/admin/stores", requireAuth, (req, res) => {
 });
 
 app.put("/api/admin/stores/:id", requireAuth, (req, res) => {
-  const id      = Number(req.params.id);
+  const id = parseId(req.params.id);
+  if (id === null) return res.status(400).json({ error: "Identificador no válido" });
   const name    = String(req.body.name    || "").trim().slice(0, 100);
   const city    = String(req.body.city    || "").trim().slice(0, 60);
   const address = String(req.body.address || "").trim().slice(0, 200);
@@ -312,15 +495,18 @@ app.put("/api/admin/stores/:id", requireAuth, (req, res) => {
 });
 
 app.delete("/api/admin/stores/:id", requireAuth, (req, res) => {
-  const prev = db.prepare("SELECT photo FROM stores WHERE id = ?").get(Number(req.params.id));
-  db.prepare("DELETE FROM stores WHERE id = ?").run(Number(req.params.id));
+  const id = parseId(req.params.id);
+  if (id === null) return res.status(400).json({ error: "Identificador no válido" });
+  const prev = db.prepare("SELECT photo FROM stores WHERE id = ?").get(id);
+  db.prepare("DELETE FROM stores WHERE id = ?").run(id);
   if (prev && prev.photo) fs.unlink(path.join(UPLOADS_DIR, prev.photo), () => {});
   res.json({ ok: true });
 });
 
 app.post("/api/admin/stores/:id/photo", requireAuth, uploadStore.single("photo"), (req, res) => {
   if (!req.file) return res.status(400).json({ error: "No se recibió ninguna imagen" });
-  const id = Number(req.params.id);
+  const id = parseId(req.params.id);
+  if (id === null) return res.status(400).json({ error: "Identificador no válido" });
   const prev = db.prepare("SELECT photo FROM stores WHERE id = ?").get(id);
   db.prepare("UPDATE stores SET photo = ? WHERE id = ?").run(req.file.filename, id);
   if (prev && prev.photo && prev.photo !== req.file.filename) {
@@ -330,7 +516,8 @@ app.post("/api/admin/stores/:id/photo", requireAuth, uploadStore.single("photo")
 });
 
 app.delete("/api/admin/stores/:id/photo", requireAuth, (req, res) => {
-  const id = Number(req.params.id);
+  const id = parseId(req.params.id);
+  if (id === null) return res.status(400).json({ error: "Identificador no válido" });
   const prev = db.prepare("SELECT photo FROM stores WHERE id = ?").get(id);
   if (prev && prev.photo) {
     db.prepare("UPDATE stores SET photo = NULL WHERE id = ?").run(id);
@@ -360,7 +547,9 @@ app.post("/api/admin/brands", requireAuth, (req, res) => {
 });
 
 app.delete("/api/admin/brands/:id", requireAuth, (req, res) => {
-  db.prepare("DELETE FROM brands WHERE id = ?").run(Number(req.params.id));
+  const id = parseId(req.params.id);
+  if (id === null) return res.status(400).json({ error: "Identificador no válido" });
+  db.prepare("DELETE FROM brands WHERE id = ?").run(id);
   res.json({ ok: true });
 });
 
@@ -384,12 +573,12 @@ app.post("/api/jobs", (req, res) => {
 });
 
 /* --- Módulo independiente de RR.HH. (acceso propio: JOBS_PASSWORD) --- */
-app.post("/api/rrhh/login", (req, res) => {
-  const password = String(req.body.password || "");
-  const a = Buffer.from(password);
-  const b = Buffer.from(JOBS_PASSWORD);
-  const ok = a.length === b.length && crypto.timingSafeEqual(a, b);
-  if (!ok) return res.status(401).json({ error: "Contraseña incorrecta" });
+app.post("/api/rrhh/login", loginRateLimit, (req, res) => {
+  if (!passwordMatches(req.body.password || "", JOBS_PASSWORD)) {
+    registerFailedLogin(req);
+    return res.status(401).json({ error: "Contraseña incorrecta" });
+  }
+  clearFailedLogins(req);
   res.json({ ok: true, token: makeToken("jobs") });
 });
 
@@ -404,10 +593,9 @@ app.get("/api/rrhh/applications.csv", requireScope("jobs", "admin"), (req, res) 
   const rows = db
     .prepare("SELECT id, name, email, phone, dni, store, schedule, studying, message, created_at FROM job_applications ORDER BY id DESC")
     .all();
-  const esc = (v) => `"${String(v ?? "").replace(/"/g, '""')}"`;
   const csv = [
     "id,nombre,correo,celular,dni,tienda,jornada,estudia,mensaje,fecha",
-    ...rows.map((r) => [r.id, r.name, r.email, r.phone, r.dni, r.store, r.schedule, r.studying, r.message, r.created_at].map(esc).join(",")),
+    ...rows.map((r) => [r.id, r.name, r.email, r.phone, r.dni, r.store, r.schedule, r.studying, r.message, r.created_at].map(csvCell).join(",")),
   ].join("\n");
   res.setHeader("Content-Type", "text/csv; charset=utf-8");
   res.setHeader("Content-Disposition", "attachment; filename=postulaciones-lukers.csv");
@@ -415,7 +603,9 @@ app.get("/api/rrhh/applications.csv", requireScope("jobs", "admin"), (req, res) 
 });
 
 app.delete("/api/rrhh/applications/:id", requireScope("jobs", "admin"), (req, res) => {
-  db.prepare("DELETE FROM job_applications WHERE id = ?").run(Number(req.params.id));
+  const id = parseId(req.params.id);
+  if (id === null) return res.status(400).json({ error: "Identificador no válido" });
+  db.prepare("DELETE FROM job_applications WHERE id = ?").run(id);
   res.json({ ok: true });
 });
 
@@ -439,14 +629,33 @@ app.post("/api/admin/offers", requireAuth, (req, res) => {
 });
 
 app.delete("/api/admin/offers/:id", requireAuth, (req, res) => {
-  db.prepare("DELETE FROM offers WHERE id = ?").run(Number(req.params.id));
+  const id = parseId(req.params.id);
+  if (id === null) return res.status(400).json({ error: "Identificador no válido" });
+  db.prepare("DELETE FROM offers WHERE id = ?").run(id);
   res.json({ ok: true });
 });
 
 /* ----------------------------- Manejo de errores ------------------ */
 app.use((err, req, res, next) => {
-  if (err) return res.status(400).json({ error: err.message || "Error en la solicitud" });
-  next();
+  if (!err) return next();
+
+  // Errores de multer y de validación: culpa de la petición, mensaje útil.
+  if (err instanceof multer.MulterError) {
+    const message =
+      err.code === "LIMIT_FILE_SIZE"
+        ? "La imagen supera el máximo de 5 MB"
+        : "No se pudo procesar el archivo";
+    return res.status(400).json({ error: message });
+  }
+  if (err.message && err.message.startsWith("Solo se permiten imágenes")) {
+    return res.status(400).json({ error: err.message });
+  }
+
+  // Cualquier otro error es nuestro: se registra completo en el servidor,
+  // pero al visitante solo le llega un mensaje genérico (antes se filtraban
+  // rutas internas del sistema de archivos).
+  console.error(`[error] ${req.method} ${req.originalUrl}`, err);
+  res.status(500).json({ error: "Error interno del servidor" });
 });
 
 app.listen(PORT, () => {

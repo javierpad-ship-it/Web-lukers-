@@ -31,9 +31,9 @@ const $$ = (sel) => [...document.querySelectorAll(sel)];
    Ejemplo: "51987654321". Mientras esté el placeholder, el
    botón invita a configurarlo.
    ============================================================ */
-const WHATSAPP_NUMBER = "51000000000"; // ← REEMPLAZAR por el número real
-const WHATSAPP_CONFIGURED = !/^510{8,}$/.test(WHATSAPP_NUMBER);
-
+/* Número de WhatsApp: se configura en js/config.js (un solo sitio). */
+const WHATSAPP_NUMBER = ((window.LUKERS_CONFIG || {}).WHATSAPP_NUMBER || "").replace(/\D/g, "");
+const WHATSAPP_CONFIGURED = WHATSAPP_NUMBER.length >= 9 && !/^510{8,}$/.test(WHATSAPP_NUMBER);
 function whatsappLink(message) {
   const base = `https://wa.me/${WHATSAPP_NUMBER}`;
   return message ? `${base}?text=${encodeURIComponent(message)}` : base;
@@ -145,9 +145,9 @@ function renderStores(city = "todas") {
         <p class="hours">🕙 ${escapeHtml(s.hours || "Lun a Dom · 10:00 a.m. – 10:00 p.m.")}</p>
         <div class="store-actions">
           <button type="button" class="store-btn store-btn-maps" data-map="${escapeHtml(s.address)}">📍 Cómo llegar</button>
-          <a class="store-btn store-btn-wa" href="${whatsappLink(
+          ${WHATSAPP_CONFIGURED ? `<a class="store-btn store-btn-wa" href="${whatsappLink(
             `Hola Lukers 👋 quiero consultar por la tienda ${s.name}.`
-          )}" target="_blank" rel="noopener">💬 WhatsApp</a>
+          )}" target="_blank" rel="noopener">💬 WhatsApp</a>` : ""}
         </div>
         <div class="store-map" hidden></div>
       </div>
@@ -354,14 +354,10 @@ function escapeHtml(str) {
 function initWhatsApp() {
   const fab = $("#whatsappFab");
   if (!fab) return;
+  // Sin número configurado el botón no se muestra: mejor eso que un
+  // botón que lleva a un chat inexistente.
+  if (!WHATSAPP_CONFIGURED) { fab.remove(); return; }
   fab.href = whatsappLink("Hola Lukers 👋 quisiera más información.");
-  if (!WHATSAPP_CONFIGURED) {
-    // Aún sin número real: evita abrir un chat inválido
-    fab.addEventListener("click", (e) => {
-      e.preventDefault();
-      showToast("Configura el número de WhatsApp en js/main.js");
-    });
-  }
 }
 
 /* ---------- Init ---------- */

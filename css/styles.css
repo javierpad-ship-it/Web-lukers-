@@ -911,17 +911,23 @@ h3 { font-size: 1.1rem; }
 .back-top:hover { transform: translateY(-3px); }
 
 /* ---------- Animaciones de scroll ---------- */
-.reveal {
+/*
+  El contenido es VISIBLE por defecto. Solo se oculta para animarlo si el
+  script de la animación llegó a ejecutarse y marcó <html> con .js-reveal.
+  Así, si una página olvida cargar el script (o el script falla), el
+  contenido se ve igualmente en vez de quedar invisible para siempre.
+*/
+.js-reveal .reveal {
   opacity: 0;
   transform: translateY(28px);
   transition: opacity 0.7s ease, transform 0.7s ease;
 }
-.reveal.in { opacity: 1; transform: translateY(0); }
+.js-reveal .reveal.in { opacity: 1; transform: translateY(0); }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
   html { scroll-behavior: auto; }
-  .reveal { opacity: 1; transform: none; }
+  .js-reveal .reveal { opacity: 1; transform: none; }
 }
 
 /* ---------- Imágenes del diseño gestionadas desde el panel ---------- */
@@ -1231,4 +1237,28 @@ h3 { font-size: 1.1rem; }
   .announce-bar { font-size: 0.72rem; }
   .timeline { padding-left: 1.8rem; }
   .timeline-item::before { left: -1.8rem; }
+}
+
+/* ---------- Casilla de consentimiento de datos personales ---------- */
+.consent {
+  display: flex;
+  align-items: flex-start;
+  gap: .7rem;
+  margin: 1.25rem 0 .25rem;
+  font-size: .86rem;
+  line-height: 1.5;
+  cursor: pointer;
+}
+.consent input[type="checkbox"] {
+  flex: 0 0 auto;
+  width: 1.15rem;
+  height: 1.15rem;
+  margin-top: .12rem;
+  accent-color: var(--azul, #008CFF);
+  cursor: pointer;
+}
+.consent a { text-decoration: underline; }
+.consent input[type="checkbox"]:focus-visible {
+  outline: 3px solid var(--azul, #008CFF);
+  outline-offset: 2px;
 }

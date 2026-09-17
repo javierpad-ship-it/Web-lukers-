@@ -5,9 +5,9 @@
 
 const $ = (sel) => document.querySelector(sel);
 
-/* Mismo número que el resto del sitio (ver js/main.js) */
-const WHATSAPP_NUMBER = "51000000000";
-const WHATSAPP_CONFIGURED = !/^510{8,}$/.test(WHATSAPP_NUMBER);
+/* Número de WhatsApp: se configura en js/config.js (un solo sitio). */
+const WHATSAPP_NUMBER = ((window.LUKERS_CONFIG || {}).WHATSAPP_NUMBER || "").replace(/\D/g, "");
+const WHATSAPP_CONFIGURED = WHATSAPP_NUMBER.length >= 9 && !/^510{8,}$/.test(WHATSAPP_NUMBER);
 function whatsappLink(message) {
   const base = `https://wa.me/${WHATSAPP_NUMBER}`;
   return message ? `${base}?text=${encodeURIComponent(message)}` : base;
@@ -54,22 +54,37 @@ function showToast(text) {
 /* ---------- WhatsApp flotante ---------- */
 const fab = $("#whatsappFab");
 if (fab) {
-  fab.href = whatsappLink("Hola Lukers 👋 quisiera postular para trabajar con ustedes.");
-  if (!WHATSAPP_CONFIGURED) {
-    fab.addEventListener("click", (e) => {
-      e.preventDefault();
-      showToast("Configura el número de WhatsApp en js/main.js");
-    });
+  if (WHATSAPP_CONFIGURED) {
+    fab.href = whatsappLink("Hola Lukers 👋 quisiera postular para trabajar con ustedes.");
+  } else {
+    fab.remove(); // sin número configurado, no mostramos el botón
   }
 }
 
 /* ---------- Cargar tiendas en el selector ---------- */
 async function loadStoresIntoSelect() {
   const select = $("#jobStore");
+
+  // Si la lista no carga, el candidato se queda sin poder elegir tienda y el
+  // formulario se bloquea en silencio. Por eso avisamos siempre.
+  function fallback() {
+    const opt = document.createElement("option");
+    opt.value = "";
+    opt.textContent = "No pudimos cargar las tiendas — recarga la página";
+    opt.disabled = true;
+    select.appendChild(opt);
+    const msg = $("#jobMsg");
+    if (msg) {
+      msg.textContent =
+        "✗ No pudimos cargar la lista de tiendas. Recarga la página o escríbenos a hola@lukers.pe";
+    }
+  }
+
   try {
     const res = await fetch("/api/stores");
-    if (!res.ok) return;
+    if (!res.ok) return fallback();
     const { stores } = await res.json();
+    if (!stores || !stores.length) return fallback();
     stores.forEach((s) => {
       const opt = document.createElement("option");
       opt.value = `${s.name} — ${s.city}`;
@@ -77,15 +92,19 @@ async function loadStoresIntoSelect() {
       select.appendChild(opt);
     });
   } catch {
-    /* Sin backend: el selector queda solo con la opción por defecto */
+    fallback();
   }
 }
 
 /* ---------- Envío del formulario ---------- */
 const jobForm = $("#jobForm");
+let enviando = false; // evita postulaciones duplicadas por doble clic
+
 jobForm.addEventListener("submit", async (e) => {
   e.preventDefault();
+  if (enviando) return;
   const msg = $("#jobMsg");
+  const submitBtn = jobForm.querySelector('button[type="submit"]');
   msg.classList.remove("ok");
 
   const name  = $("#jobName").value.trim();
@@ -103,7 +122,13 @@ jobForm.addEventListener("submit", async (e) => {
   if (!store) { msg.textContent = "✗ Elige la tienda donde quieres trabajar"; return; }
   if (!scheduleEl) { msg.textContent = "✗ Elige una jornada (full time / part time)"; return; }
   if (!studyingEl) { msg.textContent = "✗ Indícanos si estás estudiando"; return; }
+  if (!$("#jobConsent").checked) {
+    msg.textContent = "✗ Debes autorizar el tratamiento de tus datos para postular";
+    return;
+  }
 
+  enviando = true;
+  if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = "Enviando…"; }
   msg.textContent = "Enviando…";
   try {
     const res = await fetch("/api/jobs", {
@@ -127,7 +152,10 @@ jobForm.addEventListener("submit", async (e) => {
     jobForm.reset();
     showToast("🎉 ¡Recibimos tu postulación! Te contactaremos pronto.");
   } catch {
-    msg.textContent = "✗ El formulario necesita el servidor activo.";
+    msg.textContent = "✗ No pudimos enviar tu postulación. Revisa tu conexión e inténtalo de nuevo.";
+  } finally {
+    enviando = false;
+    if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = "Enviar postulación"; }
   }
 });
 

@@ -20,13 +20,20 @@ Luego abre:
 - Sitio: **http://localhost:3000**
 - Panel de administración: **http://localhost:3000/admin**
 
-La contraseña por defecto del panel es `lukers-admin`. Cámbiala creando un archivo `.env` (ver `.env.example`):
+**No existe contraseña por defecto.** Si no defines `ADMIN_PASSWORD`, el servidor
+genera una aleatoria en cada arranque y la muestra en la consola. Para fijarla,
+crea un archivo `.env` (ver `.env.example`):
 
 ```bash
 PORT=3000
+SITE_URL=https://lukers.pe
 ADMIN_PASSWORD=tu-clave-segura
+JOBS_PASSWORD=otra-clave-distinta
 SESSION_SECRET=un-texto-largo-y-aleatorio
 ```
+
+> El archivo `.env` nunca se sube al repositorio. En Railway, estas mismas
+> variables se definen en el apartado **Variables** del proyecto.
 
 ## ☁️ Desplegar en Railway
 
