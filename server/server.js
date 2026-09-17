@@ -328,6 +328,28 @@ app.get(["/privacidad", "/privacidad.html"], (req, res) =>
   res.sendFile(path.join(ROOT, "privacidad.html"))
 );
 
+// sitemap.xml — la lista de páginas que Google debe indexar.
+app.get("/sitemap.xml", (req, res) => {
+  const hoy = new Date().toISOString().slice(0, 10);
+  const paginas = [
+    { loc: "/", prio: "1.0", freq: "weekly" },
+    { loc: "/trabaja", prio: "0.8", freq: "monthly" },
+    { loc: "/privacidad", prio: "0.3", freq: "yearly" },
+  ];
+  const xml =
+    '<?xml version="1.0" encoding="UTF-8"?>\n' +
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
+    paginas
+      .map(
+        (p) =>
+          `  <url><loc>${SITE_URL}${p.loc}</loc><lastmod>${hoy}</lastmod>` +
+          `<changefreq>${p.freq}</changefreq><priority>${p.prio}</priority></url>`
+      )
+      .join("\n") +
+    "\n</urlset>\n";
+  res.type("application/xml").send(xml);
+});
+
 // robots.txt — le dice a Google qué NO debe indexar.
 app.get("/robots.txt", (req, res) => {
   res.type("text/plain").send(
@@ -369,6 +391,43 @@ app.post("/api/subscribe", (req, res) => {
     console.error(e);
     res.status(500).json({ error: "No se pudo guardar la suscripción" });
   }
+});
+
+/* ----------------------------- Contacto --------------------------- */
+/*
+  El formulario de contacto guardaba nada y respondía "Mensaje enviado".
+  Ahora el mensaje se guarda de verdad y se lee desde el panel.
+*/
+app.post("/api/contact", (req, res) => {
+  const name    = String(req.body.name    || "").trim().slice(0, 80);
+  const email   = String(req.body.email   || "").trim().toLowerCase().slice(0, 120);
+  const message = String(req.body.message || "").trim().slice(0, 2000);
+
+  if (name.length < 3) return res.status(400).json({ error: "Ingresa tu nombre" });
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
+    return res.status(400).json({ error: "Ingresa un correo válido" });
+  }
+  if (message.length < 10) return res.status(400).json({ error: "Cuéntanos un poco más en tu mensaje" });
+
+  db.prepare(
+    "INSERT INTO messages (name, email, message, created_at) VALUES (?, ?, ?, ?)"
+  ).run(name, email, message, new Date().toISOString());
+
+  res.json({ ok: true, message: "Recibimos tu mensaje. Te responderemos pronto." });
+});
+
+app.get("/api/admin/messages", requireAuth, (req, res) => {
+  const rows = db
+    .prepare("SELECT id, name, email, message, created_at FROM messages ORDER BY id DESC")
+    .all();
+  res.json({ count: rows.length, messages: rows });
+});
+
+app.delete("/api/admin/messages/:id", requireAuth, (req, res) => {
+  const id = parseId(req.params.id);
+  if (id === null) return res.status(400).json({ error: "Identificador no válido" });
+  db.prepare("DELETE FROM messages WHERE id = ?").run(id);
+  res.json({ ok: true });
 });
 
 /* ----------------------------- Imágenes (público) ----------------- */

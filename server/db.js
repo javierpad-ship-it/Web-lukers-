@@ -126,6 +126,17 @@ function getDb() {
       created_at TEXT NOT NULL
     );
   `);
+  // Mensajes del formulario de contacto del sitio público.
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS messages (
+      id         INTEGER PRIMARY KEY AUTOINCREMENT,
+      name       TEXT NOT NULL,
+      email      TEXT NOT NULL,
+      message    TEXT NOT NULL,
+      created_at TEXT NOT NULL
+    );
+  `);
+
   const jobCols = columns("job_applications");
   if (!jobCols.includes("store"))    db.exec("ALTER TABLE job_applications ADD COLUMN store TEXT");
   if (!jobCols.includes("schedule")) db.exec("ALTER TABLE job_applications ADD COLUMN schedule TEXT");

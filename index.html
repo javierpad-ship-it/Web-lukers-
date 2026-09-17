@@ -3,441 +3,484 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>LUKERS — Mejores marcas, mejores precios | Sitio Institucional</title>
-  <meta name="description" content="Lukers: tienda de ropa de marca a buen precio. Mejores marcas, mejores precios. Conoce nuestra historia, valores, tiendas y compromiso." />
+
+  <title>Lukers — Ropa de marca original a buen precio en Perú</title>
+  <meta name="description" content="Más de 60 marcas originales de USA y Europa con hasta 70% de descuento. Encuentra tu tienda Lukers en Lima, Trujillo, Chiclayo, Tarapoto e Iquitos." />
+  <link rel="canonical" href="https://lukers.pe/" />
+
+  <!-- Cómo se ve el enlace al compartirlo por WhatsApp, Instagram o Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Lukers" />
+  <meta property="og:locale" content="es_PE" />
+  <meta property="og:title" content="Lukers — Mejores marcas, mejores precios" />
+  <meta property="og:description" content="Más de 60 marcas originales de USA y Europa con hasta 70% de descuento, en nuestras tiendas de todo el Perú." />
+  <meta property="og:url" content="https://lukers.pe/" />
+  <meta property="og:image" content="https://lukers.pe/assets/og-lukers.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#008CFF" />
+
   <link rel="icon" type="image/png" href="assets/simbolo_LL_fondo_azul.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@400;600;800;900&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/site.css" />
+
   <script>
-    // La animación de aparición solo se activa si hay JavaScript.
+    // La animación de entrada solo se activa si hay JavaScript.
     document.documentElement.classList.add("js-reveal");
+  </script>
+
+  <!-- Le explica a Google qué es Lukers -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Lukers",
+    "url": "https://lukers.pe/",
+    "logo": "https://lukers.pe/assets/logo_azul_transparente.png",
+    "slogan": "Mejores marcas, mejores precios",
+    "description": "Cadena peruana de tiendas de ropa de marca original a buen precio.",
+    "foundingDate": "2001",
+    "areaServed": "PE",
+    "sameAs": [
+      "https://www.facebook.com/Lukers.pe/",
+      "https://www.instagram.com/lukers.pe/"
+    ]
+  }
   </script>
 </head>
 <body>
 
-  <!-- ====== BARRA DE ANUNCIO ====== -->
-  <div class="announce-bar">
-    <p>✦ Ya abrimos <strong>Lukers Jr. de la Unión</strong>, nuestra tienda más moderna en el Centro Histórico de Lima · <a href="#tiendas">Conoce nuestras sedes</a></p>
-  </div>
+<a class="skip-link" href="#contenido">Saltar al contenido</a>
 
-  <!-- ====== HEADER ====== -->
-  <header class="header" id="header">
-    <nav class="nav container" aria-label="Navegación principal">
-      <a href="#inicio" class="logo" aria-label="Lukers — inicio">
-        <img class="logo-positivo" src="assets/logo_azul_transparente.png" alt="Lukers — Mejores marcas, mejores precios" />
-        <img class="logo-negativo" src="assets/logo_crema_transparente.png" alt="Lukers — Mejores marcas, mejores precios" />
-      </a>
+<div class="announce">
+  <p class="container">
+    <span class="brillo brillo--crema" aria-hidden="true"></span>
+    Ya abrimos <strong>Lukers Jr. de la Unión</strong>, nuestra tienda más moderna del Centro Histórico de Lima ·
+    <a href="#tiendas">Conoce nuestras sedes</a>
+  </p>
+</div>
 
-      <ul class="nav-links" id="navLinks">
-        <li><a href="#inicio" class="active">Inicio</a></li>
-        <li><a href="#ofertas">Ofertas</a></li>
-        <li><a href="#marcas">Marcas</a></li>
-        <li><a href="#tiendas">Tiendas</a></li>
-        <li><a href="#nosotros">Nosotros</a></li>
-        <li><a href="/trabaja">Trabaja con nosotros</a></li>
-        <li><a href="#contacto">Contacto</a></li>
-      </ul>
+<header class="header" id="header">
+  <nav class="nav container" aria-label="Navegación principal">
+    <a href="/" class="logo" aria-label="Lukers — inicio">
+      <img class="logo__positivo" src="assets/logo_azul_transparente.png" alt="Lukers — Mejores marcas, mejores precios" width="150" height="34" />
+      <img class="logo__negativo" src="assets/logo_crema_transparente.png" alt="" width="150" height="34" />
+    </a>
 
-      <div class="nav-actions">
-        <button class="icon-btn" id="themeToggle" aria-label="Cambiar entre modo positivo y negativo" title="Modo positivo / negativo">
-          <span class="brillo-icon" aria-hidden="true">✦</span>
-        </button>
-        <a href="#tiendas" class="btn btn-primary btn-nav">📍 Ver tiendas</a>
-        <button class="hamburger" id="hamburger" aria-label="Abrir menú">
-          <span></span><span></span><span></span>
-        </button>
+    <ul class="nav__links" id="navLinks">
+      <li><a href="#categorias">Categorías</a></li>
+      <li><a href="#marcas">Marcas</a></li>
+      <li><a href="#tiendas">Tiendas</a></li>
+      <li><a href="#nosotros">Nosotros</a></li>
+      <li><a href="/trabaja">Trabaja con nosotros</a></li>
+      <li><a href="#proveedores">Proveedores</a></li>
+    </ul>
+
+    <div class="nav__actions">
+      <button class="icon-btn" id="themeToggle" aria-label="Cambiar entre modo claro y modo azul" title="Modo claro / azul">
+        <span class="brillo" aria-hidden="true"></span>
+      </button>
+      <a href="#tiendas" class="btn btn--primary btn--sm btn--nav">Ver tiendas</a>
+      <button class="burger" id="burger" aria-label="Abrir menú" aria-expanded="false" aria-controls="navLinks">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+</header>
+
+<main id="contenido">
+
+  <!-- ========================= PORTADA ========================= -->
+  <section class="hero">
+    <div class="hero__brillos" aria-hidden="true">
+      <span class="brillo b1"></span>
+      <span class="brillo b2"></span>
+      <span class="brillo b3"></span>
+    </div>
+
+    <div class="container hero__grid">
+      <div class="hero__content">
+        <span class="eyebrow">
+          <span class="brillo" aria-hidden="true"></span>
+          Marcas originales de USA y Europa
+        </span>
+        <h1>Mejores marcas, <span class="text-accent">mejores precios.</span></h1>
+        <p class="lead">
+          Más de 60 marcas originales con hasta <strong>70% de descuento</strong>,
+          en tu tienda Lukers más cercana. Sin intermediarios y con garantía de autenticidad.
+        </p>
+        <div class="hero__cta">
+          <a href="#tiendas" class="btn btn--primary">Encuentra tu tienda</a>
+          <a href="#categorias" class="btn btn--outline">Ver categorías</a>
+        </div>
+
+        <dl class="hero__stats">
+          <div class="hero__stat"><dt class="visually-hidden">Marcas originales</dt><dd><b data-count="60">60</b><span>marcas originales</span></dd></div>
+          <div class="hero__stat"><dt class="visually-hidden">Tiendas</dt><dd><b data-count="12">12</b><span>tiendas en el Perú</span></dd></div>
+          <div class="hero__stat"><dt class="visually-hidden">Descuento máximo</dt><dd><b data-count="70" data-suffix="%">70%</b><span>de descuento</span></dd></div>
+          <div class="hero__stat"><dt class="visually-hidden">Autenticidad</dt><dd><b>100%</b><span>original, garantizado</span></dd></div>
+        </dl>
       </div>
-    </nav>
-  </header>
 
-  <main>
-    <!-- ====== HERO ====== -->
-    <section class="hero" id="inicio">
-      <div class="hero-brillos" aria-hidden="true">
-        <img src="assets/brillo_azul.png" class="brillo b1" alt="" />
-        <img src="assets/brillo_turquesa.png" class="brillo b2" alt="" />
-        <img src="assets/brillo_lila.png" class="brillo b3" alt="" />
-        <img src="assets/brillo_rosa.png" class="brillo b4" alt="" />
-        <img src="assets/brillo_verde.png" class="brillo b5" alt="" />
-      </div>
-      <div class="container hero-grid">
-        <div class="hero-content reveal">
-          <span class="hero-badge">✦ Marcas originales de USA y Europa</span>
-          <h1>Mejores marcas,<br /><span class="text-blue">mejores precios.</span></h1>
-          <p>Encuentra ropa de marca <strong>100% original hasta -70%</strong> en tu tienda Lukers. Más de 60 marcas de USA y Europa, cerca de ti en todo el Perú.</p>
-          <div class="hero-cta">
-            <a href="#tiendas" class="btn btn-primary">📍 Encuentra tu tienda más cercana</a>
-            <a href="#ofertas" class="btn btn-ghost">Ver novedades</a>
-          </div>
-          <div class="hero-stats">
-            <div><b data-count="60">0</b><span>+ marcas originales</span></div>
-            <div><b data-count="12">0</b><span>tiendas cerca de ti</span></div>
-            <div><b data-count="70">0</b><span>% de descuento</span></div>
-            <div><b>100%</b><span>original</span></div>
+      <div class="hero__visual reveal">
+        <div class="media media--4x5" data-slot="hero_main">
+          <div class="media__placeholder">
+            <span class="brillo brillo--turquesa" aria-hidden="true"></span>
+            <span>Foto de portada</span>
           </div>
         </div>
-        <div class="hero-visual reveal" aria-hidden="true">
-          <div class="hero-card main-card">
-            <div class="product-art" data-art="terno" data-slot="hero_main">
-              <img src="assets/brillo_turquesa.png" class="art-brillo ab1" alt="" />
-              <img src="assets/brillo_rosa.png" class="art-brillo ab2" alt="" />
+        <div class="brillo-box hero__note">
+          <b>Garantía de originalidad</b>
+          <span>Si no es original, te devolvemos tu dinero.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================= CATEGORÍAS ========================= -->
+  <section class="section section--sunken" id="categorias">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow"><span class="brillo" aria-hidden="true"></span> Qué encuentras</span>
+        <h2>Ropa de marca para toda la familia</h2>
+        <p class="lead">Formal, casual, calzado y accesorios. Las marcas que conoces, al precio que sí puedes pagar.</p>
+      </div>
+
+      <div class="grid grid-4 reveal">
+        <a class="cat-card card--hover" href="#tiendas">
+          <div class="media media--4x5 media--scrim" data-slot="cat_formal">
+            <div class="media__placeholder"><span class="brillo" aria-hidden="true"></span><span>Línea formal</span></div>
+          </div>
+          <div class="cat-card__label"><b>Formal</b><span>Ternos, camisas y sastrería</span></div>
+        </a>
+        <a class="cat-card card--hover" href="#tiendas">
+          <div class="media media--4x5 media--scrim" data-slot="cat_casual">
+            <div class="media__placeholder"><span class="brillo brillo--turquesa" aria-hidden="true"></span><span>Línea casual</span></div>
+          </div>
+          <div class="cat-card__label"><b>Casual</b><span>Jeans, polos y casacas</span></div>
+        </a>
+        <a class="cat-card card--hover" href="#tiendas">
+          <div class="media media--4x5 media--scrim" data-slot="cat_calzado">
+            <div class="media__placeholder"><span class="brillo brillo--lila" aria-hidden="true"></span><span>Calzado</span></div>
+          </div>
+          <div class="cat-card__label"><b>Calzado</b><span>Zapatillas y zapatos de vestir</span></div>
+        </a>
+        <a class="cat-card card--hover" href="#tiendas">
+          <div class="media media--4x5 media--scrim" data-slot="cat_accesorios">
+            <div class="media__placeholder"><span class="brillo brillo--rosa" aria-hidden="true"></span><span>Accesorios</span></div>
+          </div>
+          <div class="cat-card__label"><b>Accesorios</b><span>Correas, carteras y más</span></div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================= MARCAS ========================= -->
+  <section class="section" id="marcas">
+    <div class="container">
+      <div class="section-head section-head--center reveal">
+        <span class="eyebrow"><span class="brillo" aria-hidden="true"></span> Nuestro portafolio</span>
+        <h2>Las marcas que encuentras en Lukers</h2>
+        <p class="lead">Seleccionadas por calidad y trayectoria. Todas originales, todas con garantía.</p>
+      </div>
+    </div>
+    <div class="reveal" id="brandLanes" aria-label="Marcas disponibles en Lukers"></div>
+  </section>
+
+  <!-- ========================= TIENDAS ========================= -->
+  <section class="section section--sunken" id="tiendas">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow"><span class="brillo" aria-hidden="true"></span> Dónde estamos</span>
+        <h2>Encuentra tu tienda Lukers</h2>
+        <p class="lead">Estamos en Lima y en provincias. Elige la tuya y ve cómo llegar.</p>
+      </div>
+      <div class="grid grid-3" id="storeGrid"></div>
+    </div>
+  </section>
+
+  <!-- ========================= NOSOTROS ========================= -->
+  <section class="section" id="nosotros">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow"><span class="brillo" aria-hidden="true"></span> Quiénes somos</span>
+        <h2>Una empresa con propósito</h2>
+        <p class="lead">Creemos que vestir bien no debe ser un lujo. Trabajamos para que la calidad de las grandes marcas esté al alcance de todos.</p>
+      </div>
+
+      <div class="grid grid-3 reveal">
+        <div class="value">
+          <span class="value__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2"/></svg>
+          </span>
+          <h3>Misión</h3>
+          <p>Acercar marcas originales de talla mundial a las familias peruanas, con precios justos, atención cercana y garantía total de autenticidad.</p>
+        </div>
+        <div class="value">
+          <span class="value__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-6.5 10-6.5S22 12 22 12s-3.5 6.5-10 6.5S2 12 2 12Z"/><circle cx="12" cy="12" r="2.6"/></svg>
+          </span>
+          <h3>Visión</h3>
+          <p>Ser la cadena de tiendas de ropa de marca más querida y confiable del Perú, presente en cada región del país y referente de comercio honesto.</p>
+        </div>
+        <div class="value">
+          <span class="value__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 13.5 11 16.5 16 10"/><path d="M12 3 4 6.2v5.3c0 4.6 3.2 8.4 8 9.5 4.8-1.1 8-4.9 8-9.5V6.2Z"/></svg>
+          </span>
+          <h3>Valores</h3>
+          <p>Autenticidad, honestidad en el precio, respeto por el cliente, compromiso con nuestra gente y pasión por el buen vestir.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================= HISTORIA ========================= -->
+  <section class="section section--tight" id="historia">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow"><span class="brillo" aria-hidden="true"></span> Nuestra historia</span>
+        <h2>Más de dos décadas de crecimiento</h2>
+      </div>
+      <div class="timeline reveal">
+        <div class="timeline__item">
+          <div class="timeline__year">2001</div>
+          <h3>Nace Lukers</h3>
+          <p>Abrimos nuestra primera tienda en Lima con una idea simple: mejores marcas, mejores precios.</p>
+        </div>
+        <div class="timeline__item">
+          <div class="timeline__year">2008</div>
+          <h3>Alianzas con grandes marcas</h3>
+          <p>Sumamos colecciones formales de primer nivel y nos consolidamos como la tienda de ropa de marca a buen precio.</p>
+        </div>
+        <div class="timeline__item">
+          <div class="timeline__year">2014</div>
+          <h3>Expansión en Lima</h3>
+          <p>Llegamos a San Miguel, Breña, Lince, Pueblo Libre e Independencia, consolidando nuestra presencia en la capital.</p>
+        </div>
+        <div class="timeline__item">
+          <div class="timeline__year">2019</div>
+          <h3>Lukers en provincias</h3>
+          <p>Abrimos tiendas en Trujillo, Chiclayo, Tarapoto e Iquitos, acercando las grandes marcas a más regiones del país.</p>
+        </div>
+        <div class="timeline__item">
+          <div class="timeline__year">2026</div>
+          <h3>Nueva etapa</h3>
+          <p>Inauguramos nuestra tienda más moderna en Jr. de la Unión y renovamos nuestra identidad de marca.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================= TESTIMONIOS ========================= -->
+  <section class="section section--sunken" id="comunidad">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow"><span class="brillo" aria-hidden="true"></span> Nuestra comunidad</span>
+        <h2>Lo que dicen de nosotros</h2>
+      </div>
+      <div class="grid grid-3 reveal">
+        <figure class="card"><div class="card__body">
+          <span class="brillo" aria-hidden="true"></span>
+          <blockquote><p>«Compro en Lukers desde hace más de diez años. La garantía de originalidad y la atención en tienda hacen toda la diferencia.»</p></blockquote>
+          <figcaption class="quote-by"><b>Carlos R.</b><br />Cliente · San Miguel, Lima</figcaption>
+        </div></figure>
+        <figure class="card"><div class="card__body">
+          <span class="brillo brillo--turquesa" aria-hidden="true"></span>
+          <blockquote><p>«Trabajar en Lukers me dio mi primera oportunidad formal. Hoy lidero una tienda y sigo creciendo con la empresa.»</p></blockquote>
+          <figcaption class="quote-by"><b>María S.</b><br />Jefa de tienda · Trujillo</figcaption>
+        </div></figure>
+        <figure class="card"><div class="card__body">
+          <span class="brillo brillo--lila" aria-hidden="true"></span>
+          <blockquote><p>«Como proveedores valoramos su seriedad: pagos puntuales y una relación comercial transparente de verdad.»</p></blockquote>
+          <figcaption class="quote-by"><b>Luis A.</b><br />Socio comercial · Lima</figcaption>
+        </div></figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================= PROVEEDORES ========================= -->
+  <section class="section section--tight" id="proveedores">
+    <div class="container">
+      <div class="brillo-box supplier reveal">
+        <div class="grid grid-2 supplier__grid">
+          <div class="stack">
+            <span class="eyebrow"><span class="brillo" aria-hidden="true"></span> Proveedores</span>
+            <h2 class="supplier__title">¿Quieres que tu marca esté en Lukers?</h2>
+            <p class="text-soft">
+              Trabajamos con marcas y distribuidores de USA, Europa y Perú. Ofrecemos
+              cobertura en nuestras tiendas de todo el país, pagos puntuales y una
+              relación comercial transparente.
+            </p>
+          </div>
+          <div class="stack">
+            <p class="text-soft supplier__note">
+              Escríbenos con tu propuesta, tu catálogo y tus condiciones comerciales.
+              Revisamos todas las que llegan.
+            </p>
+            <a class="btn btn--primary" href="mailto:hola@lukers.pe?subject=Propuesta%20comercial%20para%20Lukers">
+              Enviar propuesta comercial
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================= NEWSLETTER ========================= -->
+  <section class="section section--tight">
+    <div class="container">
+      <div class="newsletter reveal">
+        <span class="brillo newsletter__brillo" aria-hidden="true"></span>
+        <div class="newsletter__inner">
+          <h2>Entérate primero de las llegadas nuevas</h2>
+          <p class="lead">Te avisamos cuando llegan marcas nuevas y cuando empiezan las campañas de descuento en tu ciudad. Sin spam.</p>
+
+          <form class="newsletter__form" id="newsletterForm" novalidate>
+            <label class="visually-hidden" for="nlEmail">Tu correo electrónico</label>
+            <input class="input" type="email" id="nlEmail" name="email" placeholder="tucorreo@ejemplo.com" autocomplete="email" required />
+            <button type="submit" class="btn btn--crema">Suscribirme</button>
+          </form>
+
+          <label class="consent" for="nlConsent">
+            <input type="checkbox" id="nlConsent" required />
+            <span>Autorizo a Lukers a usar mi correo para enviarme novedades y promociones, según la <a href="/privacidad">política de privacidad</a>. Puedo darme de baja cuando quiera.</span>
+          </label>
+          <p class="form-msg" id="nlMsg" role="status"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================= CONTACTO ========================= -->
+  <section class="section" id="contacto">
+    <div class="container">
+      <div class="contact-grid">
+        <div class="reveal">
+          <div class="section-head contact-head">
+            <span class="eyebrow"><span class="brillo" aria-hidden="true"></span> Contacto</span>
+            <h2>Hablemos</h2>
+          </div>
+
+          <div class="contact-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+            <div><b>Correo</b><a href="mailto:hola@lukers.pe">hola@lukers.pe</a></div>
+          </div>
+          <!-- PENDIENTE: teléfono real de la central. Descomenta cuando lo tengas.
+          <div class="contact-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2Z"/></svg>
+            <div><b>Central telefónica</b><a href="tel:+51XXXXXXXXX">(01) XXX-XXXX</a></div>
+          </div> -->
+          <div class="contact-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+            <div><b>Horario de atención</b><p>Lunes a domingo · 10:00 a. m. – 10:00 p. m.</p></div>
+          </div>
+          <div class="contact-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H19v15H6.5A2.5 2.5 0 0 0 4 20.5Z"/><path d="M4 18.5V20a1 1 0 0 0 1 1h14"/></svg>
+            <div><b>Libro de reclamaciones</b><a href="/privacidad#reclamaciones">Cómo registrar tu reclamo</a></div>
+          </div>
+        </div>
+
+        <form class="jobs-form reveal" id="contactForm" novalidate>
+          <h3>Escríbenos</h3>
+          <div class="form-row">
+            <div class="field">
+              <label for="ctName">Nombre</label>
+              <input class="input" type="text" id="ctName" autocomplete="name" required />
             </div>
-            <div class="hero-card-info">
-              <strong>Ropa de marca para todos</strong>
-              <span>✦ 100% original</span>
+            <div class="field">
+              <label for="ctEmail">Correo electrónico</label>
+              <input class="input" type="email" id="ctEmail" autocomplete="email" required />
             </div>
           </div>
-          <div class="hero-card float-card fc1"><span>🇵🇪</span> Presentes en 5 ciudades</div>
-          <div class="hero-card float-card fc2"><span>✦</span> Garantía de originalidad</div>
-        </div>
-      </div>
-      <a href="#ofertas" class="scroll-hint" aria-label="Bajar a la siguiente sección"><span></span></a>
-    </section>
-
-    <!-- ====== OFERTAS / LOOKBOOK ASPIRACIONAL ====== -->
-    <section class="section" id="ofertas">
-      <div class="container">
-        <div class="section-head reveal">
-          <span class="eyebrow">✦ Esta temporada</span>
-          <h2>Looks que vas a querer estrenar</h2>
-          <p>Marcas originales que te hacen ver y sentir increíble. Ven a tu tienda Lukers y encuéntralos a precios que sí puedes pagar.</p>
-        </div>
-
-        <div class="lookbook">
-          <article class="look-card reveal">
-            <div class="look-art" data-look="ella" data-slot="look_ella"></div>
-            <div class="look-info">
-              <span class="look-tag">Para ella</span>
-              <h3>Estilo que enamora</h3>
-              <p>Jeans, casacas y básicos de las mejores marcas.</p>
-              <a class="look-cta" href="#tiendas">Verlo en tienda →</a>
-            </div>
-          </article>
-          <article class="look-card reveal">
-            <div class="look-art" data-look="el" data-slot="look_el"></div>
-            <div class="look-info">
-              <span class="look-tag">Para él</span>
-              <h3>Del trabajo al finde</h3>
-              <p>Ternos, polos y zapatillas que combinan con todo.</p>
-              <a class="look-cta" href="#tiendas">Verlo en tienda →</a>
-            </div>
-          </article>
-          <article class="look-card reveal">
-            <div class="look-art" data-look="urbano" data-slot="look_urbano"></div>
-            <div class="look-info">
-              <span class="look-tag">Urbano</span>
-              <h3>Para toda la familia</h3>
-              <p>Las marcas que amas, para grandes y chicos.</p>
-              <a class="look-cta" href="#tiendas">Verlo en tienda →</a>
-            </div>
-          </article>
-        </div>
-
-        <!-- Novedades publicadas desde el panel (se llenan dinámicamente) -->
-        <div class="offers-grid" id="offersGrid"></div>
-      </div>
-    </section>
-
-    <!-- ====== MARCAS ====== -->
-    <section class="section section-alt" id="marcas">
-      <div class="container">
-        <div class="section-head reveal">
-          <span class="eyebrow">✦ Nuestro portafolio</span>
-          <h2>Marcas que encuentras en Lukers</h2>
-          <p>Las mejores marcas de ropa, seleccionadas por su calidad y trayectoria, a precios que se sienten bien.</p>
-        </div>
-      </div>
-      <div class="marquee-stack reveal" aria-hidden="true">
-        <div class="marquee marquee-fast">
-          <div class="marquee-track" data-lane="1">
-            <span>JOHN HOLDEN</span><span>✦</span><span>LEVI'S</span><span>✦</span><span>BEVERLY HILLS POLO CLUB</span><span>✦</span><span>DONATELLI</span><span>✦</span><span>REGATA</span><span>✦</span><span>DOCKERS</span><span>✦</span><span>ADIDAS</span><span>✦</span><span>US POLO ASSN</span><span>✦</span>
-            <span>JOHN HOLDEN</span><span>✦</span><span>LEVI'S</span><span>✦</span><span>BEVERLY HILLS POLO CLUB</span><span>✦</span><span>DONATELLI</span><span>✦</span><span>REGATA</span><span>✦</span><span>DOCKERS</span><span>✦</span><span>ADIDAS</span><span>✦</span><span>US POLO ASSN</span><span>✦</span>
+          <div class="field">
+            <label for="ctMessage">Tu mensaje</label>
+            <textarea class="textarea" id="ctMessage" rows="5" required></textarea>
           </div>
-        </div>
-        <div class="marquee marquee-med">
-          <div class="marquee-track marquee-reverse" data-lane="2">
-            <span>PIERRE CARDIN</span><span>✦</span><span>IZOD</span><span>✦</span><span>PUMA</span><span>✦</span><span>JACK &amp; JONES</span><span>✦</span><span>VERO MODA</span><span>✦</span><span>TERRANOVA</span><span>✦</span><span>OLD NAVY</span><span>✦</span><span>NIKE</span><span>✦</span>
-            <span>PIERRE CARDIN</span><span>✦</span><span>IZOD</span><span>✦</span><span>PUMA</span><span>✦</span><span>JACK &amp; JONES</span><span>✦</span><span>VERO MODA</span><span>✦</span><span>TERRANOVA</span><span>✦</span><span>OLD NAVY</span><span>✦</span><span>NIKE</span><span>✦</span>
-          </div>
-        </div>
-        <div class="marquee marquee-slow">
-          <div class="marquee-track" data-lane="3">
-            <span>WRANGLER</span><span>✦</span><span>LEE</span><span>✦</span><span>PIONIER</span><span>✦</span><span>ONLY</span><span>✦</span><span>GIACOMO BRIZZI</span><span>✦</span><span>VAN HEUSEN</span><span>✦</span><span>CK</span><span>✦</span><span>TALLY WEiJL</span><span>✦</span>
-            <span>WRANGLER</span><span>✦</span><span>LEE</span><span>✦</span><span>PIONIER</span><span>✦</span><span>ONLY</span><span>✦</span><span>GIACOMO BRIZZI</span><span>✦</span><span>VAN HEUSEN</span><span>✦</span><span>CK</span><span>✦</span><span>TALLY WEiJL</span><span>✦</span>
-          </div>
-        </div>
-      </div>
-      <div class="container">
-        <div class="cat-grid lines-grid">
-          <div class="cat-card reveal"><div class="cat-art" data-art="terno" data-slot="cat_formal"></div><h3>Línea Formal</h3><p>Ternos, camisas y corbatas para cada ocasión importante.</p></div>
-          <div class="cat-card reveal"><div class="cat-art" data-art="polo" data-slot="cat_casual"></div><h3>Línea Casual</h3><p>Polos, jeans y casacas para el día a día con estilo.</p></div>
-          <div class="cat-card reveal"><div class="cat-art" data-art="zapato" data-slot="cat_calzado"></div><h3>Calzado</h3><p>De vestir y urbano, con cueros y materiales de primera.</p></div>
-          <div class="cat-card reveal"><div class="cat-art" data-art="reloj" data-slot="cat_accesorios"></div><h3>Accesorios</h3><p>Correas, billeteras y relojes que completan el look.</p></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ====== TIENDAS ====== -->
-    <section class="section" id="tiendas">
-      <div class="container">
-        <div class="section-head reveal">
-          <span class="eyebrow">✦ Visítanos</span>
-          <h2>Encuentra tu tienda Lukers</h2>
-          <p>Abiertas todos los días de <strong>10:00 a.m. a 10:00 p.m.</strong> Toca <strong>Cómo llegar</strong> y te llevamos directo.</p>
-        </div>
-        <div class="stores-layout reveal">
-          <div class="store-tabs" id="storeTabs" role="tablist" aria-label="Filtrar tiendas por ciudad">
-            <button class="store-tab active" data-city="todas">Todas</button>
-            <button class="store-tab" data-city="Lima">Lima</button>
-            <button class="store-tab" data-city="Trujillo">Trujillo</button>
-            <button class="store-tab" data-city="Chiclayo">Chiclayo</button>
-            <button class="store-tab" data-city="Tarapoto">Tarapoto</button>
-            <button class="store-tab" data-city="Iquitos">Iquitos</button>
-          </div>
-          <div class="store-grid" id="storeGrid"></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ====== NEWSLETTER ====== -->
-    <section class="newsletter reveal" id="newsletter">
-      <img src="assets/brillo_turquesa.png" class="banner-brillo bb1" alt="" aria-hidden="true" />
-      <img src="assets/brillo_lila.png" class="banner-brillo bb2" alt="" aria-hidden="true" />
-      <div class="container newsletter-inner">
-        <div class="newsletter-text">
-          <span class="eyebrow eyebrow-crema">✦ Newsletter</span>
-          <h2>Suscríbete y llévate un cupón de bienvenida</h2>
-          <p>Recibe un <strong>cupón de descuento</strong> para tu próxima visita, además de ofertas y la llegada de nuevas marcas antes que nadie.</p>
-        </div>
-        <form class="newsletter-form" id="newsletterForm" novalidate>
-          <input type="text" id="nlName" placeholder="Tu nombre (opcional)" aria-label="Nombre" autocomplete="name" />
-          <div class="nl-row">
-            <input type="email" id="nlEmail" placeholder="Tu correo electrónico" aria-label="Correo electrónico" autocomplete="email" required />
-            <button type="submit" class="btn btn-light">Suscribirme</button>
-          </div>
-          <p class="form-msg nl-msg" id="nlMsg" role="status"></p>
+          <label class="consent" for="ctConsent">
+            <input type="checkbox" id="ctConsent" required />
+            <span>Autorizo a Lukers a usar mis datos para responder a esta consulta, según la <a href="/privacidad">política de privacidad</a>.</span>
+          </label>
+          <button type="submit" class="btn btn--primary btn--block">Enviar mensaje</button>
+          <p class="form-msg" id="ctMsg" role="status"></p>
         </form>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- ====== QUIÉNES SOMOS ====== -->
-    <section class="section" id="nosotros">
-      <div class="container">
-        <div class="section-head reveal">
-          <span class="eyebrow">✦ Quiénes somos</span>
-          <h2>Una empresa con propósito</h2>
-          <p>Creemos que vestir bien no debe ser un lujo. Por eso trabajamos para que la calidad de las grandes marcas esté al alcance de todos.</p>
-        </div>
-        <div class="values-grid">
-          <article class="value-card reveal">
-            <span class="value-icon icon-verde">🎯</span>
-            <h3>Misión</h3>
-            <p>Acercar marcas originales de talla mundial a las familias peruanas, con precios justos, atención cercana y garantía total de autenticidad.</p>
-          </article>
-          <article class="value-card reveal">
-            <span class="value-icon icon-turquesa">🔭</span>
-            <h3>Visión</h3>
-            <p>Ser la cadena de tiendas de ropa de marca más querida y confiable del Perú, presente en cada región del país y referente de comercio honesto.</p>
-          </article>
-          <article class="value-card reveal">
-            <span class="value-icon icon-lila">🤝</span>
-            <h3>Valores</h3>
-            <p>Autenticidad, honestidad en el precio, respeto por el cliente, compromiso con nuestra gente y pasión por el buen vestir.</p>
-          </article>
-        </div>
-      </div>
-    </section>
+</main>
 
-    <!-- ====== HISTORIA (TIMELINE) ====== -->
-    <section class="section section-alt" id="historia">
-      <div class="container">
-        <div class="section-head reveal">
-          <span class="eyebrow">✦ Nuestra historia</span>
-          <h2>Más de dos décadas de crecimiento</h2>
-        </div>
-        <div class="timeline">
-          <div class="timeline-item reveal">
-            <span class="timeline-year">2001</span>
-            <div class="timeline-card">
-              <h3>Nace Lukers</h3>
-              <p>Abrimos nuestra primera tienda en Lima con una idea simple: mejores marcas, mejores precios.</p>
-            </div>
-          </div>
-          <div class="timeline-item reveal">
-            <span class="timeline-year">2008</span>
-            <div class="timeline-card">
-              <h3>Alianzas con grandes marcas</h3>
-              <p>Sumamos colecciones formales de primer nivel y nos consolidamos como la tienda de ropa de marca a buen precio.</p>
-            </div>
-          </div>
-          <div class="timeline-item reveal">
-            <span class="timeline-year">2014</span>
-            <div class="timeline-card">
-              <h3>Expansión en Lima</h3>
-              <p>Llegamos a San Miguel, Breña, Lince, Pueblo Libre e Independencia, consolidando nuestra presencia en la capital.</p>
-            </div>
-          </div>
-          <div class="timeline-item reveal">
-            <span class="timeline-year">2019</span>
-            <div class="timeline-card">
-              <h3>Lukers en provincias</h3>
-              <p>Abrimos tiendas en Trujillo, Chiclayo, Tarapoto e Iquitos, acercando las grandes marcas a más regiones del país.</p>
-            </div>
-          </div>
-          <div class="timeline-item reveal">
-            <span class="timeline-year">2026</span>
-            <div class="timeline-card">
-              <h3>Nueva etapa</h3>
-              <p>Inauguramos nuestra tienda más moderna en Jr. de la Unión y renovamos nuestra identidad de marca.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ====== COMPROMISO ====== -->
-    <section class="perks">
-      <div class="container perks-grid">
-        <div class="perk reveal"><span>✦</span><div><b>100% Original</b><p>Garantía total de autenticidad en cada prenda</p></div></div>
-        <div class="perk reveal"><span>🇵🇪</span><div><b>Orgullo peruano</b><p>Empresa nacional con talento local</p></div></div>
-        <div class="perk reveal"><span>👥</span><div><b>+300 colaboradores</b><p>Empleo formal y desarrollo profesional</p></div></div>
-        <div class="perk reveal"><span>🌱</span><div><b>Comercio responsable</b><p>Precios justos y prácticas transparentes</p></div></div>
-      </div>
-    </section>
-
-    <!-- ====== BANNER INSTITUCIONAL ====== -->
-    <section class="promo-banner reveal">
-      <img src="assets/brillo_verde.png" class="banner-brillo bb1" alt="" aria-hidden="true" />
-      <img src="assets/brillo_rosa.png" class="banner-brillo bb2" alt="" aria-hidden="true" />
-      <div class="container promo-inner">
-        <div>
-          <h2>Tu próxima marca favorita te espera</h2>
-          <p>Visita tu tienda Lukers más cercana y descubre marcas originales a precios que no vas a creer.</p>
-        </div>
-        <a href="#tiendas" class="btn btn-light">📍 Ver tiendas</a>
-      </div>
-    </section>
-
-    <!-- ====== TESTIMONIOS ====== -->
-    <section class="section section-alt" id="testimonios">
-      <div class="container">
-        <div class="section-head reveal">
-          <span class="eyebrow">✦ Nuestra comunidad</span>
-          <h2>Lo que dicen de nosotros</h2>
-        </div>
-        <div class="testi-grid">
-          <figure class="testi-card reveal">
-            <div class="stars">✦✦✦✦✦</div>
-            <blockquote>“Compro en Lukers desde hace más de diez años. La garantía de originalidad y la atención en tienda hacen toda la diferencia.”</blockquote>
-            <figcaption><span class="avatar">CR</span><div><b>Carlos R.</b><span>Cliente · San Miguel, Lima</span></div></figcaption>
-          </figure>
-          <figure class="testi-card reveal">
-            <div class="stars">✦✦✦✦✦</div>
-            <blockquote>“Trabajar en Lukers me dio mi primera oportunidad formal. Hoy lidero una tienda y sigo creciendo con la empresa.”</blockquote>
-            <figcaption><span class="avatar av-turquesa">MS</span><div><b>María S.</b><span>Jefa de tienda · Trujillo</span></div></figcaption>
-          </figure>
-          <figure class="testi-card reveal">
-            <div class="stars">✦✦✦✦✦</div>
-            <blockquote>“Como proveedores valoramos su seriedad: pagos puntuales y una relación comercial transparente de verdad.”</blockquote>
-            <figcaption><span class="avatar av-lila">LA</span><div><b>Luis A.</b><span>Socio comercial · Lima</span></div></figcaption>
-          </figure>
-        </div>
-      </div>
-    </section>
-
-    <!-- ====== CONTACTO ====== -->
-    <section class="section" id="contacto">
-      <div class="container">
-        <div class="section-head reveal">
-          <span class="eyebrow">✦ Hablemos</span>
-          <h2>Contáctanos</h2>
-          <p>¿Consultas, alianzas comerciales o quieres unirte al equipo? Escríbenos y te respondemos pronto.</p>
-        </div>
-        <div class="contact-layout reveal">
-          <div class="contact-info">
-            <div class="contact-item"><span>📧</span><div><b>Correo</b><a href="mailto:hola@lukers.pe">hola@lukers.pe</a></div></div>
-            <!-- PENDIENTE: central telefónica real. Descomenta cuando la tengas:
-            <div class="contact-item"><span>📞</span><div><b>Central telefónica</b><a href="tel:+51XXXXXXXXX">(01) XXX-XXXX</a></div></div> -->
-            <div class="contact-item"><span>🕙</span><div><b>Horario de atención</b><p>Lun a Dom · 10:00 a.m. – 10:00 p.m.</p></div></div>
-            <div class="contact-item"><span>📖</span><div><b>Libro de reclamaciones</b><a href="/privacidad#reclamaciones">Cómo registrar tu reclamo</a></div></div>
-          </div>
-          <form class="contact-form" id="contactForm" novalidate>
-            <div class="form-row">
-              <input type="text" id="contactName" placeholder="Nombre completo" aria-label="Nombre completo" required />
-              <input type="email" id="contactEmail" placeholder="Correo electrónico" aria-label="Correo electrónico" required />
-            </div>
-            <select id="contactSubject" aria-label="Motivo de contacto">
-              <option value="consulta">Consulta general</option>
-              <option value="alianza">Alianzas comerciales</option>
-              <option value="trabajo">Trabaja con nosotros</option>
-              <option value="reclamo">Libro de reclamaciones</option>
-            </select>
-            <textarea id="contactMessage" rows="5" placeholder="Cuéntanos en qué podemos ayudarte…" aria-label="Mensaje" required></textarea>
-            <button type="submit" class="btn btn-primary">Enviar mensaje</button>
-            <p class="form-msg" id="formMsg" role="status"></p>
-          </form>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <!-- ====== FOOTER ====== -->
-  <footer class="footer">
-    <div class="container footer-grid">
-      <div>
-        <a href="#inicio" class="logo" aria-label="Lukers — inicio">
-          <img src="assets/logo_crema_transparente.png" alt="Lukers — Mejores marcas, mejores precios" />
+<!-- ========================= PIE ========================= -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer__grid">
+      <div class="footer__brand">
+        <a href="/" class="logo" aria-label="Lukers — inicio">
+          <img src="assets/logo_crema_transparente.png" alt="Lukers — Mejores marcas, mejores precios" width="140" height="32" />
         </a>
-        <p>Tienda de ropa de marca a buen precio. Acercamos las mejores marcas a todos los peruanos, con garantía de autenticidad.</p>
+        <p>Ropa de marca original a buen precio. Acercamos las mejores marcas a todos los peruanos, con garantía de autenticidad.</p>
         <div class="socials">
-          <a href="https://www.facebook.com/Lukers.pe/" target="_blank" rel="noopener" aria-label="Facebook">ⓕ</a>
-          <a href="https://www.instagram.com/lukers.pe/" target="_blank" rel="noopener" aria-label="Instagram">◎</a>
-          <a href="https://www.tiktok.com/@lukers.pe" target="_blank" rel="noopener" aria-label="TikTok">♪</a>
+          <a href="https://www.facebook.com/Lukers.pe/" target="_blank" rel="noopener" aria-label="Lukers en Facebook">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 9h3V6h-3c-2.2 0-4 1.8-4 4v2H8v3h2v6h3v-6h3l1-3h-4v-2c0-.6.4-1 1-1Z"/></svg>
+          </a>
+          <a href="https://www.instagram.com/lukers.pe/" target="_blank" rel="noopener" aria-label="Lukers en Instagram">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 8.6a3.4 3.4 0 1 0 0 6.8 3.4 3.4 0 0 0 0-6.8Zm0-2.2c3 0 3.4 0 4.6.1 1.1 0 1.7.2 2.1.4.5.2.9.5 1.3.9.4.4.7.8.9 1.3.2.4.4 1 .4 2.1.1 1.2.1 1.6.1 4.6s0 3.4-.1 4.6c0 1.1-.2 1.7-.4 2.1-.2.5-.5.9-.9 1.3-.4.4-.8.7-1.3.9-.4.2-1 .4-2.1.4-1.2.1-1.6.1-4.6.1s-3.4 0-4.6-.1c-1.1 0-1.7-.2-2.1-.4-.5-.2-.9-.5-1.3-.9-.4-.4-.7-.8-.9-1.3-.2-.4-.4-1-.4-2.1C3.6 15.4 3.6 15 3.6 12s0-3.4.1-4.6c0-1.1.2-1.7.4-2.1.2-.5.5-.9.9-1.3.4-.4.8-.7 1.3-.9.4-.2 1-.4 2.1-.4C9.6 2.6 10 2.6 12 2.6Zm5.8 3.1a1.3 1.3 0 1 0 0 2.6 1.3 1.3 0 0 0 0-2.6Z"/></svg>
+          </a>
         </div>
       </div>
+
       <div>
         <h4>Institucional</h4>
-        <a href="#nosotros">Quiénes somos</a>
-        <a href="#historia">Nuestra historia</a>
-        <a href="#marcas">Marcas</a>
+        <div class="footer__links">
+          <a href="#nosotros">Quiénes somos</a>
+          <a href="#historia">Nuestra historia</a>
+          <a href="#marcas">Marcas</a>
+          <a href="#proveedores">Proveedores</a>
+        </div>
       </div>
+
       <div>
         <h4>Atención</h4>
-        <a href="#tiendas">Tiendas y horarios</a>
-        <a href="#contacto">Contacto</a>
-        <a href="/trabaja">Trabaja con nosotros</a>
-        <a href="/privacidad#reclamaciones">Libro de reclamaciones</a>
+        <div class="footer__links">
+          <a href="#tiendas">Tiendas y horarios</a>
+          <a href="#contacto">Contacto</a>
+          <a href="/trabaja">Trabaja con nosotros</a>
+          <a href="/privacidad#reclamaciones">Libro de reclamaciones</a>
+        </div>
       </div>
+
       <div>
-        <h4>Contacto</h4>
-        <a href="mailto:hola@lukers.pe">hola@lukers.pe</a>
-        <!-- PENDIENTE: central telefónica real de Lukers.
-             Cuando la tengas, descomenta y reemplaza ambos valores:
-        <a href="tel:+51XXXXXXXXX">(01) XXX-XXXX</a> -->
-        <p>Lun a Dom · 10 a.m. – 10 p.m.</p>
-        <a href="/privacidad">Política de privacidad</a>
+        <h4>Legal</h4>
+        <div class="footer__links">
+          <a href="/privacidad">Política de privacidad</a>
+          <a href="mailto:hola@lukers.pe">hola@lukers.pe</a>
+        </div>
       </div>
     </div>
-    <div class="footer-concept">Mejores marcas ✦ Mejores precios</div>
-    <div class="footer-bottom">
-      <p>© <span id="year"></span> Lukers. Todos los derechos reservados.</p>
+
+    <div class="footer__concept">
+      Mejores marcas <span class="brillo" aria-hidden="true"></span> Mejores precios
     </div>
-  </footer>
 
-  <!-- ====== WHATSAPP FLOTANTE ====== -->
-  <a href="#" class="whatsapp-fab" id="whatsappFab" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp">
-    <svg viewBox="0 0 32 32" width="28" height="28" fill="currentColor" aria-hidden="true"><path d="M16.04 3C9.4 3 4 8.4 4 15.04c0 2.12.56 4.18 1.6 6L4 29l8.16-1.56a12 12 0 0 0 3.88.64h.01C22.7 28.08 28.1 22.68 28.1 16.04 28.1 8.4 22.7 3 16.04 3Zm0 21.9h-.01a9.9 9.9 0 0 1-5.04-1.38l-.36-.22-4.84.93.97-4.72-.24-.38a9.86 9.86 0 0 1-1.5-5.25c0-5.46 4.45-9.9 9.92-9.9 2.65 0 5.14 1.03 7.01 2.9a9.84 9.84 0 0 1 2.9 7.01c0 5.47-4.45 9.91-9.91 9.91Zm5.44-7.42c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51l-.57-.01c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.06 2.88 1.21 3.08.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.62.71.23 1.36.2 1.87.12.57-.08 1.76-.72 2-1.41.25-.7.25-1.29.17-1.42-.07-.13-.27-.2-.57-.35Z"/></svg>
-    <span class="whatsapp-fab-text">WhatsApp</span>
-  </a>
+    <div class="footer__bottom">
+      <p>© <span id="year">2026</span> Lukers. Todos los derechos reservados.</p>
+      <p>Hecho en el Perú</p>
+    </div>
+  </div>
+</footer>
 
-  <!-- ====== TOAST ====== -->
-  <div class="toast" id="toast" role="status"></div>
+<a href="#" class="wa-fab" id="waFab" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp">
+  <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16.04 3C9.4 3 4 8.4 4 15.04c0 2.12.56 4.18 1.6 6L4 29l8.16-1.56a12 12 0 0 0 3.88.64h.01C22.7 28.08 28.1 22.68 28.1 16.04 28.1 8.4 22.7 3 16.04 3Zm0 21.9h-.01a9.9 9.9 0 0 1-5.04-1.38l-.36-.22-4.84.93.97-4.72-.24-.38a9.86 9.86 0 0 1-1.5-5.25c0-5.46 4.45-9.9 9.92-9.9 2.65 0 5.14 1.03 7.01 2.9a9.84 9.84 0 0 1 2.9 7.01c0 5.47-4.45 9.91-9.91 9.91Zm5.44-7.42c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51l-.57-.01c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.06 2.88 1.21 3.08.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.62.71.23 1.36.2 1.87.12.57-.08 1.76-.72 2-1.41.25-.7.25-1.29.17-1.42-.07-.13-.27-.2-.57-.35Z"/></svg>
+  <span class="wa-fab__text">WhatsApp</span>
+</a>
 
-  <button class="back-top" id="backTop" aria-label="Volver arriba">↑</button>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-  <script src="js/config.js"></script>
-  <script src="js/main.js"></script>
+<script src="js/config.js"></script>
+<script src="js/reveal.js"></script>
+<script src="js/site.js"></script>
 </body>
 </html>

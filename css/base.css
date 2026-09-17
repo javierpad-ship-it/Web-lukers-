@@ -1,0 +1,591 @@
+/* ============================================================
+   LUKERS — Base del sistema de diseño
+   Compartido por el sitio público y el panel interno.
+
+   Manual de marca 2024:
+   · Azul #008CFF domina. Crema #EFEFE8 como fondo (nunca blanco puro).
+   · Archivo Black en titulares, Archivo en cuerpo.
+   · El brillo ✦ es el hilo conductor.
+   · Rojo y amarillo SOLO en material de remate, jamás institucional.
+   ============================================================ */
+
+/* ---------- 1. Tokens ---------- */
+:root {
+  /* Marca */
+  --azul:        #008CFF;
+  --azul-hover:  #0070CC;
+  --azul-hondo:  #005CA8;
+  --crema:       #EFEFE8;
+  --crema-alt:   #E4E4DA;
+  --negro:       #212121;
+  --gris:        #424242;
+
+  /* Pasteles: solo acentos y brillos */
+  --verde:    #AADE88;
+  --turquesa: #68D8D9;
+  --lila:     #A6A1F5;
+  --rosa:     #E698E6;
+
+  /* Remate: reservados, no se usan en el sitio institucional */
+  --remate-rojo:     #F03D00;
+  --remate-amarillo: #FFDC00;
+
+  /* Superficies — modo positivo (azul sobre claro) */
+  --bg:          var(--crema);
+  --bg-sunken:   var(--crema-alt);
+  --surface:     #FFFFFF;
+  --surface-2:   #FAFAF7;
+  --text:        var(--negro);
+  --text-soft:   var(--gris);
+  --text-faint:  #6B6B6B;
+  --line:        #D2D2C6;
+  --line-strong: #B4B4A6;
+  --accent:      var(--azul);
+  --accent-hover:var(--azul-hover);
+  --on-accent:   var(--crema);
+
+  /* Escala de espaciado — base 8, sin valores sueltos */
+  --s-1:  .25rem;  /*  4 */
+  --s-2:  .5rem;   /*  8 */
+  --s-3:  .75rem;  /* 12 */
+  --s-4:  1rem;    /* 16 */
+  --s-5:  1.5rem;  /* 24 */
+  --s-6:  2rem;    /* 32 */
+  --s-7:  3rem;    /* 48 */
+  --s-8:  4rem;    /* 64 */
+  --s-9:  6rem;    /* 96 */
+  --s-10: 8rem;    /* 128 */
+
+  /* Radios */
+  --r-sm: 8px;
+  --r:    14px;
+  --r-lg: 22px;
+  --r-xl: 32px;
+
+  /* Sombras: discretas y de una sola familia */
+  --sh-1: 0 1px 2px rgba(33,33,33,.06), 0 2px 8px rgba(33,33,33,.04);
+  --sh-2: 0 2px 4px rgba(33,33,33,.05), 0 8px 24px rgba(33,33,33,.07);
+  --sh-3: 0 4px 8px rgba(33,33,33,.05), 0 20px 48px rgba(33,33,33,.10);
+  --sh-azul: 0 8px 24px rgba(0,140,255,.28);
+
+  /* Tipografía */
+  --font:  "Archivo", "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
+  --font-display: "Archivo Black", "Archivo", "Arial Black", Arial, sans-serif;
+
+  --ease: cubic-bezier(.4, 0, .2, 1);
+  --t:    .24s var(--ease);
+
+  --header-h: 72px;
+  --container: 1240px;
+  --gutter: clamp(1.25rem, 4vw, 2.5rem);
+}
+
+/* Modo negativo: crema sobre azul (versión negativa del manual) */
+[data-theme="dark"] {
+  --bg:          var(--azul);
+  --bg-sunken:   var(--azul-hover);
+  --surface:     var(--azul-hover);
+  --surface-2:   var(--azul-hondo);
+  --text:        var(--crema);
+  --text-soft:   #CFE6FA;
+  --text-faint:  #A8CDEE;
+  --line:        rgba(239,239,232,.28);
+  --line-strong: rgba(239,239,232,.5);
+  --accent:      var(--crema);
+  --accent-hover:#FFFFFF;
+  --on-accent:   var(--azul);
+  --sh-1: 0 1px 2px rgba(0,40,80,.18), 0 2px 8px rgba(0,40,80,.12);
+  --sh-2: 0 2px 4px rgba(0,40,80,.18), 0 8px 24px rgba(0,40,80,.22);
+  --sh-3: 0 4px 8px rgba(0,40,80,.18), 0 20px 48px rgba(0,40,80,.3);
+  --sh-azul: 0 8px 24px rgba(0,30,60,.35);
+}
+
+/* ---------- 2. Reset ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+* { margin: 0; }
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--header-h) + var(--s-4));
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font);
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--text);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  transition: background var(--t), color var(--t);
+  overflow-x: hidden;
+}
+
+img, svg, video { display: block; max-width: 100%; }
+img { height: auto; }
+a { color: inherit; text-decoration: none; }
+button, input, select, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; background: none; border: none; padding: 0; }
+ul, ol { list-style: none; padding: 0; }
+
+/* ---------- 3. Foco visible SIEMPRE ---------- */
+/* Un sitio sin foco visible es inusable con teclado. Nunca se quita. */
+:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+[data-theme="dark"] :focus-visible { outline-color: var(--crema); }
+
+/* ---------- 4. Tipografía ---------- */
+/*
+  Los titulares llevan interlineado APRETADO. Un titular de 56px con
+  interlineado de 1.6 (como estaba antes) se lee flojo y desarmado.
+*/
+.display-1, .display-2, .display-3, h1, h2, h3 {
+  font-family: var(--font-display);
+  font-weight: 400;          /* Archivo Black ya es ultra pesada */
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+.display-1, h1 {
+  font-size: clamp(2.6rem, 6.5vw, 5rem);
+  line-height: .95;
+  letter-spacing: -0.035em;
+}
+.display-2, h2 {
+  font-size: clamp(1.9rem, 4vw, 3rem);
+  line-height: 1.02;
+  letter-spacing: -0.028em;
+}
+.display-3, h3 {
+  font-size: clamp(1.15rem, 1.8vw, 1.45rem);
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+}
+
+.lead {
+  font-size: clamp(1.05rem, 1.5vw, 1.25rem);
+  line-height: 1.55;
+  color: var(--text-soft);
+  max-width: 54ch;
+}
+
+p { max-width: 68ch; }
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  font-size: .75rem;
+  font-weight: 700;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.text-accent { color: var(--accent); }
+.text-soft   { color: var(--text-soft); }
+
+/* ---------- 5. Estructura ---------- */
+.container {
+  width: 100%;
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.section        { padding-block: clamp(var(--s-8), 9vw, var(--s-10)); }
+.section--tight { padding-block: clamp(var(--s-7), 6vw, var(--s-8)); }
+.section--sunken{ background: var(--bg-sunken); }
+.section--azul  { background: var(--azul); color: var(--crema); }
+.section--azul .eyebrow,
+.section--azul .text-accent { color: var(--crema); }
+.section--azul .lead,
+.section--azul .text-soft   { color: #CFE6FA; }
+
+.section-head { max-width: 46rem; margin-bottom: clamp(var(--s-6), 5vw, var(--s-8)); }
+.section-head > * + * { margin-top: var(--s-3); }
+.section-head--center { margin-inline: auto; text-align: center; }
+.section-head--center .lead { margin-inline: auto; }
+
+.stack > * + * { margin-top: var(--s-4); }
+.stack-lg > * + * { margin-top: var(--s-6); }
+
+.grid { display: grid; gap: clamp(var(--s-4), 2.5vw, var(--s-6)); }
+.grid-2 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr)); }
+.grid-3 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr)); }
+.grid-4 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr)); }
+
+/* ---------- 6. Botones ---------- */
+.btn {
+  --btn-bg: var(--accent);
+  --btn-fg: var(--on-accent);
+  --btn-bd: transparent;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s-2);
+  padding: .9rem 1.6rem;
+  min-height: 48px;              /* objetivo táctil cómodo */
+  border-radius: var(--r-sm);
+  border: 2px solid var(--btn-bd);
+  background: var(--btn-bg);
+  color: var(--btn-fg);
+  font-weight: 700;
+  font-size: .95rem;
+  letter-spacing: -0.01em;
+  text-align: center;
+  transition: background var(--t), border-color var(--t), color var(--t),
+              transform var(--t), box-shadow var(--t);
+}
+.btn:hover  { background: var(--accent-hover); transform: translateY(-2px); box-shadow: var(--sh-2); }
+.btn:active { transform: translateY(0); }
+
+.btn--primary { box-shadow: var(--sh-azul); }
+.btn--primary:hover { box-shadow: 0 12px 30px rgba(0,140,255,.34); }
+
+.btn--outline {
+  --btn-bg: transparent;
+  --btn-fg: var(--text);
+  --btn-bd: var(--line-strong);
+}
+.btn--outline:hover {
+  --btn-bg: transparent;
+  --btn-fg: var(--accent);
+  --btn-bd: var(--accent);
+  box-shadow: none;
+}
+
+.btn--crema {
+  --btn-bg: var(--crema);
+  --btn-fg: var(--azul);
+}
+.btn--crema:hover { background: #FFFFFF; }
+
+.btn--sm { padding: .55rem 1rem; min-height: 40px; font-size: .85rem; }
+.btn--block { width: 100%; }
+.btn[disabled] { opacity: .55; cursor: not-allowed; transform: none; box-shadow: none; }
+
+/* ---------- 7. El brillo ✦ ---------- */
+/*
+  Estrella de 4 puntas en vertical. Se dibuja con CSS (cuadrado menos
+  cuatro círculos) para poder colorearla y escalarla sin deformar.
+  Ancho = alto, siempre. No se rota: el manual la quiere en vertical.
+*/
+.brillo {
+  --brillo-size: 1em;
+  --brillo-color: var(--accent);
+  display: inline-block;
+  width: var(--brillo-size);
+  height: var(--brillo-size);
+  flex: 0 0 auto;
+  background: var(--brillo-color);
+  -webkit-mask-image: radial-gradient(circle at 0 0, transparent 70%, #000 70.6%),
+              radial-gradient(circle at 100% 0, transparent 70%, #000 70.6%),
+              radial-gradient(circle at 0 100%, transparent 70%, #000 70.6%),
+              radial-gradient(circle at 100% 100%, transparent 70%, #000 70.6%);
+  mask-image: radial-gradient(circle at 0 0, transparent 70%, #000 70.6%),
+              radial-gradient(circle at 100% 0, transparent 70%, #000 70.6%),
+              radial-gradient(circle at 0 100%, transparent 70%, #000 70.6%),
+              radial-gradient(circle at 100% 100%, transparent 70%, #000 70.6%);
+  -webkit-mask-size: 50% 50%;
+  mask-size: 50% 50%;
+  -webkit-mask-position: 0 0, 100% 0, 0 100%, 100% 100%;
+  mask-position: 0 0, 100% 0, 0 100%, 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+.brillo--verde    { --brillo-color: var(--verde); }
+.brillo--turquesa { --brillo-color: var(--turquesa); }
+.brillo--lila     { --brillo-color: var(--lila); }
+.brillo--rosa     { --brillo-color: var(--rosa); }
+.brillo--crema    { --brillo-color: var(--crema); }
+
+/*
+  Caja de contenido del manual: rectángulo que protege la legibilidad,
+  con el brillo anclado en una esquina (superior izquierda o inferior
+  derecha), cada lado empezando en la mitad de un brillo.
+*/
+.brillo-box {
+  position: relative;
+  background: var(--surface);
+  border-radius: var(--r);
+  padding: var(--s-5);
+  box-shadow: var(--sh-1);
+}
+.brillo-box::before {
+  content: "";
+  position: absolute;
+  width: 26px;
+  height: 26px;
+  top: -13px;
+  left: -13px;
+  background: var(--accent);
+  -webkit-mask-image: radial-gradient(circle at 0 0, transparent 70%, #000 70.6%),
+              radial-gradient(circle at 100% 0, transparent 70%, #000 70.6%),
+              radial-gradient(circle at 0 100%, transparent 70%, #000 70.6%),
+              radial-gradient(circle at 100% 100%, transparent 70%, #000 70.6%);
+  mask-image: radial-gradient(circle at 0 0, transparent 70%, #000 70.6%),
+              radial-gradient(circle at 100% 0, transparent 70%, #000 70.6%),
+              radial-gradient(circle at 0 100%, transparent 70%, #000 70.6%),
+              radial-gradient(circle at 100% 100%, transparent 70%, #000 70.6%);
+  -webkit-mask-size: 50% 50%;
+  mask-size: 50% 50%;
+  -webkit-mask-position: 0 0, 100% 0, 0 100%, 100% 100%;
+  mask-position: 0 0, 100% 0, 0 100%, 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+.brillo-box--br::before { top: auto; left: auto; bottom: -13px; right: -13px; }
+
+/* ---------- 8. Sistema de imagen ---------- */
+/*
+  Toda foto vive en un contenedor con proporción fija: así la portada no
+  se desmonta cuando alguien sube una imagen de proporción rara desde el
+  panel. Mientras no hay foto, el hueco es una pieza de marca (crema con
+  brillos), NUNCA un emoji.
+*/
+.media {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--r);
+  background: var(--bg-sunken);
+  aspect-ratio: var(--media-ratio, 4 / 3);
+  isolation: isolate;
+}
+.media > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .6s var(--ease);
+}
+.media--1x1  { --media-ratio: 1 / 1; }
+.media--4x5  { --media-ratio: 4 / 5; }
+.media--3x2  { --media-ratio: 3 / 2; }
+.media--16x9 { --media-ratio: 16 / 9; }
+
+/* Oscurecido inferior para que el texto o el logo se lean sobre la foto */
+.media--scrim::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 55%;
+  background: linear-gradient(to top, rgba(0,44,86,.72), transparent);
+  pointer-events: none;
+}
+
+/* Hueco de foto pendiente: patrón de brillos sobre crema */
+.media__placeholder {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  gap: var(--s-3);
+  justify-items: center;
+  text-align: center;
+  padding: var(--s-5);
+  background:
+    radial-gradient(circle at 20% 25%, rgba(104,216,217,.30), transparent 42%),
+    radial-gradient(circle at 78% 70%, rgba(166,161,245,.30), transparent 45%),
+    radial-gradient(circle at 50% 100%, rgba(0,140,255,.14), transparent 55%),
+    var(--bg-sunken);
+}
+.media__placeholder .brillo { --brillo-size: 2.25rem; }
+.media__placeholder span {
+  font-size: .74rem;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+/* ---------- 9. Tarjetas ---------- */
+.card {
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  transition: transform var(--t), box-shadow var(--t), border-color var(--t);
+}
+.card__body { padding: var(--s-5); display: flex; flex-direction: column; gap: var(--s-3); flex: 1; }
+.card__body > p { margin: 0; }
+a.card:hover, .card--hover:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--sh-3);
+  border-color: transparent;
+}
+.card--hover:hover .media > img { transform: scale(1.04); }
+
+/* ---------- 10. Formularios ---------- */
+/*
+  Los formularios mal dibujados son lo que más delata a una web amateur.
+  Bordes visibles, etiqueta siempre presente, foco inequívoco.
+*/
+.field { display: flex; flex-direction: column; gap: var(--s-2); }
+.field > label,
+.label {
+  font-size: .85rem;
+  font-weight: 700;
+  letter-spacing: -0.005em;
+  color: var(--text);
+}
+.field__hint { font-size: .8rem; color: var(--text-faint); }
+
+.input, .select, .textarea {
+  width: 100%;
+  padding: .8rem 1rem;
+  min-height: 48px;
+  background: var(--surface);
+  border: 1.5px solid var(--line-strong);
+  border-radius: var(--r-sm);
+  transition: border-color var(--t), box-shadow var(--t), background var(--t);
+}
+.input::placeholder, .textarea::placeholder { color: var(--text-faint); }
+.input:hover, .select:hover, .textarea:hover { border-color: var(--text-faint); }
+.input:focus, .select:focus, .textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px rgba(0,140,255,.18);
+}
+.textarea { min-height: 7.5rem; resize: vertical; line-height: 1.55; }
+.select {
+  appearance: none;
+  padding-right: 2.75rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23424242' stroke-width='2.5' stroke-linecap='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 1.1rem;
+}
+
+/* Opciones tipo ficha (jornada, sí/no…) */
+.choice { display: flex; flex-wrap: wrap; gap: var(--s-2); }
+.choice__item { position: relative; }
+.choice__item input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+  margin: 0;
+}
+.choice__item span {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  padding: .65rem 1.1rem;
+  min-height: 46px;
+  border: 1.5px solid var(--line-strong);
+  border-radius: var(--r-sm);
+  font-size: .9rem;
+  font-weight: 600;
+  background: var(--surface);
+  transition: border-color var(--t), background var(--t), color var(--t);
+}
+.choice__item input:hover + span { border-color: var(--text-faint); }
+.choice__item input:checked + span {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 10%, var(--surface));
+  color: var(--accent);
+}
+.choice__item input:focus-visible + span {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+}
+
+/* Casilla de consentimiento */
+.consent {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--s-3);
+  font-size: .86rem;
+  line-height: 1.5;
+  color: var(--text-soft);
+  cursor: pointer;
+}
+.consent input[type="checkbox"] {
+  flex: 0 0 auto;
+  width: 1.2rem;
+  height: 1.2rem;
+  margin-top: .15rem;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+.consent a { text-decoration: underline; text-underline-offset: 2px; color: var(--text); }
+
+/* Mensajes de resultado */
+.form-msg {
+  font-size: .88rem;
+  font-weight: 600;
+  min-height: 1.3em;
+  color: var(--remate-rojo);      /* error: única excepción al rojo */
+}
+.form-msg--ok { color: #0F7B3F; }
+[data-theme="dark"] .form-msg    { color: #FFC9B8; }
+[data-theme="dark"] .form-msg--ok{ color: #B9F0CE; }
+
+/* ---------- 11. Etiquetas y píldoras ---------- */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  padding: .3rem .7rem;
+  border-radius: 999px;
+  font-size: .74rem;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  color: var(--accent);
+}
+.tag--solid { background: var(--accent); color: var(--on-accent); }
+
+/* ---------- 12. Accesibilidad ---------- */
+.visually-hidden {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.skip-link {
+  position: absolute;
+  top: var(--s-3);
+  left: var(--s-3);
+  z-index: 999;
+  padding: .7rem 1.1rem;
+  border-radius: var(--r-sm);
+  background: var(--azul);
+  color: var(--crema);
+  font-weight: 700;
+  transform: translateY(-160%);
+  transition: transform var(--t);
+}
+.skip-link:focus { transform: translateY(0); }
+
+/* ---------- 13. Animación de entrada ---------- */
+/*
+  Visible por defecto. Solo se oculta para animar si el script llegó a
+  ejecutarse y marcó <html>. Así nada puede quedar invisible nunca.
+*/
+.js-reveal .reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity .6s var(--ease), transform .6s var(--ease);
+}
+.js-reveal .reveal.in { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+  .js-reveal .reveal { opacity: 1; transform: none; }
+}
