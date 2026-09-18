@@ -83,7 +83,9 @@ document.querySelectorAll(".admin-tab").forEach((tab) => {
     $("#tab-brands").hidden  = target !== "brands";
     $("#tab-stores").hidden  = target !== "stores";
     $("#tab-subs").hidden    = target !== "subs";
+    $("#tab-msgs").hidden    = target !== "msgs";
     if (target === "subs")    loadSubscribers();
+    if (target === "msgs")    loadMessages();
     if (target === "offers")  loadOffers();
     if (target === "brands")  loadBrands();
     if (target === "stores")  loadStores();
@@ -113,7 +115,7 @@ async function loadImages() {
       <div class="slot-preview ${url ? "" : "empty"}" style="${s.ratio ? `aspect-ratio:${s.ratio};height:auto;` : ""}${url ? `background-image:url('${url}')` : ""}"></div>
       <div class="slot-body">
         <h3>${s.label}</h3>
-        ${s.hint ? `<p class="slot-hint">📐 Tamaño ideal: <b>${s.hint}</b></p>` : ""}
+        ${s.hint ? `<p class="slot-hint">Tamaño ideal: <b>${s.hint}</b></p>` : ""}
         <input type="file" class="slot-file" accept="image/*" />
         <div class="slot-actions">
           <button class="btn btn-primary slot-upload">Subir imagen</button>
@@ -176,7 +178,7 @@ async function loadSubscribers() {
         <td>${escapeHtml(s.email)}</td>
         <td>${escapeHtml(s.name || "—")}</td>
         <td>${fecha}</td>
-        <td><button class="del-sub" title="Eliminar">🗑</button></td>`;
+        <td><button class="btn-danger" title="Eliminar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="15" height="15" aria-hidden="true"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6v14a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V6"/><path d="M10 11v6M14 11v6"/></svg></button></td>`;
       tr.querySelector(".del-sub").addEventListener("click", async () => {
         if (!confirm(`¿Eliminar a ${s.email}?`)) return;
         const r = await api(`/api/admin/subscribers/${s.id}`, { method: "DELETE" });
@@ -237,7 +239,7 @@ async function loadOffers() {
         <b>${escapeHtml(o.title)}</b>
         ${o.description ? `<span class="offer-admin-desc">${escapeHtml(o.description)}</span>` : ""}
       </div>
-      <button class="del-sub" title="Eliminar">🗑</button>`;
+      <button class="btn-danger" title="Eliminar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="15" height="15" aria-hidden="true"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6v14a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V6"/><path d="M10 11v6M14 11v6"/></svg></button>`;
     row.querySelector(".del-sub").addEventListener("click", async () => {
       if (!confirm(`¿Eliminar la oferta "${o.title}"?`)) return;
       const r = await api(`/api/admin/offers/${o.id}`, { method: "DELETE" });
@@ -281,12 +283,14 @@ async function loadStores() {
           <input type="file" class="store-file" accept="image/*" hidden />
           <button class="store-photo-btn" title="${s.photo ? "Cambiar foto" : "Subir foto"}">${s.photo ? "Cambiar" : "+ Foto"}</button>
         </td>
-        <td><b>${escapeHtml(s.name)}</b><br><small style="color:var(--text-soft)">🕙 ${escapeHtml(s.hours || "")}</small></td>
+        <td><b>${escapeHtml(s.name)}</b><br><small style="color:var(--text-soft)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" style="vertical-align:-2px" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg> ${escapeHtml(s.hours || "")}</small></td>
         <td>${escapeHtml(s.city)}</td>
         <td style="font-size:0.82rem">${escapeHtml(s.address)}</td>
-        <td style="display:flex;gap:0.4rem">
-          <button class="del-sub edit-store" title="Editar" data-id="${s.id}">✏️</button>
-          <button class="del-sub del-store"  title="Eliminar" data-id="${s.id}">🗑</button>
+        <td class="col-actions">
+          <span class="row-actions">
+            <button class="btn-danger edit-store" title="Editar" aria-label="Editar tienda" data-id="${s.id}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="15" height="15" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button>
+            <button class="btn-danger del-store" title="Eliminar" aria-label="Eliminar tienda" data-id="${s.id}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="15" height="15" aria-hidden="true"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6v14a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V6"/><path d="M10 11v6M14 11v6"/></svg></button>
+          </span>
         </td>`;
       tr.querySelector(".edit-store").addEventListener("click", () => startEditStore(s));
       tr.querySelector(".del-store").addEventListener("click", async () => {
@@ -424,4 +428,59 @@ if (token) {
   api("/api/admin/subscribers")
     .then((r) => { if (r.ok) enterDashboard(); else logout(); })
     .catch(() => logout());
+}
+
+
+/* ---------- Mensajes de contacto ---------- */
+function formatearFecha(iso) {
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return "";
+  return d.toLocaleString("es-PE", {
+    day: "2-digit", month: "short", year: "numeric",
+    hour: "2-digit", minute: "2-digit",
+  });
+}
+
+async function loadMessages() {
+  const lista = $("#msgList");
+  const vacio = $("#msgsEmpty");
+  if (!lista) return;
+
+  try {
+    const res = await api("/api/admin/messages");
+    if (!res.ok) throw new Error("no autorizado");
+    const { count, messages } = await res.json();
+
+    $("#msgCount").textContent = count;
+    vacio.hidden = count > 0;
+
+    lista.innerHTML = messages.map((m) => `
+      <article class="msg-card">
+        <div class="msg-card__head">
+          <div>
+            <b>${escapeHtml(m.name)}</b><br />
+            <a href="mailto:${escapeHtml(m.email)}">${escapeHtml(m.email)}</a>
+          </div>
+          <span class="msg-card__date">${escapeHtml(formatearFecha(m.created_at))}</span>
+        </div>
+        <p class="msg-card__body">${escapeHtml(m.message)}</p>
+        <div class="msg-card__actions">
+          <a class="btn-danger" href="mailto:${escapeHtml(m.email)}?subject=Respuesta%20de%20Lukers">Responder</a>
+          <button class="btn-danger" data-del-msg="${m.id}">Eliminar</button>
+        </div>
+      </article>`).join("");
+
+    lista.querySelectorAll("[data-del-msg]").forEach((btn) => {
+      btn.addEventListener("click", async () => {
+        if (!confirm("¿Eliminar este mensaje? No se puede deshacer.")) return;
+        const r = await api(`/api/admin/messages/${btn.dataset.delMsg}`, { method: "DELETE" });
+        if (r.ok) { showToast("Mensaje eliminado"); loadMessages(); }
+        else showToast("No se pudo eliminar");
+      });
+    });
+  } catch {
+    lista.innerHTML = "";
+    vacio.hidden = false;
+    vacio.textContent = "No pudimos cargar los mensajes. Vuelve a intentarlo.";
+  }
 }

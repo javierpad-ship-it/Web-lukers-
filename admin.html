@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@400;600;800;900&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/base.css" />
   <link rel="stylesheet" href="css/admin.css" />
 </head>
 <body class="admin-body">
@@ -23,7 +23,7 @@
       </div>
       <label for="password">Contraseña</label>
       <div class="pw-wrap">
-        <input type="password" id="password" placeholder="••••••••" autocomplete="current-password" required />
+        <input class="input" type="password" id="password" placeholder="••••••••" autocomplete="current-password" required />
         <button type="button" class="pw-eye" id="pwToggle" aria-label="Mostrar u ocultar contraseña">
           <svg id="eyeIcon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
@@ -39,9 +39,12 @@
   <div class="admin-dash" id="dashView" hidden>
     <header class="admin-header">
       <div class="admin-header-inner">
-        <a href="/" class="admin-logo" target="_blank" rel="noopener">LUKERS<span>.</span> <small>admin</small></a>
+        <a href="/" class="admin-logo" target="_blank" rel="noopener">
+          <img src="assets/logo_crema_transparente.png" alt="Lukers" />
+          <small>Panel</small>
+        </a>
         <div class="admin-header-actions">
-          <a href="/postulaciones" class="btn btn-ghost btn-sm" target="_blank" rel="noopener">💼 Postulaciones ↗</a>
+          <a href="/postulaciones" class="btn btn-ghost btn-sm" target="_blank" rel="noopener">Postulaciones ↗</a>
           <a href="/" class="btn btn-ghost btn-sm" target="_blank" rel="noopener">Ver sitio ↗</a>
           <button class="btn btn-ghost btn-sm" id="logoutBtn">Cerrar sesión</button>
         </div>
@@ -51,11 +54,12 @@
     <main class="admin-main">
       <!-- Tabs -->
       <nav class="admin-tabs">
-        <button class="admin-tab active" data-tab="images">🎨 Imágenes</button>
-        <button class="admin-tab" data-tab="offers">✦ Ofertas</button>
-        <button class="admin-tab" data-tab="brands">🏷️ Marcas</button>
-        <button class="admin-tab" data-tab="stores">🏪 Tiendas</button>
-        <button class="admin-tab" data-tab="subs">📬 Suscriptores</button>
+        <button class="admin-tab active" data-tab="images"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="m4 17 5-5 4 4 3-2 4 4"/></svg> Imágenes</button>
+        <button class="admin-tab" data-tab="offers"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.6 12.6 12 21.2 3.4 12.6V4.4h8.2Z"/><circle cx="8.4" cy="8.4" r="1.3"/></svg> Ofertas</button>
+        <button class="admin-tab" data-tab="brands"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7h18"/><path d="M6 7V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2"/><rect x="3" y="7" width="18" height="13" rx="2"/></svg> Marcas</button>
+        <button class="admin-tab" data-tab="stores"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h16v10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1Z"/><path d="M3 9 5 4h14l2 5"/><path d="M9 20v-6h6v6"/></svg> Tiendas</button>
+        <button class="admin-tab" data-tab="subs"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg> Suscriptores</button>
+        <button class="admin-tab" data-tab="msgs"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L3 21l1.9-6.4A8 8 0 1 1 21 12Z"/></svg> Mensajes</button>
       </nav>
 
       <!-- IMÁGENES -->
@@ -142,7 +146,7 @@
             <h2>Suscriptores del newsletter</h2>
             <p>Total registrados: <strong id="subCount">0</strong></p>
           </div>
-          <a class="btn btn-primary btn-sm" id="exportBtn" href="#">⬇ Exportar CSV</a>
+          <a class="btn btn-primary btn-sm" id="exportBtn" href="#">Exportar CSV</a>
         </div>
         <div class="table-wrap">
           <table class="subs-table">
@@ -153,6 +157,16 @@
           </table>
           <p class="subs-empty" id="subsEmpty" hidden>Aún no hay suscriptores.</p>
         </div>
+      </section>
+
+      <!-- MENSAJES DE CONTACTO -->
+      <section class="admin-panel" id="tab-msgs" hidden>
+        <div class="admin-panel-head">
+          <h2>Mensajes de contacto</h2>
+          <p>Lo que la gente escribe desde el formulario de la web. Total: <strong id="msgCount">0</strong></p>
+        </div>
+        <div class="msg-list" id="msgList"></div>
+        <p class="subs-empty" id="msgsEmpty" hidden>Aún no hay mensajes.</p>
       </section>
     </main>
   </div>
