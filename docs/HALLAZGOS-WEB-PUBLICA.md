@@ -130,3 +130,91 @@ No se encontró públicamente, y solo puede darlo la empresa:
 - [«Remate de Fábrica ahora es Lukers» — Facebook](https://www.facebook.com/Lukers.pe/posts/remate-de-f%C3%A1brica-ahora-es-lukersviste-tu-mejor-luk-con-las-mejores-marcas-de-us/847020214184838/)
 - [«Ya abrimos Lukers Jr. de la Unión» — Facebook](https://www.facebook.com/Lukers.pe/posts/atenci%C3%B3n-lima-ya-abrimos-lukers-jr-de-la-uni%C3%B3n-visita-nuestra-nueva-m%C3%A1s-moderna-/1152635000290023/)
 - [Lukers Trujillo — TikTok](https://www.tiktok.com/@pepevlogger/video/7416128600761453830)
+
+---
+
+# Segunda tanda de hallazgos
+
+No se pudo abrir ninguna página: en este entorno **solo funciona el buscador**;
+Instagram, Facebook y el propio lukers.pe devuelven conexión bloqueada. Lo que
+sigue procede de resultados de búsqueda, no de las páginas originales.
+
+## 8. Datos de la empresa encontrados en un directorio público
+
+| Dato | Valor encontrado |
+|---|---|
+| **RUC** | **20605007784** |
+| **Razón social** | **LUKERS SOCIEDAD ANÓNIMA CERRADA** |
+| Nombre comercial | Lukers |
+| Tipo | Sociedad Anónima Cerrada |
+| Estado | Activo |
+| **Inicio de actividades** | **16 de julio de 2019** |
+| Actividad | Venta minorista de productos textiles y calzado |
+| **Domicilio fiscal** | **Av. Los Faisanes 420, Urb. La Campiña, Chorrillos, Lima** |
+
+> ⚠️ Procede de un directorio de terceros, **no de SUNAT**. Antes de publicarlo
+> en la política de privacidad hay que verificarlo en la consulta oficial de
+> RUC de SUNAT. Es el dato que identifica legalmente al responsable del
+> tratamiento de datos: no puede ir de oídas.
+
+## 9. CONTRADICCIÓN: 2001 contra 2019
+
+El sitio publica **«2001 · Nace Lukers»** y **«Más de dos décadas de
+crecimiento»**. El registro público dice que las actividades empezaron el
+**16 de julio de 2019**.
+
+La explicación probable es que el negocio operaba antes como **Remate de
+Fábrica** y en 2019 se constituyó la sociedad actual con el nombre Lukers. Si
+es así, la historia es cierta pero está mal contada: la marca Lukers no nace en
+2001, nace del rebranding.
+
+**Hay que decidir cómo se cuenta**, porque «más de dos décadas» junto a una
+empresa registrada en 2019 es justo el tipo de detalle que un competidor o
+INDECOPI pueden señalar. Una redacción honesta y igual de potente sería contar
+el origen en 2001 como Remate de Fábrica y el nacimiento de Lukers como etapa.
+
+## 10. Ya existe un Libro de Reclamaciones en la web actual
+
+Se encontró la página `lukers.pe/institucional/tiendasel-reclamacion`, dentro de
+una sección **«Institucional»**.
+
+Esto **cambia lo que escribimos**: `privacidad.html` asume que el Libro de
+Reclamaciones es solo físico. Si ya hay uno virtual, hay que enlazarlo en lugar
+de explicar que se pida en tienda.
+
+## 11. Existe un catálogo online: `lukers.kyte.site`
+
+Es un catálogo de productos montado en Kyte, separado del sitio institucional.
+
+⚠️ En ese catálogo aparece **un número de teléfono con prefijo +591, que es
+Bolivia**, no Perú (+51). Si es el contacto de atención, está mal configurado y
+los clientes no pueden llamar.
+
+## 12. Redes sociales reales
+
+| Red | Cuenta | Nota |
+|---|---|---|
+| Instagram | `@lukers.pe` | 143 000 seguidores |
+| Facebook | `Lukers.pe` | activa |
+| **TikTok** | **`@lukers.pe`** | la web anterior enlazaba a `tiktok.com` sin cuenta |
+| Threads | `@lukers.pe` | no enlazada en la web |
+
+## 13. Otra discrepancia en el número de tiendas
+
+Una publicación de Facebook dice **«visítanos en nuestras 7 tiendas»**. La base
+de datos del sitio tiene **12**. Puede ser una publicación antigua, pero hay que
+confirmar cuántas hay hoy: la portada anuncia «12 tiendas en el Perú» como cifra
+destacada.
+
+---
+
+## Resumen: lo que hay que confirmar, por orden de urgencia
+
+1. **Las 12 direcciones**, una por una (siete no coinciden con lo publicado).
+2. **Cuántas tiendas hay realmente** hoy.
+3. **RUC y razón social** contra SUNAT, antes de publicarlos.
+4. **Cómo se cuenta la historia**: 2001, 2019 o ambas.
+5. **URL real del Libro de Reclamaciones** en el sitio actual.
+6. **Teléfono y WhatsApp** correctos, con prefijo peruano.
+7. Si el catálogo `kyte.site` sigue activo y si debe enlazarse.
+8. Cuenta de TikTok, para enlazarla bien.
