@@ -259,9 +259,16 @@ p { max-width: 68ch; }
   box-shadow: none;
 }
 
+/*
+  Boton crema (se usa sobre fondo azul). El texto NO puede ir en el azul
+  de marca: #008CFF sobre crema da 2,93:1 y el minimo legible es 4,5:1.
+  Se usa el azul mas oscuro del sistema, que da 5,87:1. Es un ajuste de
+  legibilidad para TEXTO, nunca para rellenos ni para el logotipo, que
+  siguen usando el azul oficial #008CFF.
+*/
 .btn--crema {
   --btn-bg: var(--crema);
-  --btn-fg: var(--azul);
+  --btn-fg: var(--azul-hondo);
 }
 .btn--crema:hover { background: #FFFFFF; }
 
@@ -438,6 +445,12 @@ a.card:hover, .card--hover:hover {
 
 .input, .select, .textarea {
   width: 100%;
+  /*
+    Color propio, SIEMPRE. Heredarlo hacía que dentro de una seccion azul
+    (el newsletter) el texto que escribe el visitante saliera crema sobre
+    fondo blanco: contraste 1,15:1, es decir, invisible.
+  */
+  color: var(--text);
   padding: .8rem 1rem;
   min-height: 48px;
   background: var(--surface);

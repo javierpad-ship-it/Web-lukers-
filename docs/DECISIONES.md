@@ -38,3 +38,39 @@ verificado**. Están recogidas con detalle en
 
 Ninguna se ha modificado por cuenta propia: cambiarlas sin dato es sustituir
 una invención por otra.
+
+## 3. La política de privacidad es un borrador
+
+`privacidad.html` sigue la estructura que exige la **Ley N.º 29733** de
+Protección de Datos Personales del Perú, pero **no es asesoría legal** y debe
+revisarla un abogado antes de darla por definitiva.
+
+Faltan por confirmar, y aparecen marcados en la propia página:
+
+- Razón social exacta de la empresa
+- Número de RUC
+- Domicilio fiscal
+- Plazo de conservación de las postulaciones (sugerido: 12 meses)
+
+Mientras tanto la página muestra un aviso visible explicando que está en
+revisión, en lugar de enseñar marcadores rotos al visitante.
+
+## 4. Libro de Reclamaciones
+
+El texto actual asume que el Libro de Reclamaciones es **físico y está en cada
+tienda**, que es lo que corresponde a un negocio con locales.
+
+Si Lukers quiere ofrecer además un **Libro de Reclamaciones virtual**, INDECOPI
+exige un formulario con campos y plazos concretos: hay que construirlo aparte,
+el texto actual no sirve.
+
+## 5. Medición: el sitio no mide nada
+
+No hay ninguna herramienta de analítica instalada. Hoy es imposible saber
+cuánta gente entra, de dónde viene o si alguien pulsa «Cómo llegar».
+
+Recomendación: **Plausible** o **Umami** (sin cookies, así no hace falta banner
+de cookies y la política de privacidad actual sigue siendo cierta) por encima
+de Google Analytics 4.
+
+Decisión pendiente del dueño: qué herramienta se contrata.

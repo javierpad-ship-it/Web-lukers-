@@ -385,11 +385,19 @@
     border-bottom: 1px solid var(--line);
     box-shadow: var(--sh-2);
     transform: translateY(-120%);
-    transition: transform .34s var(--ease);
+    /*
+      `.header` usa backdrop-filter, lo que lo convierte en el bloque
+      contenedor de sus hijos `position: fixed`. Por eso desplazar el menú
+      no bastaba: seguía visible y clicable sobre la barra de anuncio, y
+      tocar ahí navegaba a otra página sin querer. Se oculta de verdad.
+    */
+    visibility: hidden;
+    pointer-events: none;
+    transition: transform .34s var(--ease), visibility .34s;
     max-height: calc(100dvh - var(--header-h));
     overflow-y: auto;
   }
-  .nav__links.is-open { transform: translateY(0); }
+  .nav__links.is-open { transform: translateY(0); visibility: visible; pointer-events: auto; }
   .nav__links a { padding: var(--s-4) 0; border-bottom: 1px solid var(--line); font-size: 1rem; }
   .nav__links a::after { display: none; }
   .nav__actions .btn--nav { display: none; }
@@ -408,4 +416,34 @@
 
 /* ---------- Ajustes puntuales ---------- */
 .newsletter__inner { max-width: 40rem; }
+.newsletter__inner h2 + .lead { margin-top: var(--s-4); }
 .contact-head { margin-bottom: var(--s-5); }
+
+/* El formulario del newsletter apila: campo, consentimiento y botón. */
+.newsletter__box > * + * { margin-top: var(--s-4); }
+.newsletter__form { margin-top: 0; }
+.newsletter__box .btn { width: fit-content; }
+@media (max-width: 30rem) { .newsletter__box .btn { width: 100%; } }
+
+/* ---------- Avisos de la página legal ---------- */
+.aviso-pendiente {
+  margin: var(--s-5) 0 var(--s-6);
+  padding: var(--s-4) var(--s-5);
+  border-left: 4px solid var(--azul);
+  border-radius: 0 var(--r-sm) var(--r-sm) 0;
+  background: color-mix(in srgb, var(--azul) 8%, transparent);
+  font-size: .9rem;
+  line-height: 1.6;
+}
+.aviso-pendiente strong { display: block; margin-bottom: var(--s-1); }
+
+/* Un dato que la empresa aún debe confirmar, marcado sin parecer un fallo */
+.dato-pendiente {
+  display: inline-block;
+  padding: .05rem .45rem;
+  border: 1px dashed var(--line-strong);
+  border-radius: var(--r-sm);
+  font-size: .9em;
+  color: var(--text-faint);
+  white-space: nowrap;
+}

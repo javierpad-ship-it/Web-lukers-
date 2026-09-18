@@ -340,17 +340,25 @@
           <h2>Entérate primero de las llegadas nuevas</h2>
           <p class="lead">Te avisamos cuando llegan marcas nuevas y cuando empiezan las campañas de descuento en tu ciudad. Sin spam.</p>
 
-          <form class="newsletter__form" id="newsletterForm" novalidate>
-            <label class="visually-hidden" for="nlEmail">Tu correo electrónico</label>
-            <input class="input" type="email" id="nlEmail" name="email" placeholder="tucorreo@ejemplo.com" autocomplete="email" required />
-            <button type="submit" class="btn btn--crema">Suscribirme</button>
-          </form>
+          <!--
+            El consentimiento va ANTES del boton y DENTRO del formulario.
+            Estaba despues: el primer intento fallaba siempre, y al quedar
+            fuera del <form> no se desmarcaba al enviar.
+          -->
+          <form class="newsletter__box" id="newsletterForm" novalidate>
+            <div class="newsletter__form">
+              <label class="visually-hidden" for="nlEmail">Tu correo electrónico</label>
+              <input class="input" type="email" id="nlEmail" name="email" placeholder="tucorreo@ejemplo.com" autocomplete="email" required />
+            </div>
 
-          <label class="consent" for="nlConsent">
-            <input type="checkbox" id="nlConsent" required />
-            <span>Autorizo a Lukers a usar mi correo para enviarme novedades y promociones, según la <a href="/privacidad">política de privacidad</a>. Puedo darme de baja cuando quiera.</span>
-          </label>
-          <p class="form-msg" id="nlMsg" role="status"></p>
+            <label class="consent" for="nlConsent">
+              <input type="checkbox" id="nlConsent" required />
+              <span>Autorizo a Lukers a usar mi correo para enviarme novedades y promociones, según la <a href="/privacidad">política de privacidad</a>. Puedo darme de baja cuando quiera.</span>
+            </label>
+
+            <button type="submit" class="btn btn--crema">Suscribirme</button>
+            <p class="form-msg" id="nlMsg" role="status"></p>
+          </form>
         </div>
       </div>
     </div>
