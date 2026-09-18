@@ -9,6 +9,22 @@ fs.mkdirSync(DATA_DIR, { recursive: true });
 
 let db;
 
+/* ══════════════════════════════════════════════════════════════════════
+   ⚠  ATENCION: LOS DATOS DE ABAJO SON FICTICIOS
+
+   Las tiendas, las marcas y sus direcciones NO proceden de Lukers. Fueron
+   inventados por una sesion de IA anterior como datos de relleno para que
+   la maqueta tuviera algo que mostrar.
+
+   Se ha comprobado que al menos SIETE de las doce direcciones no
+   coinciden con las que Lukers publica en sus redes sociales.
+
+   NO se deben publicar. Antes de que este sitio vea la luz hay que
+   sustituirlos por los datos reales, confirmados por la empresa.
+
+   Ver docs/HALLAZGOS-WEB-PUBLICA.md y docs/DECISIONES.md.
+   ══════════════════════════════════════════════════════════════════════ */
+
 const INITIAL_STORES = [
   { name: "Lukers San Miguel",      city: "Lima",     address: "Av. La Marina 1666, San Miguel",              hours: "Lun a Dom · 10:00 a.m. – 10:00 p.m." },
   { name: "Lukers Jr. de la Unión", city: "Lima",     address: "Jr. de la Unión 455, Centro Histórico",       hours: "Lun a Dom · 10:00 a.m. – 10:00 p.m." },

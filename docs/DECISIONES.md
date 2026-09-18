@@ -74,3 +74,32 @@ de cookies y la política de privacidad actual sigue siendo cierta) por encima
 de Google Analytics 4.
 
 Decisión pendiente del dueño: qué herramienta se contrata.
+
+## 6. CORRECCIÓN DE FONDO: el contenido de este repositorio es ficticio
+
+**Fecha:** 18 de septiembre de 2026.
+
+Durante buena parte del trabajo se asumió que este repositorio contenía la web
+de Lukers. **No es así.** La web real es `www.lukers.pe`; este repositorio es
+una maqueta que **nunca ha estado publicada**, construida por sesiones de IA
+anteriores, y su contenido sobre Lukers es inventado:
+
+- Las **12 tiendas y sus direcciones** (al menos 7 no coinciden con la realidad)
+- La **lista de 24 marcas**
+- Los **tres testimonios** firmados por Carlos R., María S. y Luis A.
+- La **línea de tiempo** que arranca en 2001
+- Las cifras: «más de 60 marcas», «más de 300 compañeros», «hasta 70%»
+
+Esto reinterpreta los puntos 1 y 2 de este documento: no eran afirmaciones sin
+verificar de la empresa, eran **invenciones de una IA sobre una empresa real**,
+que es bastante peor.
+
+**Medidas tomadas:**
+
+- Aviso permanente en `server/db.js`, sobre los datos de origen.
+- Los datos estructurados de tienda para Google quedan **desactivados**; solo se
+  publican con `TIENDAS_VERIFICADAS=1`.
+- Plan de trabajo en `docs/PLAN-REDISENO.md`, cuya fase 0 es obtener el
+  contenido real.
+
+**Nada de este repositorio debe publicarse hasta sustituir ese contenido.**

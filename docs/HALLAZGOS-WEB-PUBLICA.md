@@ -1,5 +1,18 @@
 # Información pública de Lukers encontrada fuera del repositorio
 
+> 🔴 **CORRECCIÓN IMPORTANTE (18/09/2026).** Cuando se escribió este documento
+> se creía que el sitio del repositorio era la web publicada de Lukers. **No lo
+> es.** La web real es `www.lukers.pe` y este repositorio nunca ha estado en
+> línea: es una maqueta cuyo contenido —tiendas, direcciones, marcas,
+> testimonios e historia— **fue inventado por sesiones de IA anteriores**.
+>
+> Por tanto, las «discrepancias» que se describen abajo no son datos
+> desactualizados: son **datos ficticios frente a datos reales**. Lo encontrado
+> públicamente es, casi con seguridad, lo correcto — pero igualmente debe
+> confirmarlo Lukers antes de publicarse.
+>
+> Ver `docs/PLAN-REDISENO.md`.
+
 **Fecha:** 18 de septiembre de 2026
 **Cómo se obtuvo:** búsqueda web pública. **No se pudo acceder a lukers.pe**:
 el entorno de desarrollo tiene la salida a internet restringida a una lista de
@@ -17,7 +30,7 @@ La base de datos del sitio (`server/db.js`) tiene unas direcciones y las
 publicaciones públicas de Lukers indican otras. **Siete de las doce no
 coinciden.**
 
-| Tienda | Dirección en la web actual | Dirección encontrada públicamente | |
+| Tienda | Dirección en la MAQUETA (inventada) | Dirección encontrada públicamente | |
 |---|---|---|---|
 | San Miguel | Av. La Marina 1666 | Av. La Marina 1666 | ✅ coincide |
 | Chorrillos | Av. El Sol 1175 | Av. El Sol 1175 | ✅ coincide |

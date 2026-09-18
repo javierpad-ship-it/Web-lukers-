@@ -429,7 +429,12 @@ function portadaConTiendas() {
   // Se usa una función de reemplazo a propósito: con una cadena, JavaScript
   // interpretaría $$, $& o $1 dentro del contenido y lo corrompería.
   html = html.replace('<div class="grid grid-3" id="storeGrid"></div>', () => tarjetas);
-  html = html.replace("</head>", () => jsonLd);
+  // Los datos estructurados SOLO se publican cuando alguien de Lukers ha
+  // verificado las direcciones. Las que trae el repositorio son ficticias:
+  // enseniarselas a Google situaria los locales donde no estan.
+  if (process.env.TIENDAS_VERIFICADAS === "1") {
+    html = html.replace("</head>", () => jsonLd);
+  }
   return html;
 }
 
