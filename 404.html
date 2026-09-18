@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Página no encontrada — Lukers</title>
+  <meta name="robots" content="noindex, follow" />
+  <link rel="icon" type="image/png" href="/assets/simbolo_LL_fondo_azul.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/base.css" />
+  <link rel="stylesheet" href="/css/site.css" />
+  <style>
+    .nf {
+      min-height: 100dvh;
+      display: grid;
+      place-content: center;
+      justify-items: start;
+      gap: var(--s-5);
+      padding: var(--s-7) var(--gutter);
+      max-width: var(--container);
+      margin-inline: auto;
+      position: relative;
+    }
+    .nf__brillos { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+    .nf__brillos .brillo { position: absolute; opacity: .16; }
+    .nf__brillos .n1 { --brillo-size: 15rem; --brillo-color: var(--turquesa); top: -3rem; right: -2rem; }
+    .nf__brillos .n2 { --brillo-size: 8rem;  --brillo-color: var(--lila); bottom: 2rem; left: -2rem; }
+    .nf > * { position: relative; z-index: 1; }
+    .nf__code { font-family: var(--font-display); font-size: clamp(4rem, 14vw, 8rem); line-height: .85; letter-spacing: -.05em; color: var(--accent); }
+    .nf__links { display: flex; flex-wrap: wrap; gap: var(--s-3); }
+  </style>
+</head>
+<body>
+  <main class="nf">
+    <div class="nf__brillos" aria-hidden="true">
+      <span class="brillo n1"></span>
+      <span class="brillo n2"></span>
+    </div>
+
+    <a href="/" class="logo" aria-label="Lukers — inicio">
+      <img class="logo__positivo" src="/assets/logo_azul_transparente.png" alt="Lukers — Mejores marcas, mejores precios" width="150" height="34" />
+      <img class="logo__negativo" src="/assets/logo_crema_transparente.png" alt="" width="150" height="34" />
+    </a>
+
+    <p class="nf__code">404</p>
+    <h1>Esta página no existe</h1>
+    <p class="lead">
+      Puede que el enlace esté mal escrito o que la página se haya movido.
+      Desde aquí llegas a lo que estabas buscando.
+    </p>
+
+    <div class="nf__links">
+      <a href="/" class="btn btn--primary">Ir al inicio</a>
+      <a href="/#tiendas" class="btn btn--outline">Ver tiendas</a>
+      <a href="/trabaja" class="btn btn--outline">Trabaja con nosotros</a>
+    </div>
+  </main>
+
+  <script src="/js/config.js"></script>
+  <script src="/js/ui.js"></script>
+</body>
+</html>

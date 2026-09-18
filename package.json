@@ -12,6 +12,7 @@
     "node": ">=22.13.0"
   },
   "dependencies": {
+    "compression": "^1.8.2",
     "express": "^4.19.2",
     "multer": "^2.1.1"
   }

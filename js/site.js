@@ -79,6 +79,9 @@ function avisoTiendas(texto) {
 async function cargarTiendas() {
   const grid = $("#storeGrid");
   if (!grid) return;
+  // Si el servidor ya escribió las tiendas en el HTML, no las repintamos:
+  // evita el parpadeo y una petición innecesaria.
+  if (grid.dataset.servidor === "1") return;
   try {
     const res = await fetch("/api/stores");
     if (!res.ok) throw new Error("respuesta no válida");

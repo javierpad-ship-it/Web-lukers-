@@ -13,6 +13,7 @@
  */
 
 const express = require("express");
+const compression = require("compression");
 const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
@@ -287,6 +288,10 @@ const app = express();
 app.set("trust proxy", 1);
 
 app.disable("x-powered-by");
+
+// Comprime HTML, CSS y JavaScript antes de enviarlos: menos datos para
+// quien entra desde el móvil, que es casi todo el tráfico.
+app.use(compression());
 app.use(express.json({ limit: "100kb" }));
 
 // Cabeceras de seguridad para todas las respuestas.
@@ -316,7 +321,131 @@ function noIndex(req, res, next) {
   next();
 }
 
-app.get("/", (req, res) => res.sendFile(path.join(ROOT, "index.html")));
+/* ------------------------------------------------------------------ */
+/*  Portada servida con las tiendas ya escritas en el HTML             */
+/*                                                                     */
+/*  Antes la lista de tiendas se dibujaba solo con JavaScript: el      */
+/*  visitante la veía, pero Google y los robots de WhatsApp recibían   */
+/*  una sección vacía. Para una cadena de tiendas físicas, esas 12     */
+/*  direcciones son el contenido más valioso del sitio.                */
+/* ------------------------------------------------------------------ */
+
+function escapeHtml(str) {
+  return String(str ?? "").replace(/[&<>"']/g, (c) =>
+    ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c])
+  );
+}
+
+// Región de cada ciudad donde hay tienda. Es geografía, no un dato de
+// negocio: si aparece una ciudad nueva, simplemente se omite la región.
+const REGION_POR_CIUDAD = {
+  "Lima": "Lima",
+  "Trujillo": "La Libertad",
+  "Chiclayo": "Lambayeque",
+  "Tarapoto": "San Martín",
+  "Iquitos": "Loreto",
+};
+
+const HORARIO_POR_DEFECTO = "Lun a Dom · 10:00 a. m. – 10:00 p. m.";
+
+function mapsUrl(nombre, direccion) {
+  return "https://www.google.com/maps/search/?api=1&query=" +
+    encodeURIComponent(`${nombre} ${direccion} Perú`);
+}
+
+function tarjetasDeTienda(stores) {
+  const pin = '<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11Z"/><circle cx="12" cy="10" r="2.6"/></svg>';
+  const reloj = '<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>';
+
+  return stores.map((s) => {
+    const foto = s.photo
+      ? `<img src="${escapeHtml(s.photo)}" alt="Tienda Lukers ${escapeHtml(s.name)}" loading="lazy" decoding="async" />`
+      : `<div class="media__placeholder"><span class="brillo" aria-hidden="true"></span><span>Foto de la tienda</span></div>`;
+
+    return `
+        <article class="card store-card card--hover">
+          <div class="media media--3x2">${foto}</div>
+          <div class="card__body">
+            <span class="store-card__city">${escapeHtml(s.city)}</span>
+            <h3>${escapeHtml(s.name)}</h3>
+            <p class="store-card__meta">${pin}<span>${escapeHtml(s.address)}</span></p>
+            <p class="store-card__meta">${reloj}<span>${escapeHtml(s.hours || HORARIO_POR_DEFECTO)}</span></p>
+            <div class="store-card__actions">
+              <a class="btn btn--primary btn--sm" href="${mapsUrl(s.name, s.address)}" target="_blank" rel="noopener">Cómo llegar</a>
+            </div>
+          </div>
+        </article>`;
+  }).join("");
+}
+
+/*
+  Datos estructurados: una ficha ClothingStore por tienda. Es lo que le
+  dice a Google que Lukers no es "una empresa que opera en Perú", sino 12
+  locales con dirección y horario, que es como se entra al mapa.
+  No se inventan teléfonos ni coordenadas: se omiten mientras no existan.
+*/
+function tiendasJsonLd(stores) {
+  const fichas = stores.map((s) => {
+    const region = REGION_POR_CIUDAD[s.city];
+    const ficha = {
+      "@context": "https://schema.org",
+      "@type": "ClothingStore",
+      name: `Lukers ${s.city === s.name ? s.city : s.name.replace(/^Lukers\s*/i, "")}`.trim(),
+      parentOrganization: { "@type": "Organization", name: "Lukers", url: `${SITE_URL}/` },
+      url: `${SITE_URL}/#tiendas`,
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: s.address,
+        addressLocality: s.city,
+        addressCountry: "PE",
+        ...(region ? { addressRegion: region } : {}),
+      },
+      openingHours: "Mo-Su 10:00-22:00",
+      priceRange: "$$",
+    };
+    if (s.photo) ficha.image = `${SITE_URL}${s.photo}`;
+    return ficha;
+  });
+  return `<script type="application/ld+json">${JSON.stringify(fichas)}</script>`;
+}
+
+/** Lee index.html y le inserta las tiendas y sus datos estructurados. */
+function portadaConTiendas() {
+  let html = fs.readFileSync(path.join(ROOT, "index.html"), "utf8");
+  let stores = [];
+  try {
+    stores = db
+      .prepare("SELECT id, name, city, address, hours, photo FROM stores WHERE active = 1 ORDER BY sort_order, id")
+      .all()
+      .map((s) => ({ ...s, photo: s.photo ? `/uploads/${s.photo}` : null }));
+  } catch (e) {
+    console.error("[portada] no se pudieron leer las tiendas", e);
+    return html; // el JavaScript del navegador seguirá intentándolo
+  }
+  if (!stores.length) return html;
+
+  const tarjetas = `<div class="grid grid-3" id="storeGrid" data-servidor="1">${tarjetasDeTienda(stores)}\n      </div>`;
+  const jsonLd = `  ${tiendasJsonLd(stores)}\n</head>`;
+  // Se usa una función de reemplazo a propósito: con una cadena, JavaScript
+  // interpretaría $$, $& o $1 dentro del contenido y lo corrompería.
+  html = html.replace('<div class="grid grid-3" id="storeGrid"></div>', () => tarjetas);
+  html = html.replace("</head>", () => jsonLd);
+  return html;
+}
+
+/*
+  Las páginas usan rutas relativas (css/base.css). Con barra final,
+  /trabaja/ las busca en /trabaja/css/... y devolvía una página en blanco
+  con todos los recursos rotos, además indexable. Se redirige a la
+  dirección canónica, sin barra.
+*/
+app.get(/^\/(trabaja|postulaciones|privacidad)\/+$/, (req, res) => {
+  res.redirect(301, "/" + req.params[0]);
+});
+
+app.get("/", (req, res) => {
+  res.type("html").send(portadaConTiendas());
+});
 app.get("/admin", noIndex, (req, res) => res.sendFile(path.join(ROOT, "admin.html")));
 app.get(["/trabaja", "/trabaja.html"], (req, res) =>
   res.sendFile(path.join(ROOT, "trabaja.html"))
@@ -357,7 +486,9 @@ app.get("/robots.txt", (req, res) => {
       "User-agent: *",
       "Disallow: /admin",
       "Disallow: /postulaciones",
-      "Disallow: /uploads/",
+      // /uploads/ NO se bloquea: ahí viven las fotos de las tiendas y del
+      // diseño. Bloquearlas las dejaría fuera de Google Imágenes y le
+      // quitaría a Google el contexto visual de cada tienda.
       "Allow: /",
       "",
       `Sitemap: ${SITE_URL}/sitemap.xml`,
@@ -692,6 +823,18 @@ app.delete("/api/admin/offers/:id", requireAuth, (req, res) => {
   if (id === null) return res.status(400).json({ error: "Identificador no válido" });
   db.prepare("DELETE FROM offers WHERE id = ?").run(id);
   res.json({ ok: true });
+});
+
+/* ----------------------------- Página no encontrada --------------- */
+/*
+  Antes respondía la página por defecto de Express: en inglés, sin marca
+  y sin ninguna salida para el visitante.
+*/
+app.use((req, res) => {
+  if (req.path.startsWith("/api/")) {
+    return res.status(404).json({ error: "Ruta no encontrada" });
+  }
+  res.status(404).sendFile(path.join(ROOT, "404.html"));
 });
 
 /* ----------------------------- Manejo de errores ------------------ */
