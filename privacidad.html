@@ -10,41 +10,29 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/styles.css" />
-  <style>
-    .legal { max-width: 760px; margin: 0 auto; padding: 4rem 1.25rem 6rem; }
-    .legal h1 { margin-bottom: .5rem; }
-    .legal .legal-date { opacity: .7; margin-bottom: 3rem; }
-    .legal h2 { margin: 3rem 0 .75rem; }
-    .legal p, .legal li { line-height: 1.7; }
-    .legal ul { padding-left: 1.25rem; margin: 1rem 0; }
-    .legal li { margin-bottom: .5rem; }
-    .legal a { text-decoration: underline; }
-    .legal-box {
-      border: 2px solid var(--azul, #008CFF);
-      border-radius: 14px;
-      padding: 1.25rem 1.5rem;
-      margin: 2rem 0;
-    }
-  </style>
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/site.css" />
 </head>
 <body>
 
   <header class="header" id="header">
     <nav class="nav container" aria-label="Navegación principal">
       <a href="/" class="logo" aria-label="Lukers — inicio">
-        <img class="logo-positivo" src="assets/logo_azul_transparente.png" alt="Lukers — Mejores marcas, mejores precios" />
-        <img class="logo-negativo" src="assets/logo_crema_transparente.png" alt="Lukers — Mejores marcas, mejores precios" />
+        <img class="logo__positivo" src="assets/logo_azul_transparente.png" alt="Lukers — Mejores marcas, mejores precios" width="150" height="34" />
+        <img class="logo__negativo" src="assets/logo_crema_transparente.png" alt="" width="150" height="34" />
       </a>
-      <div class="nav-actions">
-        <a href="/" class="btn btn-primary btn-nav">← Volver al inicio</a>
+      <div class="nav__actions">
+        <button class="icon-btn" id="themeToggle" aria-label="Cambiar entre modo claro y modo azul" title="Modo claro / azul">
+          <span class="brillo" aria-hidden="true"></span>
+        </button>
+        <a href="/" class="btn btn--outline btn--sm">Volver al inicio</a>
       </div>
     </nav>
   </header>
 
-  <main class="legal">
+  <main class="section"><div class="container legal">
     <h1>Política de privacidad</h1>
-    <p class="legal-date">Última actualización: <time datetime="2026-09-17">17 de septiembre de 2026</time></p>
+    <p class="text-soft">Última actualización: <time datetime="2026-09-17">17 de septiembre de 2026</time></p>
 
     <!--
       ══════════════════════════════════════════════════════════════════
@@ -66,7 +54,7 @@
       ══════════════════════════════════════════════════════════════════
     -->
 
-    <div class="legal-box">
+    <div class="brillo-box">
       <p><strong>En resumen:</strong> recogemos tu correo si te suscribes a nuestras novedades, y tus datos de contacto si postulas a trabajar con nosotros. No vendemos ni cedemos tus datos a terceros. Puedes pedirnos en cualquier momento que los eliminemos escribiendo a <a href="mailto:hola@lukers.pe">hola@lukers.pe</a>.</p>
     </div>
 
@@ -201,17 +189,21 @@
     </p>
 
     <p style="margin-top:3rem"><a href="/">← Volver al inicio</a></p>
-  </main>
+  </div></main>
 
   <footer class="footer">
-    <div class="footer-concept">Mejores marcas ✦ Mejores precios</div>
-    <div class="footer-bottom">
-      <p>© <span id="year"></span> Lukers. Todos los derechos reservados.</p>
+    <div class="container">
+      <div class="footer__concept">
+        Mejores marcas <span class="brillo" aria-hidden="true"></span> Mejores precios
+      </div>
+      <div class="footer__bottom">
+        <p>© <span id="year">2026</span> Lukers. Todos los derechos reservados.</p>
+        <p><a href="/">Inicio</a> · <a href="/trabaja">Trabaja con nosotros</a></p>
+      </div>
     </div>
   </footer>
 
-  <script>
-    document.getElementById("year").textContent = new Date().getFullYear();
-  </script>
+  <script src="js/config.js"></script>
+  <script src="js/ui.js"></script>
 </body>
 </html>

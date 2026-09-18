@@ -3,191 +3,256 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Trabaja con nosotros — LUKERS</title>
-  <meta name="description" content="Únete al equipo Lukers. Postula a nuestras tiendas en todo el Perú. Empleo formal, línea de carrera y capacitación constante." />
+
+  <title>Trabaja con nosotros — Lukers</title>
+  <meta name="description" content="Únete al equipo Lukers. Postula a nuestras tiendas en Lima y provincias: empleo formal, línea de carrera y capacitación constante." />
+  <link rel="canonical" href="https://lukers.pe/trabaja" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Lukers" />
+  <meta property="og:locale" content="es_PE" />
+  <meta property="og:title" content="Trabaja con nosotros — Lukers" />
+  <meta property="og:description" content="Empleo formal, línea de carrera y capacitación. Postula a la tienda Lukers más cercana a ti." />
+  <meta property="og:url" content="https://lukers.pe/trabaja" />
+  <meta property="og:image" content="https://lukers.pe/assets/og-lukers.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#008CFF" />
+
   <link rel="icon" type="image/png" href="assets/simbolo_LL_fondo_azul.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@400;600;800;900&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/site.css" />
+
   <script>
-    // La animación de aparición solo se activa si hay JavaScript.
     document.documentElement.classList.add("js-reveal");
   </script>
 </head>
 <body>
 
-  <!-- ====== HEADER ====== -->
-  <header class="header scrolled" id="header">
-    <nav class="nav container" aria-label="Navegación principal">
-      <a href="/" class="logo" aria-label="Lukers — inicio">
-        <img class="logo-positivo" src="assets/logo_azul_transparente.png" alt="Lukers — Mejores marcas, mejores precios" />
-        <img class="logo-negativo" src="assets/logo_crema_transparente.png" alt="Lukers — Mejores marcas, mejores precios" />
-      </a>
+<a class="skip-link" href="#contenido">Saltar al contenido</a>
 
-      <ul class="nav-links" id="navLinks">
-        <li><a href="/#inicio">Inicio</a></li>
-        <li><a href="/#ofertas">Ofertas</a></li>
-        <li><a href="/#marcas">Marcas</a></li>
-        <li><a href="/#tiendas">Tiendas</a></li>
-        <li><a href="/trabaja" class="active">Trabaja con nosotros</a></li>
-      </ul>
+<header class="header" id="header">
+  <nav class="nav container" aria-label="Navegación principal">
+    <a href="/" class="logo" aria-label="Lukers — inicio">
+      <img class="logo__positivo" src="assets/logo_azul_transparente.png" alt="Lukers — Mejores marcas, mejores precios" width="150" height="34" />
+      <img class="logo__negativo" src="assets/logo_crema_transparente.png" alt="" width="150" height="34" />
+    </a>
 
-      <div class="nav-actions">
-        <button class="icon-btn" id="themeToggle" aria-label="Cambiar entre modo positivo y negativo" title="Modo positivo / negativo">
-          <span class="brillo-icon" aria-hidden="true">✦</span>
-        </button>
-        <a href="/" class="btn btn-primary btn-nav">← Volver al inicio</a>
-        <button class="hamburger" id="hamburger" aria-label="Abrir menú">
-          <span></span><span></span><span></span>
-        </button>
-      </div>
-    </nav>
-  </header>
+    <ul class="nav__links" id="navLinks">
+      <li><a href="/#categorias">Categorías</a></li>
+      <li><a href="/#marcas">Marcas</a></li>
+      <li><a href="/#tiendas">Tiendas</a></li>
+      <li><a href="/#nosotros">Nosotros</a></li>
+      <li><a href="/trabaja" aria-current="page">Trabaja con nosotros</a></li>
+    </ul>
 
-  <main>
-    <!-- ====== INTRO ====== -->
-    <section class="jobs-hero">
-      <img src="assets/brillo_turquesa.png" class="banner-brillo bb1" alt="" aria-hidden="true" />
-      <img src="assets/brillo_rosa.png" class="banner-brillo bb2" alt="" aria-hidden="true" />
-      <div class="container jobs-hero-inner">
-        <span class="eyebrow eyebrow-crema">✦ Únete al equipo</span>
-        <h1>Trabaja con nosotros</h1>
-        <p>En Lukers creemos en el talento peruano. Buscamos personas con energía, vocación de servicio y muchas ganas de crecer. Postula a la tienda más cercana a ti.</p>
-      </div>
-    </section>
+    <div class="nav__actions">
+      <button class="icon-btn" id="themeToggle" aria-label="Cambiar entre modo claro y modo azul" title="Modo claro / azul">
+        <span class="brillo" aria-hidden="true"></span>
+      </button>
+      <a href="/" class="btn btn--outline btn--sm btn--nav">Volver al inicio</a>
+      <button class="burger" id="burger" aria-label="Abrir menú" aria-expanded="false" aria-controls="navLinks">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+</header>
 
-    <!-- ====== BENEFICIOS + FORMULARIO ====== -->
-    <section class="section">
-      <div class="container">
-        <div class="jobs-layout">
-          <div class="jobs-left reveal">
-            <h2>¿Por qué Lukers?</h2>
-            <div class="jobs-perks">
-              <div class="job-perk"><span>📈</span><div><b>Línea de carrera real</b><p>Crecimiento desde vendedor hasta jefe de tienda y más.</p></div></div>
-              <div class="job-perk"><span>🎓</span><div><b>Capacitación constante</b><p>Te enseñamos sobre marcas, atención al cliente y ventas.</p></div></div>
-              <div class="job-perk"><span>💼</span><div><b>Empleo formal</b><p>Planilla, beneficios de ley y un ambiente de trabajo sano.</p></div></div>
-              <div class="job-perk"><span>🤝</span><div><b>Gran equipo</b><p>Más de 300 compañeros en todo el Perú que te van a recibir bien.</p></div></div>
-            </div>
+<main id="contenido">
+
+  <section class="jobs-hero">
+    <span class="brillo jobs-hero__brillo" aria-hidden="true"></span>
+    <div class="container">
+      <span class="eyebrow"><span class="brillo brillo--crema" aria-hidden="true"></span> Únete al equipo</span>
+      <h1>Trabaja con nosotros</h1>
+      <p class="lead">
+        En Lukers creemos en el talento peruano. Buscamos personas con energía,
+        vocación de servicio y ganas de crecer. Postula a la tienda más cercana a ti.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container jobs-grid">
+
+      <div class="reveal">
+        <h2>¿Por qué Lukers?</h2>
+
+        <div class="perk">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19V5"/><path d="M4 19h16"/><path d="m7 15 3.5-4 3 2.5L20 7"/></svg>
+          <div>
+            <b>Línea de carrera real</b>
+            <p>Crecimiento desde vendedor hasta jefe de tienda y más allá.</p>
           </div>
+        </div>
 
-          <div class="jobs-right reveal">
-            <form class="jobs-form" id="jobForm" novalidate>
-              <h3>Postula aquí</h3>
-              <div class="form-row">
-                <input type="text" id="jobName" placeholder="Nombre completo *" aria-label="Nombre completo" required />
-                <input type="email" id="jobEmail" placeholder="Correo electrónico *" aria-label="Correo" required />
-              </div>
-              <div class="form-row">
-                <input type="tel" id="jobPhone" placeholder="Celular *" aria-label="Celular" required />
-                <input type="text" id="jobDni" placeholder="DNI *" aria-label="DNI" inputmode="numeric" maxlength="12" required />
-              </div>
+        <div class="perk">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 4 9 4.5-9 4.5-9-4.5Z"/><path d="M7 11v4.5c0 1.4 2.2 2.5 5 2.5s5-1.1 5-2.5V11"/></svg>
+          <div>
+            <b>Capacitación constante</b>
+            <p>Te enseñamos sobre marcas, atención al cliente y técnicas de venta.</p>
+          </div>
+        </div>
 
-              <label class="jobs-label" for="jobStore">¿En qué tienda te gustaría trabajar? *</label>
-              <select id="jobStore" aria-label="Tienda" required>
-                <option value="">Selecciona una tienda…</option>
-              </select>
+        <div class="perk">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5.5A1.5 1.5 0 0 1 10.5 4h3A1.5 1.5 0 0 1 15 5.5V7"/><path d="M3 12h18"/></svg>
+          <div>
+            <b>Empleo formal</b>
+            <p>Planilla, beneficios de ley y un ambiente de trabajo sano.</p>
+          </div>
+        </div>
 
-              <label class="jobs-label">Jornada que buscas *</label>
-              <div class="schedule-options" id="scheduleOptions">
-                <label class="schedule-chip">
-                  <input type="radio" name="schedule" value="Full time" required />
-                  <span>🕘 Full time</span>
-                </label>
-                <label class="schedule-chip">
-                  <input type="radio" name="schedule" value="Part time" />
-                  <span>🕓 Part time</span>
-                </label>
-                <label class="schedule-chip">
-                  <input type="radio" name="schedule" value="Cualquiera" />
-                  <span>✦ Cualquiera</span>
-                </label>
-              </div>
-
-              <label class="jobs-label">¿Actualmente estás estudiando? *</label>
-              <div class="schedule-options" id="studyingOptions">
-                <label class="schedule-chip">
-                  <input type="radio" name="studying" value="Sí, estudio" required />
-                  <span>📚 Sí, estudio</span>
-                </label>
-                <label class="schedule-chip">
-                  <input type="radio" name="studying" value="No estudio" />
-                  <span>💼 No estudio</span>
-                </label>
-              </div>
-
-              <textarea id="jobMessage" rows="4" placeholder="Cuéntanos un poco sobre ti, qué experiencia tienes y a qué área te gustaría postular…" aria-label="Mensaje"></textarea>
-
-              <label class="consent" for="jobConsent">
-                <input type="checkbox" id="jobConsent" required />
-                <span>
-                  Autorizo a Lukers a tratar mis datos personales con la única
-                  finalidad de evaluar mi postulación y contactarme durante el
-                  proceso de selección, según la
-                  <a href="/privacidad" target="_blank" rel="noopener">política de privacidad</a>.
-                </span>
-              </label>
-
-              <button type="submit" class="btn btn-primary">Enviar postulación</button>
-              <p class="form-msg" id="jobMsg" role="status"></p>
-            </form>
+        <div class="perk">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3"/><path d="M3 20v-1a5 5 0 0 1 5-5h2a5 5 0 0 1 5 5v1"/><path d="M16 5.2a3 3 0 0 1 0 5.6"/><path d="M18.5 14.2A5 5 0 0 1 21 19v1"/></svg>
+          <div>
+            <b>Un gran equipo</b>
+            <p>Más de 300 compañeros en todo el Perú que te van a recibir bien.</p>
           </div>
         </div>
       </div>
-    </section>
-  </main>
 
-  <!-- ====== FOOTER ====== -->
-  <footer class="footer">
-    <div class="container footer-grid">
-      <div>
+      <form class="jobs-form reveal" id="jobForm" novalidate>
+        <h2>Postula aquí</h2>
+
+        <div class="form-row">
+          <div class="field">
+            <label for="jobName">Nombre completo</label>
+            <input class="input" type="text" id="jobName" autocomplete="name" required />
+          </div>
+          <div class="field">
+            <label for="jobEmail">Correo electrónico</label>
+            <input class="input" type="email" id="jobEmail" autocomplete="email" required />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="field">
+            <label for="jobPhone">Celular</label>
+            <input class="input" type="tel" id="jobPhone" autocomplete="tel" inputmode="tel" required />
+          </div>
+          <div class="field">
+            <label for="jobDni">DNI</label>
+            <input class="input" type="text" id="jobDni" inputmode="numeric" maxlength="12" required />
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="jobStore">¿En qué tienda te gustaría trabajar?</label>
+          <select class="select" id="jobStore" required>
+            <option value="">Selecciona una tienda…</option>
+          </select>
+        </div>
+
+        <fieldset class="field">
+          <legend class="label">Jornada que buscas</legend>
+          <div class="choice" id="scheduleOptions">
+            <label class="choice__item"><input type="radio" name="schedule" value="Full time" required /><span>Full time</span></label>
+            <label class="choice__item"><input type="radio" name="schedule" value="Part time" /><span>Part time</span></label>
+            <label class="choice__item"><input type="radio" name="schedule" value="Cualquiera" /><span>Cualquiera</span></label>
+          </div>
+        </fieldset>
+
+        <fieldset class="field">
+          <legend class="label">¿Actualmente estás estudiando?</legend>
+          <div class="choice" id="studyingOptions">
+            <label class="choice__item"><input type="radio" name="studying" value="Sí, estudio" required /><span>Sí, estudio</span></label>
+            <label class="choice__item"><input type="radio" name="studying" value="No estudio" /><span>No estudio</span></label>
+          </div>
+        </fieldset>
+
+        <div class="field">
+          <label for="jobMessage">Cuéntanos sobre ti <span class="text-soft">(opcional)</span></label>
+          <textarea class="textarea" id="jobMessage" rows="4" placeholder="Qué experiencia tienes y a qué área te gustaría postular…"></textarea>
+        </div>
+
+        <label class="consent" for="jobConsent">
+          <input type="checkbox" id="jobConsent" required />
+          <span>
+            Autorizo a Lukers a tratar mis datos personales con la única finalidad
+            de evaluar mi postulación y contactarme durante el proceso de
+            selección, según la <a href="/privacidad" target="_blank" rel="noopener">política de privacidad</a>.
+          </span>
+        </label>
+
+        <button type="submit" class="btn btn--primary btn--block">Enviar postulación</button>
+        <p class="form-msg" id="jobMsg" role="status"></p>
+      </form>
+
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__grid">
+      <div class="footer__brand">
         <a href="/" class="logo" aria-label="Lukers — inicio">
-          <img src="assets/logo_crema_transparente.png" alt="Lukers — Mejores marcas, mejores precios" />
+          <img src="assets/logo_crema_transparente.png" alt="Lukers — Mejores marcas, mejores precios" width="140" height="32" />
         </a>
-        <p>Tienda de ropa de marca a buen precio. Acercamos las mejores marcas a todos los peruanos, con garantía de autenticidad.</p>
+        <p>Ropa de marca original a buen precio. Acercamos las mejores marcas a todos los peruanos, con garantía de autenticidad.</p>
         <div class="socials">
-          <a href="https://www.facebook.com/Lukers.pe/" target="_blank" rel="noopener" aria-label="Facebook">ⓕ</a>
-          <a href="https://www.instagram.com/lukers.pe/" target="_blank" rel="noopener" aria-label="Instagram">◎</a>
-          <a href="https://www.tiktok.com/@lukers.pe" target="_blank" rel="noopener" aria-label="TikTok">♪</a>
+          <a href="https://www.facebook.com/Lukers.pe/" target="_blank" rel="noopener" aria-label="Lukers en Facebook">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 9h3V6h-3c-2.2 0-4 1.8-4 4v2H8v3h2v6h3v-6h3l1-3h-4v-2c0-.6.4-1 1-1Z"/></svg>
+          </a>
+          <a href="https://www.instagram.com/lukers.pe/" target="_blank" rel="noopener" aria-label="Lukers en Instagram">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 8.6a3.4 3.4 0 1 0 0 6.8 3.4 3.4 0 0 0 0-6.8Zm0-2.2c3 0 3.4 0 4.6.1 1.1 0 1.7.2 2.1.4.5.2.9.5 1.3.9.4.4.7.8.9 1.3.2.4.4 1 .4 2.1.1 1.2.1 1.6.1 4.6s0 3.4-.1 4.6c0 1.1-.2 1.7-.4 2.1-.2.5-.5.9-.9 1.3-.4.4-.8.7-1.3.9-.4.2-1 .4-2.1.4-1.2.1-1.6.1-4.6.1s-3.4 0-4.6-.1c-1.1 0-1.7-.2-2.1-.4-.5-.2-.9-.5-1.3-.9-.4-.4-.7-.8-.9-1.3-.2-.4-.4-1-.4-2.1C3.6 15.4 3.6 15 3.6 12s0-3.4.1-4.6c0-1.1.2-1.7.4-2.1.2-.5.5-.9.9-1.3.4-.4.8-.7 1.3-.9.4-.2 1-.4 2.1-.4C9.6 2.6 10 2.6 12 2.6Zm5.8 3.1a1.3 1.3 0 1 0 0 2.6 1.3 1.3 0 0 0 0-2.6Z"/></svg>
+          </a>
         </div>
       </div>
+
       <div>
         <h4>Institucional</h4>
-        <a href="/#nosotros">Quiénes somos</a>
-        <a href="/#historia">Nuestra historia</a>
-        <a href="/#marcas">Marcas</a>
+        <div class="footer__links">
+          <a href="/#nosotros">Quiénes somos</a>
+          <a href="/#historia">Nuestra historia</a>
+          <a href="/#marcas">Marcas</a>
+          <a href="/#proveedores">Proveedores</a>
+        </div>
       </div>
+
       <div>
         <h4>Atención</h4>
-        <a href="/#tiendas">Tiendas y horarios</a>
-        <a href="/#contacto">Contacto</a>
-        <a href="/trabaja">Trabaja con nosotros</a>
+        <div class="footer__links">
+          <a href="/#tiendas">Tiendas y horarios</a>
+          <a href="/#contacto">Contacto</a>
+          <a href="/trabaja">Trabaja con nosotros</a>
+          <a href="/privacidad#reclamaciones">Libro de reclamaciones</a>
+        </div>
       </div>
+
       <div>
-        <h4>Contacto</h4>
-        <a href="mailto:hola@lukers.pe">hola@lukers.pe</a>
-        <a href="tel:+5116000000">(01) 600-0000</a>
-        <p>Lun a Dom · 10 a.m. – 10 p.m.</p>
-        <a href="/admin" class="footer-admin">Administración</a>
+        <h4>Legal</h4>
+        <div class="footer__links">
+          <a href="/privacidad">Política de privacidad</a>
+          <a href="mailto:hola@lukers.pe">hola@lukers.pe</a>
+        </div>
       </div>
     </div>
-    <div class="footer-concept">Mejores marcas ✦ Mejores precios</div>
-    <div class="footer-bottom">
-      <p>© <span id="year"></span> Lukers. Todos los derechos reservados.</p>
+
+    <div class="footer__concept">
+      Mejores marcas <span class="brillo" aria-hidden="true"></span> Mejores precios
     </div>
-  </footer>
 
-  <!-- ====== WHATSAPP FLOTANTE ====== -->
-  <a href="#" class="whatsapp-fab" id="whatsappFab" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp">
-    <svg viewBox="0 0 32 32" width="28" height="28" fill="currentColor" aria-hidden="true"><path d="M16.04 3C9.4 3 4 8.4 4 15.04c0 2.12.56 4.18 1.6 6L4 29l8.16-1.56a12 12 0 0 0 3.88.64h.01C22.7 28.08 28.1 22.68 28.1 16.04 28.1 8.4 22.7 3 16.04 3Zm0 21.9h-.01a9.9 9.9 0 0 1-5.04-1.38l-.36-.22-4.84.93.97-4.72-.24-.38a9.86 9.86 0 0 1-1.5-5.25c0-5.46 4.45-9.9 9.92-9.9 2.65 0 5.14 1.03 7.01 2.9a9.84 9.84 0 0 1 2.9 7.01c0 5.47-4.45 9.91-9.91 9.91Zm5.44-7.42c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51l-.57-.01c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.06 2.88 1.21 3.08.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.62.71.23 1.36.2 1.87.12.57-.08 1.76-.72 2-1.41.25-.7.25-1.29.17-1.42-.07-.13-.27-.2-.57-.35Z"/></svg>
-    <span class="whatsapp-fab-text">WhatsApp</span>
-  </a>
+    <div class="footer__bottom">
+      <p>© <span id="year">2026</span> Lukers. Todos los derechos reservados.</p>
+      <p>Hecho en el Perú</p>
+    </div>
+  </div>
+</footer>
 
-  <!-- ====== TOAST ====== -->
-  <div class="toast" id="toast" role="status"></div>
+<a href="#" class="wa-fab" id="waFab" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp">
+  <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16.04 3C9.4 3 4 8.4 4 15.04c0 2.12.56 4.18 1.6 6L4 29l8.16-1.56a12 12 0 0 0 3.88.64h.01C22.7 28.08 28.1 22.68 28.1 16.04 28.1 8.4 22.7 3 16.04 3Zm0 21.9h-.01a9.9 9.9 0 0 1-5.04-1.38l-.36-.22-4.84.93.97-4.72-.24-.38a9.86 9.86 0 0 1-1.5-5.25c0-5.46 4.45-9.9 9.92-9.9 2.65 0 5.14 1.03 7.01 2.9a9.84 9.84 0 0 1 2.9 7.01c0 5.47-4.45 9.91-9.91 9.91Zm5.44-7.42c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51l-.57-.01c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.06 2.88 1.21 3.08.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.62.71.23 1.36.2 1.87.12.57-.08 1.76-.72 2-1.41.25-.7.25-1.29.17-1.42-.07-.13-.27-.2-.57-.35Z"/></svg>
+  <span class="wa-fab__text">WhatsApp</span>
+</a>
 
-  <script src="js/config.js"></script>
-  <script src="js/reveal.js"></script>
-  <script src="js/trabaja.js"></script>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="js/config.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/reveal.js"></script>
+<script src="js/trabaja.js"></script>
 </body>
 </html>

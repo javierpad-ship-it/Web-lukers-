@@ -589,3 +589,11 @@ a.card:hover, .card--hover:hover {
   }
   .js-reveal .reveal { opacity: 1; transform: none; }
 }
+
+/* ---------- 14. Correcciones de elementos nativos ---------- */
+/* El navegador dibuja un borde por defecto alrededor de fieldset. */
+fieldset { border: 0; padding: 0; margin: 0; min-width: 0; }
+legend { padding: 0; }
+
+/* Los grupos de opciones necesitan su propio aire bajo la etiqueta. */
+.field > .choice { margin-top: var(--s-1); }
