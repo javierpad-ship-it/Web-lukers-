@@ -484,6 +484,31 @@ app.get("/sitemap.xml", (req, res) => {
   res.type("application/xml").send(xml);
 });
 
+/*
+  Marcador de versión. Abriendo /version se ve de un vistazo QUÉ código está
+  corriendo de verdad: si el despliegue llegó o si el servidor sigue con una
+  versión vieja. Railway expone el commit en RAILWAY_GIT_COMMIT_SHA.
+*/
+const ARRANCADO_EN = new Date().toISOString();
+app.get("/version", (req, res) => {
+  res.json({
+    commit: (process.env.RAILWAY_GIT_COMMIT_SHA || "desconocido").slice(0, 7),
+    rama: process.env.RAILWAY_GIT_BRANCH || "desconocida",
+    arrancado: ARRANCADO_EN,
+    node: process.version,
+    // Señales de que la configuración está puesta, sin revelar los valores
+    config: {
+      ADMIN_PASSWORD: Boolean(process.env.ADMIN_PASSWORD),
+      JOBS_PASSWORD: Boolean(process.env.JOBS_PASSWORD),
+      SESSION_SECRET: Boolean(process.env.SESSION_SECRET),
+      DATA_DIR: Boolean(process.env.DATA_DIR),
+      UPLOADS_DIR: Boolean(process.env.UPLOADS_DIR),
+      SITE_URL: process.env.SITE_URL || null,
+      TIENDAS_VERIFICADAS: process.env.TIENDAS_VERIFICADAS === "1",
+    },
+  });
+});
+
 // robots.txt — le dice a Google qué NO debe indexar.
 app.get("/robots.txt", (req, res) => {
   res.type("text/plain").send(
