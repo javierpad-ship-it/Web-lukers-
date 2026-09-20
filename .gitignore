@@ -12,3 +12,6 @@ uploads/*
 # Sistema
 .DS_Store
 *.log
+
+# Capturas de pruebas que no deben versionarse
+undefined/
