@@ -216,6 +216,63 @@ footer{background:var(--negro);color:var(--crema);padding:clamp(4rem,8vw,6rem) 0
   html{scroll-behavior:auto}
   h1 .line span,.lead,.acts,.stats,.hero-vis,.rv{opacity:1!important;transform:none!important}
 }
+
+/* ══════════ Vídeos de la comunidad (UGC) ══════════ */
+.ugc{display:grid;gap:clamp(1.5rem,3vw,2.5rem)}
+@media(min-width:60rem){.ugc{grid-template-columns:1.7fr 1fr;align-items:stretch}}
+/* Numero de columnas fijo, no auto-fit: con auto-fit los tres videos caian
+   2 + 1 y quedaba un hueco enorme a la derecha. */
+.ugc-grid{display:grid;gap:.9rem;grid-template-columns:repeat(3,1fr)}
+@media(max-width:36rem){.ugc-grid{grid-template-columns:repeat(2,1fr)}
+  .ugc-grid .vid:nth-child(3){grid-column:span 2;max-width:calc(50% - .45rem)}}
+
+.vid{position:relative;border-radius:20px;overflow:hidden;aspect-ratio:9/16;background:var(--crema-2);
+  border:1px solid var(--line);margin:0;
+  transition:transform .45s var(--ease),box-shadow .45s var(--ease)}
+.vid:hover{transform:translateY(-5px);box-shadow:0 24px 52px rgba(33,33,33,.17)}
+/* La capa que se pulsa es un boton propio, no el contenedor: dentro del
+   contenedor acaban entrando un iframe y un enlace, y un <button> no puede
+   contener nada de eso sin romper la navegacion con teclado. */
+.vid-btn{position:absolute;inset:0;z-index:3;width:100%;height:100%;padding:0;margin:0;
+  border:0;background:transparent;cursor:pointer}
+.vid-btn:focus-visible{outline:3px solid var(--azul);outline-offset:-3px;border-radius:20px}
+.vid-cover{position:absolute;inset:0;display:grid;place-items:start center;text-align:center;padding:1.3rem 1rem;
+  background-image:radial-gradient(circle at 26% 22%,rgba(104,216,217,.36),transparent 46%),radial-gradient(circle at 74% 74%,rgba(166,161,245,.36),transparent 48%)}
+.vid-cover>div{display:grid;justify-items:center}
+/* El texto del hueco va arriba: centrado chocaba con el boton de play y,
+   en movil, con el nombre del autor. */
+.vid-cover .br{--s:1.7rem;--c:rgba(0,140,255,.5);margin:0 0 .5rem}
+.vid-cover b{display:block;font-size:.74rem;font-weight:800;letter-spacing:.13em;text-transform:uppercase;color:var(--gris)}
+.vid-cover i{display:block;font-style:normal;font-size:.7rem;color:var(--tenue);margin-top:.3rem}
+.vid img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.vid::after{content:"";position:absolute;inset:auto 0 0 0;height:58%;z-index:1;pointer-events:none;
+  background:linear-gradient(to top,rgba(0,26,52,.88),transparent)}
+.play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:3;
+  width:58px;height:58px;border-radius:50%;background:rgba(255,255,255,.94);display:grid;place-items:center;
+  box-shadow:0 8px 26px rgba(0,0,0,.28);transition:transform .35s var(--ease)}
+.vid:hover .play,.vid-btn:focus-visible ~ .play{transform:translate(-50%,-50%) scale(1.09)}
+.play svg{width:20px;height:20px;fill:var(--azul);margin-left:3px}
+.vid-meta{position:absolute;left:.95rem;right:.95rem;bottom:.9rem;z-index:2;color:var(--crema)}
+.vid-meta b{display:block;font-size:.92rem;font-weight:700}
+.vid-meta span{font-size:.75rem;opacity:.82}
+.vid-tt{position:absolute;top:.8rem;right:.8rem;z-index:2;width:28px;height:28px;border-radius:8px;
+  background:rgba(0,0,0,.55);display:grid;place-items:center;backdrop-filter:blur(6px)}
+.vid-tt svg{width:15px;height:15px;fill:#fff}
+
+/* Bloque de reseñas de Google, al lado */
+.gr{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:1.6rem;
+  display:grid;gap:.9rem;align-content:center}
+.gr-top{display:flex;align-items:center;gap:.8rem}
+.gr-score{font-family:var(--display);font-size:2.6rem;line-height:1;letter-spacing:-.03em;color:var(--text)}
+.gr-stars{display:flex;gap:.15rem}
+.gr-stars .br{--s:1rem;--c:#F5A623}
+.gr small{font-size:.8rem;color:var(--soft)}
+.gr .ph{font-size:.76rem}
+.gr-note{font-size:.84rem;color:var(--soft);line-height:1.55;border-top:1px solid var(--line);padding-top:.9rem}
+
+.aviso{margin-top:1.4rem;padding:.9rem 1.1rem;border-left:3px solid var(--azul);border-radius:0 8px 8px 0;
+  background:color-mix(in srgb,var(--azul) 7%,transparent);font-size:.84rem;line-height:1.6;color:var(--soft)}
+
 </style>
 </head>
 <body>
@@ -308,6 +365,41 @@ footer{background:var(--negro);color:var(--crema);padding:clamp(4rem,8vw,6rem) 0
   </div>
 </section>
 
+
+<!-- ══════════ COMUNIDAD · vídeos reales de TikTok ══════════ -->
+<section class="sec" id="comunidad">
+  <div class="wrap">
+    <div class="head rv">
+      <span class="eyebrow"><span class="br"></span> Nuestra comunidad</span>
+      <h2>Lo que dicen de nosotros</h2>
+      <p>Vídeos reales de gente real. El reproductor de TikTok <strong>solo se carga cuando tocas un vídeo</strong>: hasta entonces la página no pesa ni instala rastreadores.</p>
+    </div>
+
+    <div class="ugc rv">
+      <div class="ugc-grid" id="ugcGrid"></div>
+
+      <div class="gr">
+        <span class="eyebrow"><span class="br"></span> Opiniones verificadas</span>
+        <div class="gr-top">
+          <span class="gr-score">4,X</span>
+          <div>
+            <div class="gr-stars"><span class="br"></span><span class="br"></span><span class="br"></span><span class="br"></span><span class="br"></span></div>
+            <small><span class="ph">nota real por confirmar</span></small>
+          </div>
+        </div>
+        <small><strong><span class="ph">N.º de reseñas</span></strong> en Google, entre todas las tiendas</small>
+        <p class="gr-note">El vídeo emociona; la reseña de Google convence. Este dato es verificable y es lo que mira alguien antes de ir a una tienda. Se toma de tus fichas de Google.</p>
+      </div>
+    </div>
+
+    <p class="aviso rv">
+      <strong>Cómo funciona:</strong> cada vídeo necesita una portada (captura del propio vídeo, vertical 9:16,
+      mínimo 720 × 1280 px) que se sube desde el panel. Se muestra esa portada con el botón de play, y al tocarlo
+      se abre el vídeo original de TikTok con su crédito al autor.
+    </p>
+  </div>
+</section>
+
 <!-- ══════════ TIENDAS ══════════ -->
 <section class="sec" id="tiendas">
   <div class="wrap">
@@ -391,6 +483,57 @@ footer{background:var(--negro);color:var(--crema);padding:clamp(4rem,8vw,6rem) 0
       s.classList.toggle("hide", c!=="Todas" && s.dataset.c!==c);
     });
   });
+
+
+  /* ---------- Vídeos de la comunidad ---------- */
+  var UGC=[
+    {user:"annys_cas",       id:"7666985672225377556", fecha:"jul 2026"},
+    {user:"lenaahurtado",    id:"7577916134561762580", fecha:"nov 2025"},
+    {user:"kennethtristanm", id:"7421334424396123398", fecha:"oct 2024"}
+  ];
+  var TT='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.6 5.8a4.3 4.3 0 0 1-1.1-2.8h-3v12a2.5 2.5 0 1 1-1.8-2.4V9.5a5.6 5.6 0 1 0 4.8 5.5V9.3a7.3 7.3 0 0 0 4.2 1.3V7.7a4.3 4.3 0 0 1-3.1-1.9Z"/></svg>';
+  var PL='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>';
+
+  var grid=document.getElementById("ugcGrid");
+  if(grid){
+    grid.innerHTML=UGC.map(function(v){
+      return '<figure class="vid" data-id="'+v.id+'" data-user="'+v.user+'">'+
+        '<div class="vid-cover"><div><span class="br"></span>'+
+          '<b>Portada del v\u00eddeo</b><i>9:16 \u00b7 720 \u00d7 1280 px</i></div></div>'+
+        '<span class="vid-tt">'+TT+'</span>'+
+        '<span class="play">'+PL+'</span>'+
+        '<figcaption class="vid-meta"><b>@'+v.user+'</b><span>TikTok \u00b7 '+v.fecha+'</span></figcaption>'+
+        '<button class="vid-btn" type="button" aria-label="Reproducir el v\u00eddeo de @'+v.user+' en TikTok"></button>'+
+      '</figure>';
+    }).join("");
+
+    /* Patron de fachada: TikTok no se carga hasta que alguien toca un video. */
+    grid.addEventListener("click",function(e){
+      var b=e.target.closest(".vid-btn"); if(!b) return;
+      var fig=b.closest(".vid");
+      if(fig.getAttribute("data-abierto")==="1") return;
+      fig.setAttribute("data-abierto","1");
+
+      var url="https://www.tiktok.com/@"+fig.dataset.user+"/video/"+fig.dataset.id;
+      var marco=document.createElement("iframe");
+      marco.src="https://www.tiktok.com/embed/v2/"+fig.dataset.id;
+      marco.title="V\u00eddeo de @"+fig.dataset.user+" en TikTok";
+      marco.loading="lazy";
+      marco.allow="autoplay; encrypted-media; picture-in-picture; fullscreen";
+      marco.style.cssText="position:absolute;inset:0;width:100%;height:100%;border:0;border-radius:20px;z-index:4;background:#000";
+
+      /* Si el video se borra o TikTok no carga, queda el enlace al original. */
+      var salida=document.createElement("a");
+      salida.href=url; salida.target="_blank"; salida.rel="noopener";
+      salida.textContent="Ver en TikTok";
+      salida.style.cssText="position:absolute;left:.9rem;bottom:.7rem;z-index:5;font-size:.74rem;color:#fff;text-decoration:underline";
+
+      fig.innerHTML="";
+      fig.appendChild(marco);
+      fig.appendChild(salida);
+      marco.focus&&marco.focus();
+    });
+  }
 
   /* Entrada de la portada */
   requestAnimationFrame(function(){ document.getElementById("hero").classList.add("on"); });
