@@ -100,33 +100,15 @@ async function cargarTiendas() {
       return;
     }
 
-    grid.innerHTML = stores.map((s) => {
-      // En la miniatura no cabe el texto "Foto de la tienda": solo la pieza
-      // de marca. El aviso de que faltan fotos va una vez, en el titular.
-      const foto = s.photo
-        ? `<img src="${escapeHtml(s.photo)}" alt="Tienda Lukers ${escapeHtml(s.name)}" loading="lazy" decoding="async" />`
-        : `<div class="media__placeholder"><span class="brillo" aria-hidden="true"></span></div>`;
-
-      const wa = WHATSAPP_OK
-        ? `<a class="btn btn--ghost btn--sm" href="${whatsappLink(`Hola Lukers 👋 quiero consultar por la tienda ${s.name}.`)}" target="_blank" rel="noopener">WhatsApp</a>`
-        : "";
-
-      return `
-        <article class="tienda" data-zona="${zona(s.city)}" data-nombre="${escapeHtml(s.name)}" data-direccion="${escapeHtml(s.address)}">
-          <div class="tienda__foto media">${foto}</div>
-          <div class="tienda__cuerpo">
-            <span class="tienda__ciudad">${escapeHtml(s.city)}</span>
-            <h3>${escapeHtml(s.name)}</h3>
-            <p class="tienda__dato">${ICONO_PIN}<span>${escapeHtml(s.address)}</span></p>
-            <p class="tienda__dato">${ICONO_RELOJ}<span>${escapeHtml(s.hours || "Lun a Dom · 10:00 a. m. – 10:00 p. m.")}</span></p>
-            <div class="tienda__acciones">
-              <a class="btn btn--primary btn--sm" href="${mapsUrl(s.address, s.name)}" target="_blank" rel="noopener">Cómo llegar</a>
-              <button class="btn btn--outline btn--sm js-ver-plano" type="button">Ver en el plano</button>
-              ${wa}
-            </div>
-          </div>
-        </article>`;
-    }).join("");
+    grid.innerHTML = stores.map((s) => `
+        <button class="tienda" type="button" aria-pressed="false"
+                data-zona="${zona(s.city)}" data-nombre="${escapeHtml(s.name)}"
+                data-direccion="${escapeHtml(s.address)}" data-mapa="${escapeHtml(mapsUrl(s.address, s.name))}">
+          <span class="tienda__ciudad">${escapeHtml(s.city)}</span>
+          <span class="tienda__nombre">${escapeHtml(s.name)}</span>
+          <span class="tienda__dato">${ICONO_PIN}<span>${escapeHtml(s.address)}</span></span>
+          <span class="tienda__dato">${ICONO_RELOJ}<span>${escapeHtml(s.hours || "Lun a Dom · 10:00 a. m. – 10:00 p. m.")}</span></span>
+        </button>`).join("");
   } catch {
     // Antes esta sección se quedaba vacía y muda. Ahora siempre dice algo.
     grid.innerHTML = avisoTiendas(
@@ -263,6 +245,7 @@ cargarMarcas();
    */
   const CLAVE_MAPS = "";
 
+  const pie = $("#planoPie");
   let tapa  = $("#planoTapa");
   let marco = null;
   let elegida = null;
@@ -306,8 +289,15 @@ cargarMarcas();
     marco.title = `Plano de ${tarjeta.dataset.nombre}, ${tarjeta.dataset.direccion}`;
     marco.src   = urlDelPlano(tarjeta);
 
-    tarjetas().forEach((c) => c.setAttribute("aria-current", c === tarjeta ? "true" : "false"));
+    tarjetas().forEach((c) => c.setAttribute("aria-pressed", String(c === tarjeta)));
     elegida = tarjeta;
+
+    if (pie) {
+      $("#planoNombre").textContent = tarjeta.dataset.nombre;
+      $("#planoDir").textContent    = tarjeta.dataset.direccion;
+      $("#planoIr").href            = tarjeta.dataset.mapa;
+      pie.hidden = false;
+    }
     // El salto de vista solo cuando lo pide una persona, y solo si el plano
     // no se ve ya: en pantalla ancha se queda fijo al desplazarse, así que
     // muchas veces está delante y mover la página sería un salto gratuito.
@@ -316,10 +306,12 @@ cargarMarcas();
 
   if (tapa) tapa.addEventListener("click", () => mostrar(visibles()[0], true));
 
+  /* La tarjeta entera es el botón. Antes había dos botones dentro de cada
+     una; «Cómo llegar» se ha movido al pie del plano, donde va referido a
+     la tienda que se está viendo en vez de repetirse diez veces. */
   grid.addEventListener("click", (e) => {
-    const btn = e.target.closest(".js-ver-plano");
-    if (!btn) return;
-    mostrar(btn.closest(".tienda"), true);
+    const card = e.target.closest(".tienda");
+    if (card) mostrar(card, true);
   });
 
   /* ---------- Filtro Lima / provincias ----------

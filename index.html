@@ -210,14 +210,23 @@
       </div>
 
       <div class="tiendas-cols reveal">
-        <div class="plano" id="plano">
-          <button class="plano__tapa" type="button" id="planoTapa">
-            <span class="brillo" aria-hidden="true"></span>
-            <b>Ver las tiendas en el plano</b>
-            <span>Elige una tienda de la lista y el plano te lleva hasta su puerta.</span>
-            <i aria-hidden="true">Abrir el plano</i>
-            <em>Se carga Google Maps, que instala sus propias cookies.</em>
-          </button>
+        <div class="plano-col">
+          <div class="plano" id="plano">
+            <button class="plano__tapa" type="button" id="planoTapa">
+              <span class="brillo" aria-hidden="true"></span>
+              <b>Ver las tiendas en el plano</b>
+              <span>Toca una tienda de la lista y el plano te lleva hasta su puerta.</span>
+              <i aria-hidden="true">Abrir el plano</i>
+              <em>Se carga Google Maps, que instala sus propias cookies.</em>
+            </button>
+          </div>
+          <!-- «Cómo llegar» vive aquí y no en cada tarjeta: es la acción que
+               de verdad lleva a alguien a la tienda, y aquí va referida a la
+               que está viendo, sin repetirse diez veces. -->
+          <div class="plano-pie" id="planoPie" hidden>
+            <p><b id="planoNombre"></b><span id="planoDir"></span></p>
+            <a class="btn btn--primary btn--sm" id="planoIr" target="_blank" rel="noopener">Cómo llegar</a>
+          </div>
         </div>
         <div class="tiendas-lista" id="storeGrid"></div>
       </div>

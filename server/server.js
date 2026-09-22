@@ -364,26 +364,15 @@ function tarjetasDeTienda(stores) {
   const reloj = '<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>';
 
   return stores.map((s) => {
-    // En la miniatura no cabe el texto "Foto de la tienda": solo la pieza
-    // de marca. El aviso de que faltan fotos va una sola vez, en el titular.
-    const foto = s.photo
-      ? `<img src="${escapeHtml(s.photo)}" alt="Tienda Lukers ${escapeHtml(s.name)}" loading="lazy" decoding="async" />`
-      : `<div class="media__placeholder"><span class="brillo" aria-hidden="true"></span></div>`;
-
     return `
-        <article class="tienda" data-zona="${zona(s.city)}" data-nombre="${escapeHtml(s.name)}" data-direccion="${escapeHtml(s.address)}">
-          <div class="tienda__foto media">${foto}</div>
-          <div class="tienda__cuerpo">
-            <span class="tienda__ciudad">${escapeHtml(s.city)}</span>
-            <h3>${escapeHtml(s.name)}</h3>
-            <p class="tienda__dato">${pin}<span>${escapeHtml(s.address)}</span></p>
-            <p class="tienda__dato">${reloj}<span>${escapeHtml(s.hours || HORARIO_POR_DEFECTO)}</span></p>
-            <div class="tienda__acciones">
-              <a class="btn btn--primary btn--sm" href="${mapsUrl(s.name, s.address)}" target="_blank" rel="noopener">Cómo llegar</a>
-              <button class="btn btn--outline btn--sm js-ver-plano" type="button">Ver en el plano</button>
-            </div>
-          </div>
-        </article>`;
+        <button class="tienda" type="button" aria-pressed="false"
+                data-zona="${zona(s.city)}" data-nombre="${escapeHtml(s.name)}"
+                data-direccion="${escapeHtml(s.address)}" data-mapa="${escapeHtml(mapsUrl(s.name, s.address))}">
+          <span class="tienda__ciudad">${escapeHtml(s.city)}</span>
+          <span class="tienda__nombre">${escapeHtml(s.name)}</span>
+          <span class="tienda__dato">${pin}<span>${escapeHtml(s.address)}</span></span>
+          <span class="tienda__dato">${reloj}<span>${escapeHtml(s.hours || HORARIO_POR_DEFECTO)}</span></span>
+        </button>`;
   }).join("");
 }
 
