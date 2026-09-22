@@ -107,13 +107,21 @@ const db = getDb();
 /* ------------------------------------------------------------------ */
 const SLOTS = [
   { slot: "hero_main", label: "Imagen principal (portada / hero)", hint: "Cuadrada · 800 × 800 px", ratio: "1 / 1" },
-  { slot: "look_ella", label: "Oferta — Look para ella (foto aspiracional)", hint: "Vertical (retrato) · 800 × 1100 px", ratio: "4 / 5" },
-  { slot: "look_el", label: "Oferta — Look para él (foto aspiracional)", hint: "Vertical (retrato) · 800 × 1100 px", ratio: "4 / 5" },
-  { slot: "look_urbano", label: "Oferta — Look urbano / familia (foto aspiracional)", hint: "Vertical (retrato) · 800 × 1100 px", ratio: "4 / 5" },
-  { slot: "cat_formal", label: "Categoría — Línea Formal", hint: "Horizontal · 800 × 500 px", ratio: "16 / 10" },
-  { slot: "cat_casual", label: "Categoría — Línea Casual", hint: "Horizontal · 800 × 500 px", ratio: "16 / 10" },
-  { slot: "cat_calzado", label: "Categoría — Calzado", hint: "Horizontal · 800 × 500 px", ratio: "16 / 10" },
-  { slot: "cat_accesorios", label: "Categoría — Accesorios", hint: "Horizontal · 800 × 500 px", ratio: "16 / 10" },
+  /* Se retiraron look_ella, look_el y look_urbano: pedían fotos para una
+     sección de "Ofertas" que ya no existe en ninguna página. Quien subiera
+     una imagen ahí la estaría subiendo a la nada. Si vuelve esa sección,
+     vuelven los huecos. */
+  /* Los cuatro huecos de categoría son VERTICALES (la portada los pinta con
+     `media--4x5`). Antes aquí ponía "horizontal 800 × 500": quien subiera una
+     foto siguiendo esa indicación la veía recortada por los lados.
+
+     La etiqueta de cada tarjeta dice el estilo; a quién va dirigido lo cuenta
+     la foto. Por eso cada hueco pide una persona distinta: entre los cuatro
+     tienen que salir mujer, hombre y niños. */
+  { slot: "cat_formal", label: "Categoría — Formal", hint: "Vertical · 800 × 1000 px · una MUJER con terno o sastrería", ratio: "4 / 5" },
+  { slot: "cat_casual", label: "Categoría — Casual", hint: "Vertical · 800 × 1000 px · una FAMILIA (jeans, polos, casacas)", ratio: "4 / 5" },
+  { slot: "cat_urbano", label: "Categoría — Urbano", hint: "Vertical · 800 × 1000 px · un HOMBRE joven, ropa de calle", ratio: "4 / 5" },
+  { slot: "cat_deportivo", label: "Categoría — Deportivo", hint: "Vertical · 800 × 1000 px · NIÑOS con ropa deportiva", ratio: "4 / 5" },
 ];
 const SLOT_IDS = new Set(SLOTS.map((s) => s.slot));
 
