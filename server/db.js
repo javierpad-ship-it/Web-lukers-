@@ -9,35 +9,38 @@ fs.mkdirSync(DATA_DIR, { recursive: true });
 
 let db;
 
+/* Cambia esta cadena solo si hay que forzar otra sustitucion de tiendas. */
+const SEMILLA_TIENDAS = "stores_seed_reales_2026_09";
+
 /* ══════════════════════════════════════════════════════════════════════
-   ⚠  ATENCION: LOS DATOS DE ABAJO SON FICTICIOS
+   TIENDAS — origen de los datos
 
-   Las tiendas, las marcas y sus direcciones NO proceden de Lukers. Fueron
-   inventados por una sesion de IA anterior como datos de relleno para que
-   la maqueta tuviera algo que mostrar.
+   Las doce tiendas que habia aqui antes eran INVENTADAS por una sesion de
+   IA anterior. Se han sustituido por las diez que Lukers publica en sus
+   propias cuentas (TikTok @lukers.pe, Threads @lukers.pe, Facebook
+   Lukers.pe), donde la misma lista se repite en varias publicaciones.
 
-   Se ha comprobado que al menos SIETE de las doce direcciones no
-   coinciden con las que Lukers publica en sus redes sociales.
+   NO se han podido leer desde www.lukers.pe: el dominio esta bloqueado
+   por la politica de red de este entorno. Por eso siguen PENDIENTES DE
+   QUE LUKERS LAS CONFIRME antes de publicarlas como datos estructurados
+   (ver la variable TIENDAS_VERIFICADAS en server/server.js).
 
-   NO se deben publicar. Antes de que este sitio vea la luz hay que
-   sustituirlos por los datos reales, confirmados por la empresa.
-
-   Ver docs/HALLAZGOS-WEB-PUBLICA.md y docs/DECISIONES.md.
+   Dudas concretas anotadas en docs/HALLAZGOS-WEB-PUBLICA.md.
    ══════════════════════════════════════════════════════════════════════ */
 
 const INITIAL_STORES = [
-  { name: "Lukers San Miguel",      city: "Lima",     address: "Av. La Marina 1666, San Miguel",              hours: "Lun a Dom · 10:00 a.m. – 10:00 p.m." },
-  { name: "Lukers Jr. de la Unión", city: "Lima",     address: "Jr. de la Unión 455, Centro Histórico",       hours: "Lun a Dom · 10:00 a.m. – 10:00 p.m." },
-  { name: "Lukers Chorrillos",      city: "Lima",     address: "Av. El Sol 1175, Chorrillos",                  hours: "Lun a Dom · 10:00 a.m. – 10:00 p.m." },
-  { name: "Lukers Breña",           city: "Lima",     address: "Av. Brasil 1099, Breña",                       hours: "Lun a Dom · 10:00 a.m. – 10:00 p.m." },
-  { name: "Lukers Lince",           city: "Lima",     address: "Av. Arequipa 1890, Lince",                     hours: "Lun a Dom · 10:00 a.m. – 10:00 p.m." },
-  { name: "Lukers Pueblo Libre",    city: "Lima",     address: "Av. Sucre 545, Pueblo Libre",                  hours: "Lun a Dom · 10:00 a.m. – 10:00 p.m." },
-  { name: "Lukers Independencia",   city: "Lima",     address: "Av. Carlos Izaguirre 210, Independencia",      hours: "Lun a Dom · 10:00 a.m. – 10:00 p.m." },
-  { name: "Lukers Surco Outlet",    city: "Lima",     address: "Av. Tomás Marsano 3025, Surco",                hours: "Lun a Dom · 10:00 a.m. – 10:00 p.m." },
-  { name: "Lukers Trujillo",        city: "Trujillo", address: "Jr. Pizarro 540, Centro de Trujillo",          hours: "Lun a Dom · 10:00 a.m. – 10:00 p.m." },
-  { name: "Lukers Chiclayo",        city: "Chiclayo", address: "Av. Balta 1050, Chiclayo",                     hours: "Lun a Dom · 10:00 a.m. – 10:00 p.m." },
-  { name: "Lukers Tarapoto",        city: "Tarapoto", address: "Jr. San Martín 320, Tarapoto",                 hours: "Lun a Dom · 10:00 a.m. – 10:00 p.m." },
-  { name: "Lukers Iquitos",         city: "Iquitos",  address: "Jr. Próspero 615, Iquitos",                    hours: "Lun a Dom · 10:00 a.m. – 10:00 p.m." },
+  // Lima
+  { name: "Lukers Jr. de la Unión", city: "Lima",          address: "Jr. de la Unión 455, Cercado de Lima",          hours: "Lun a Dom · 10:00 a. m. – 10:00 p. m." },
+  { name: "Lukers Chorrillos",      city: "Lima",          address: "Av. El Sol 1175, Chorrillos",                   hours: "Lun a Dom · 10:00 a. m. – 10:00 p. m." },
+  { name: "Lukers Independencia",   city: "Lima",          address: "Av. Alfredo Mendiola 3688, Independencia",      hours: "Lun a Dom · 10:00 a. m. – 10:00 p. m." },
+  { name: "Lukers Lince",           city: "Lima",          address: "Av. Prolongación Iquitos 2635, Lince",          hours: "Lun a Dom · 10:00 a. m. – 10:00 p. m." },
+  { name: "Lukers San Miguel",      city: "Lima",          address: "Av. La Marina 1666, San Miguel",                hours: "Lun a Dom · 10:00 a. m. – 10:00 p. m." },
+  { name: "Lukers Breña",           city: "Lima",          address: "Av. Alfonso Ugarte 1234-1236, Breña",           hours: "Lun a Dom · 10:00 a. m. – 10:00 p. m." },
+  // Provincias
+  { name: "Lukers Trujillo",        city: "Trujillo",      address: "Jr. Pizarro 519, Trujillo",                     hours: "Lun a Dom · 10:00 a. m. – 10:00 p. m." },
+  { name: "Lukers Chiclayo",        city: "Chiclayo",      address: "Av. Luis Gonzales 1285, Chiclayo",              hours: "Lun a Dom · 10:00 a. m. – 10:00 p. m." },
+  { name: "Lukers Tarapoto",        city: "Tarapoto",      address: "Jr. Martínez de Compagñón 246, Tarapoto",       hours: "Lun a Dom · 10:00 a. m. – 10:00 p. m." },
+  { name: "Lukers Iquitos",         city: "Iquitos",       address: "Jr. Sargento Lores 162, Iquitos",               hours: "Lun a Dom · 10:00 a. m. – 10:00 p. m." },
 ];
 
 const INITIAL_BRANDS = {
@@ -98,13 +101,40 @@ function getDb() {
   `);
   if (!columns("stores").includes("photo")) db.exec("ALTER TABLE stores ADD COLUMN photo TEXT");
 
-  const storeCount = db.prepare("SELECT COUNT(*) as c FROM stores").get();
-  if (storeCount.c === 0) {
+  /* Marcas internas: sirven para saber que migraciones ya se aplicaron a
+     ESTA base de datos concreta. */
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS meta (
+      key   TEXT PRIMARY KEY,
+      value TEXT NOT NULL
+    );
+  `);
+  const leerMarca = (k) => db.prepare("SELECT value FROM meta WHERE key = ?").get(k);
+  const ponerMarca = (k, v) =>
+    db.prepare("INSERT OR REPLACE INTO meta (key, value) VALUES (?, ?)").run(k, v);
+
+  const sembrarTiendas = () => {
     const ins = db.prepare(
       "INSERT INTO stores (name, city, address, hours, active, sort_order, created_at) VALUES (?, ?, ?, ?, 1, ?, ?)"
     );
     const now = new Date().toISOString();
     INITIAL_STORES.forEach((s, i) => ins.run(s.name, s.city, s.address, s.hours, i, now));
+  };
+
+  const storeCount = db.prepare("SELECT COUNT(*) as c FROM stores").get();
+  if (storeCount.c === 0) {
+    sembrarTiendas();
+    ponerMarca(SEMILLA_TIENDAS, new Date().toISOString());
+  } else if (!leerMarca(SEMILLA_TIENDAS)) {
+    /* Esta base de datos ya existia con las doce tiendas INVENTADAS por una
+       sesion de IA anterior. Como el sitio nunca se publico, esos registros
+       no son informacion de nadie: se sustituyen una sola vez por las
+       reales. La marca en `meta` impide que esto vuelva a ejecutarse y pise
+       lo que Lukers edite despues desde el panel. */
+    db.prepare("DELETE FROM stores").run();
+    sembrarTiendas();
+    ponerMarca(SEMILLA_TIENDAS, new Date().toISOString());
+    console.log("[db] Tiendas ficticias sustituidas por las reales (una sola vez).");
   }
 
   /* ---------------- Marcas del carrusel ---------------- */

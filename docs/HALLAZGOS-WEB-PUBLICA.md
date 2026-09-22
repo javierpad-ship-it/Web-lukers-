@@ -24,38 +24,81 @@ dominios permitidos y el dominio devuelve 403 antes de llegar al servidor.
 
 ---
 
-## 1. LO MÁS GRAVE: las direcciones de las tiendas no coinciden
+## 1. RESUELTO EN PARTE: las direcciones de las tiendas
 
-La base de datos del sitio (`server/db.js`) tiene unas direcciones y las
-publicaciones públicas de Lukers indican otras. **Siete de las doce no
-coinciden.**
+**Estado: corregido en el código el 22/09/2026. Pendiente de que Lukers lo confirme.**
 
-| Tienda | Dirección en la MAQUETA (inventada) | Dirección encontrada públicamente | |
+Las doce tiendas que tenía la maqueta eran inventadas; siete direcciones no
+coincidían con nada publicado. Se han sustituido por **las diez que Lukers
+publica en sus propias cuentas**, donde la misma lista se repite en varias
+publicaciones distintas a lo largo de 2024, 2025 y 2026.
+
+### Las diez tiendas (en `server/db.js`)
+
+| # | Tienda | Dirección | Confianza |
 |---|---|---|---|
-| San Miguel | Av. La Marina 1666 | Av. La Marina 1666 | ✅ coincide |
-| Chorrillos | Av. El Sol 1175 | Av. El Sol 1175 | ✅ coincide |
-| Independencia | Av. Carlos Izaguirre 210 | **Av. Alfredo Mendiola 3688** | ❌ distinta |
-| Lince | Av. Arequipa 1890 | **Av. Prolongación Iquitos 2635** | ❌ distinta |
-| Breña | Av. Brasil 1099 | **Av. Alfonso Ugarte 1234** | ❌ distinta |
-| Trujillo | Jr. Pizarro 540 | **Jr. Pizarro 519** | ❌ distinta |
-| Chiclayo | Av. Balta 1050 | **Av. Luis Gonzales 1285** | ❌ distinta |
-| Tarapoto | Jr. San Martín 320 | **Jr. Martínez de Compañón 246** | ❌ distinta |
-| Iquitos | Jr. Próspero 615 | **Jr. Sargento Lores 162** | ❌ distinta |
-| Jr. de la Unión | Jr. de la Unión 455 | (no encontrada) | ⚠️ sin verificar |
-| Pueblo Libre | Av. Sucre 545 | (no encontrada) | ⚠️ sin verificar |
-| Surco Outlet | Av. Tomás Marsano 3025 | (no encontrada) | ⚠️ sin verificar |
+| 1 | Jr. de la Unión (Cercado de Lima) | Jr. de la Unión 455 | Alta · apertura reciente anunciada por Lukers |
+| 2 | Chorrillos | Av. El Sol 1175 | Alta · ver duda abajo |
+| 3 | Independencia | Av. Alfredo Mendiola 3688 | Alta |
+| 4 | Lince | Av. Prolongación Iquitos 2635 | Alta |
+| 5 | San Miguel | Av. La Marina 1666 | Alta |
+| 6 | Breña | Av. Alfonso Ugarte 1234-1236 | Alta |
+| 7 | Trujillo | Jr. Pizarro 519 | Alta |
+| 8 | Chiclayo | Av. Luis Gonzales 1285 | Alta |
+| 9 | Tarapoto | Jr. Martínez de Compagñón 246 | Alta |
+| 10 | Iquitos | Jr. Sargento Lores 162 | Alta · ver duda abajo |
 
-**Por qué importa ahora y no dentro de un mes:**
+Coincide con las **diez** que indicó el propietario.
 
-1. El visitante que pulsa «Cómo llegar» acaba en el sitio equivocado.
-2. Desde el commit `5767158`, esas direcciones se publican además como datos
-   estructurados `ClothingStore` para Google. Si son incorrectas, se le está
-   enseñando a Google la ubicación equivocada de siete locales, justo el dato
-   sobre el que se construye todo el SEO local.
+### De dónde salen
 
-**Acción requerida:** alguien de Lukers tiene que confirmar las doce
-direcciones, una por una, contra la realidad. Hasta entonces, conviene decidir
-si se retiran los datos estructurados.
+De las cuentas oficiales de Lukers: TikTok `@lukers.pe`, Threads `@lukers.pe` y
+Facebook `Lukers.pe`. Publicaciones en las que la lista aparece completa:
+
+- «El verano es para disfrutar…» — Threads, 2026
+- «¡Ven a Lukers y transforma tu luk de oficina…» — Threads, 2024
+- «El viernes 30 de agosto, feriado, estaremos atendiendo…» — Threads, 2024
+- «En Remate de fábrica encontrarás marcas nacionales e internacionales…» — TikTok
+- «¡ATENCIÓN LIMA, YA ABRIMOS LUKERS JR DE LA UNIÓN!» — Facebook e Instagram
+
+**Importante:** NO se han leído desde `www.lukers.pe`. Ese dominio está
+bloqueado por la política de red de este entorno, igual que Instagram,
+Facebook y Threads. Solo se ha podido llegar a los textos que el buscador
+muestra de esas publicaciones.
+
+### Cuatro dudas que solo Lukers puede cerrar
+
+1. **Chorrillos: ¿1175 o 1197?** Las publicaciones recientes como Lukers dicen
+   **1175**. Una antigua, todavía como «Remate de Fábrica», decía **1197**.
+   Puede ser un traslado, un error de una de las dos, o dos puertas del mismo
+   local. Se ha puesto 1175.
+2. **Iquitos: ¿162 o 182?** Casi todas dicen **162**; una dice 182. Se ha
+   puesto 162.
+3. **Pueblo Libre.** Una publicación antigua («visítanos en nuestras 7
+   tiendas») menciona Pueblo Libre. No aparece en ninguna lista reciente y el
+   propietario dice que hoy son diez. Se asume **cerrada o trasladada**.
+   Confirmar.
+4. **Horarios.** Todas las publicaciones dicen 10:00–22:00 todos los días.
+   Una fuente indica que Chorrillos cierra a las 21:30 los domingos. Se ha
+   puesto 10:00–22:00 para las diez. Si alguna tienda tiene horario propio,
+   hay que corregirla desde el panel.
+
+### Lo que sigue apagado a propósito
+
+Los **datos estructurados** de tiendas para Google (`ClothingStore`) siguen sin
+publicarse. Se activan poniendo `TIENDAS_VERIFICADAS=1` en las variables de
+entorno, y solo debe hacerse **después** de que alguien de Lukers revise las
+diez direcciones y cierre las cuatro dudas de arriba. Enseñarle a Google una
+ubicación equivocada es peor que no enseñarle ninguna.
+
+### Cómo llegó esto a la base de datos que ya está desplegada
+
+La base de datos de Railway ya tenía dentro las doce tiendas inventadas, y la
+semilla original solo se ejecutaba con la tabla vacía. Se ha añadido una
+sustitución **de una sola vez** (`server/db.js`, marca `stores_seed_reales_2026_09`):
+en el primer arranque tras este cambio borra las ficticias y escribe las
+reales, y deja constancia para no volver a hacerlo nunca más. Probado: lo que
+se edite después desde el panel sobrevive a los reinicios.
 
 ---
 
@@ -212,22 +255,26 @@ los clientes no pueden llamar.
 | **TikTok** | **`@lukers.pe`** | la web anterior enlazaba a `tiktok.com` sin cuenta |
 | Threads | `@lukers.pe` | no enlazada en la web |
 
-## 13. Otra discrepancia en el número de tiendas
+## 13. RESUELTO: cuántas tiendas hay
 
-Una publicación de Facebook dice **«visítanos en nuestras 7 tiendas»**. La base
-de datos del sitio tiene **12**. Puede ser una publicación antigua, pero hay que
-confirmar cuántas hay hoy: la portada anuncia «12 tiendas en el Perú» como cifra
-destacada.
+Eran **diez**, confirmadas por el propietario el 22/09/2026 y coincidentes con
+la lista que Lukers publica en sus redes. La maqueta decía doce; la publicación
+antigua de Facebook que decía «nuestras 7 tiendas» es de una etapa anterior.
+
+Queda por revisar cualquier sitio del código o del copy que siga diciendo
+«12 tiendas».
 
 ---
 
 ## Resumen: lo que hay que confirmar, por orden de urgencia
 
-1. **Las 12 direcciones**, una por una (siete no coinciden con lo publicado).
-2. **Cuántas tiendas hay realmente** hoy.
+1. ~~Las direcciones de las tiendas~~ → **hecho**, con cuatro dudas abiertas en
+   el punto 1: Chorrillos 1175 o 1197, Iquitos 162 o 182, si Pueblo Libre
+   cerró, y si alguna tienda tiene horario propio.
+2. ~~Cuántas tiendas hay~~ → **diez**.
 3. **RUC y razón social** contra SUNAT, antes de publicarlos.
 4. **Cómo se cuenta la historia**: 2001, 2019 o ambas.
 5. **URL real del Libro de Reclamaciones** en el sitio actual.
 6. **Teléfono y WhatsApp** correctos, con prefijo peruano.
 7. Si el catálogo `kyte.site` sigue activo y si debe enlazarse.
-8. Cuenta de TikTok, para enlazarla bien.
+8. **La nota y el número de reseñas de Google**, para la sección de comunidad.
