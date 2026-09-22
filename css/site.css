@@ -649,6 +649,21 @@
 .vid__btn:focus-visible ~ .vid__play { transform: translate(-50%, -50%) scale(1.09); }
 .vid__play svg { width: 20px; height: 20px; margin-left: 3px; fill: var(--azul); }
 
+/* El reproductor de TikTok, ya abierto */
+.vid__marco {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  border: 0; border-radius: inherit;
+  z-index: 4; background: #000;
+}
+.vid__salida {
+  position: absolute; top: .6rem; left: .6rem; z-index: 5;
+  padding: .3rem .7rem; border-radius: 999px;
+  background: rgba(0, 0, 0, .62);
+  color: #fff; font-size: .72rem; font-weight: 600; text-decoration: none;
+}
+.vid__salida:hover { background: rgba(0, 0, 0, .82); text-decoration: underline; }
+
 .vid__meta { position: absolute; left: .95rem; right: .95rem; bottom: .9rem; z-index: 2; color: #fff; }
 .vid__meta b { display: block; font-size: .92rem; font-weight: 700; }
 .vid__meta span { font-size: .75rem; opacity: .82; }

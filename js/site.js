@@ -401,20 +401,30 @@ cargarMarcas();
 
     const url = `https://www.tiktok.com/@${fig.dataset.user}/video/${fig.dataset.id}`;
 
+    /* Se usa `player/v1` y NO `embed/v2`.
+       `embed/v2` es la tarjeta de TikTok: trae cabecera, texto del vídeo,
+       música y botones, tiene altura mínima propia y no cabe en un 9:16,
+       así que salía recortada y con barra de desplazamiento dentro.
+       `player/v1` es el reproductor a secas y llena el hueco.
+       Los parámetros quitan lo que aquí sobra: la ficha de la música, el
+       texto del vídeo y los vídeos relacionados del final. */
     const marco = document.createElement("iframe");
-    marco.src = `https://www.tiktok.com/embed/v2/${fig.dataset.id}`;
+    marco.src = `https://www.tiktok.com/player/v1/${fig.dataset.id}` +
+                "?music_info=0&description=0&rel=0&controls=1&autoplay=1";
     marco.title = `Vídeo de @${fig.dataset.user} en TikTok`;
     marco.loading = "lazy";
-    marco.allow = "autoplay; encrypted-media; picture-in-picture";
-    marco.style.cssText = "position:absolute;inset:0;width:100%;height:100%;border:0;border-radius:inherit;z-index:4;background:#000";
+    marco.allow = "autoplay; encrypted-media; picture-in-picture; fullscreen";
+    marco.allowFullscreen = true;
+    marco.className = "vid__marco";
 
-    // Si el vídeo se borra o TikTok no carga, queda el enlace al original.
+    /* Si el vídeo se borra o TikTok no carga, queda el enlace al original.
+       Va arriba y no abajo: abajo están los controles del reproductor. */
     const salida = document.createElement("a");
+    salida.className = "vid__salida";
     salida.href = url;
     salida.target = "_blank";
     salida.rel = "noopener";
     salida.textContent = "Ver en TikTok";
-    salida.style.cssText = "position:absolute;left:.9rem;bottom:.7rem;z-index:5;font-size:.74rem;color:#fff";
 
     fig.innerHTML = "";
     fig.append(marco, salida);
