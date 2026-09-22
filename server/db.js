@@ -10,10 +10,17 @@ fs.mkdirSync(DATA_DIR, { recursive: true });
 let db;
 
 /* Cambia esta cadena solo si hay que forzar otra sustitucion de tiendas.
-   OJO: cambiarla PISA lo que se haya editado desde el panel. Se subio a
-   "_b" el 22/09/2026 para corregir los horarios de Chiclayo, Tarapoto e
-   Iquitos; en ese momento nadie habia editado nada todavia. */
-const SEMILLA_TIENDAS = "stores_seed_reales_2026_09_b";
+   OJO: cambiarla PISA lo que se haya editado desde el panel.
+
+   Historial:
+     (sin sufijo) las diez tiendas reales, en lugar de las doce inventadas
+     _b            horarios propios de Chiclayo, Tarapoto e Iquitos
+     _c            la tienda de Av. La Marina pasa a llamarse "La Marina"
+
+   Las tres se hicieron el 22/09/2026, antes de que nadie tocara el panel.
+   A partir de aqui, lo que se edite desde el panel manda: no volver a
+   cambiar esta cadena sin avisar a Lukers. */
+const SEMILLA_TIENDAS = "stores_seed_reales_2026_09_c";
 
 /* ══════════════════════════════════════════════════════════════════════
    TIENDAS — origen de los datos
@@ -42,7 +49,11 @@ const INITIAL_STORES = [
   { name: "Lukers Chorrillos",      city: "Lima",     address: "Av. El Sol 1175, Chorrillos",              hours: HORARIO_LIMA },
   { name: "Lukers Independencia",   city: "Lima",     address: "Av. Alfredo Mendiola 3688, Independencia", hours: HORARIO_LIMA },
   { name: "Lukers Lince",           city: "Lima",     address: "Av. Prolongación Iquitos 2635, Lince",     hours: HORARIO_LIMA },
-  { name: "Lukers San Miguel",      city: "Lima",     address: "Av. La Marina 1666, San Miguel",           hours: HORARIO_LIMA },
+  /* Se llama por la avenida, no por el distrito: las publicaciones de Lukers
+     la anuncian como San Miguel y dentro de la empresa se la conoce como
+     Pueblo Libre. Av. La Marina separa ambos distritos en ese tramo.
+     "La Marina" es ademas como la nombran los clientes. */
+  { name: "Lukers La Marina",       city: "Lima",     address: "Av. La Marina 1666, San Miguel",           hours: HORARIO_LIMA },
   { name: "Lukers Breña",           city: "Lima",     address: "Av. Alfonso Ugarte 1234-1236, Breña",      hours: HORARIO_LIMA },
   // Provincias
   { name: "Lukers Trujillo",        city: "Trujillo", address: "Jr. Pizarro 519, Trujillo",                hours: HORARIO_LIMA },

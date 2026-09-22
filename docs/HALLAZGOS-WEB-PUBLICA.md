@@ -77,21 +77,19 @@ muestra de esas publicaciones.
    - Lima (seis tiendas) y Trujillo → **10:00 a 22:00**, todos los días.
    - **Chiclayo, Tarapoto e Iquitos → 9:30 a 21:30**, todos los días.
 
-### Una cosa sin cerrar: ¿San Miguel o Pueblo Libre?
+### Cerrado: la tienda de Av. La Marina se llama «Lukers La Marina»
 
-La tienda de Av. La Marina 1666 aparece como **San Miguel** en todas las
-publicaciones de Lukers, y el propietario la llama **Pueblo Libre**. Av. La
-Marina hace frontera entre los dos distritos en ese tramo, así que las dos
-cosas pueden sonar ciertas.
+Las publicaciones de Lukers la anuncian como **San Miguel** y dentro de la
+empresa se la conoce como **Pueblo Libre**. Av. La Marina separa los dos
+distritos en ese tramo, así que ninguna de las dos es falsa. Decisión de
+Lukers (22/09/2026): **se nombra por la avenida**, que es además como la
+llaman los clientes.
 
-**Importa, y no es un detalle de redacción.** El distrito que ponga la web
-tiene que ser **exactamente el mismo** que figura en la ficha de Google
-Business de esa tienda. Si no coinciden, Google recibe señales contradictorias
-sobre la misma ubicación, y eso es justo lo que castiga el posicionamiento
-local. De momento se ha dejado **San Miguel**, que es lo que Lukers publica.
-
-**Para cerrarlo:** abrir la ficha de Google de esa tienda y copiar el distrito
-tal cual aparezca ahí.
+El distrito sigue apareciendo en la dirección (**San Miguel**, que es lo que
+Lukers publica). Ese dato tiene que coincidir con el de la ficha de Google
+Business de esa tienda: si no coincide, Google recibe dos versiones de la
+misma ubicación y eso resta en las búsquedas locales. Conviene abrir la ficha
+y comprobarlo antes de encender `TIENDAS_VERIFICADAS`.
 
 ### Lo que sigue apagado a propósito
 
@@ -278,9 +276,9 @@ Queda por revisar cualquier sitio del código o del copy que siga diciendo
 
 ## Resumen: lo que hay que confirmar, por orden de urgencia
 
-1. ~~Las direcciones de las tiendas~~ → **hecho y confirmado por Lukers**.
-   Queda un solo detalle: si la tienda de Av. La Marina 1666 va como San
-   Miguel o como Pueblo Libre (ver punto 1).
+1. ~~Las direcciones y los horarios~~ → **hecho y confirmado por Lukers**.
+   Solo falta comprobar que el distrito de la ficha de Google de la tienda
+   de Av. La Marina diga también San Miguel.
 2. ~~Cuántas tiendas hay~~ → **diez**.
 3. **RUC y razón social** contra SUNAT, antes de publicarlos.
 4. **Cómo se cuenta la historia**: 2001, 2019 o ambas.
