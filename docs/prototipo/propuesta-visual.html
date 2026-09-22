@@ -194,6 +194,42 @@ h2{font-family:var(--display);font-weight:400;font-size:clamp(2rem,4.6vw,3.4rem)
 .store .cta{margin-top:auto;align-self:flex-start;padding:.55rem 1.1rem;min-height:40px;font-size:.84rem}
 .store.hide{display:none}
 
+/* ══════════ Plano de tiendas ══════════ */
+.plano{position:relative;border-radius:22px;overflow:hidden;background:var(--crema-2);
+  border:1px solid var(--line);aspect-ratio:16/9;margin-bottom:2.2rem}
+@media(max-width:48rem){.plano{aspect-ratio:4/3}}
+.plano iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+/* Fachada: Google no se carga hasta que alguien abre el plano. */
+/* `place-content` y no `place-items`: con place-items las cuatro lineas se
+   repartian por toda la caja en vez de quedar juntas en el centro. */
+.plano-tapa{position:absolute;inset:0;z-index:2;display:grid;place-content:center;justify-items:center;
+  text-align:center;padding:1.5rem;gap:.55rem;width:100%;border:0;cursor:pointer;background:transparent;
+  background-image:radial-gradient(circle at 28% 24%,rgba(104,216,217,.34),transparent 46%),
+                   radial-gradient(circle at 72% 76%,rgba(166,161,245,.34),transparent 48%)}
+.plano-tapa:focus-visible{outline:3px solid var(--azul);outline-offset:-3px}
+.plano-tapa .br{--s:2rem;--c:rgba(0,140,255,.55);margin-bottom:.1rem}
+.plano-tapa b{font-family:var(--display);font-weight:400;font-size:clamp(1.25rem,2.4vw,1.6rem);letter-spacing:-.02em}
+.plano-tapa span{font-size:.88rem;color:var(--soft);max-width:26rem;line-height:1.55}
+.plano-tapa em{font-style:normal;font-size:.76rem;color:var(--tenue);max-width:26rem;line-height:1.5}
+/* Se ve como un boton aunque el boton sea toda la caja. */
+.plano-tapa i{font-style:normal;margin-top:.45rem;display:inline-flex;align-items:center;gap:.45rem;
+  padding:.7rem 1.5rem;min-height:44px;border-radius:999px;background:var(--accent);color:var(--on-accent);
+  font-weight:600;font-size:.9rem;box-shadow:0 10px 24px rgba(0,140,255,.3);
+  transition:transform .32s var(--ease)}
+.plano-tapa:hover i{transform:translateY(-2px)}
+.plano-cargando{position:absolute;inset:0;z-index:1;display:grid;place-items:center;
+  font-size:.84rem;color:var(--tenue);background:var(--crema-2)}
+
+/* Botón "Ver en el plano" dentro de cada tarjeta */
+.store-acc{margin-top:auto;display:flex;flex-wrap:wrap;gap:.5rem;align-items:center}
+.store .cta{margin-top:0}
+.ver-plano{padding:.55rem 1.1rem;min-height:40px;font-size:.84rem;font-weight:600;border-radius:999px;
+  border:1.5px solid var(--line);background:transparent;cursor:pointer;
+  transition:border-color .3s var(--ease),color .3s var(--ease)}
+.ver-plano:hover{border-color:var(--accent);color:var(--accent)}
+.store[aria-current="true"]{border-color:var(--accent);box-shadow:0 0 0 2px rgba(0,140,255,.22)}
+.store[aria-current="true"] .ver-plano{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+
 .ph{display:inline-block;padding:.12rem .5rem;border:1px dashed var(--line);border-radius:6px;font-size:.78rem;color:var(--tenue)}
 
 /* Pie */
@@ -409,6 +445,15 @@ footer{background:var(--negro);color:var(--crema);padding:clamp(4rem,8vw,6rem) 0
       <p>Filtra por ciudad y ve directo a la tuya. Cada tienda necesita su propia foto del local.</p>
     </div>
     <div class="finder rv" id="finder"></div>
+    <div class="plano rv" id="plano">
+      <button class="plano-tapa" type="button" id="planoTapa">
+        <span class="br" aria-hidden="true"></span>
+        <b>Ver las tiendas en el plano</b>
+        <span>Elige una tienda de la lista y el plano te lleva hasta su puerta.</span>
+        <i aria-hidden="true">Abrir el plano</i>
+        <em>Se carga Google Maps, que instala sus propias cookies.</em>
+      </button>
+    </div>
     <div class="stores" id="stores"></div>
   </div>
 </section>
@@ -471,7 +516,7 @@ footer{background:var(--negro);color:var(--crema);padding:clamp(4rem,8vw,6rem) 0
     return '<button class="pill'+(i===0?' on':'')+'" data-c="'+c+'">'+c+'</button>';
   }).join("");
 
-  document.getElementById("stores").innerHTML = TIENDAS.map(function(s){
+  document.getElementById("stores").innerHTML = TIENDAS.map(function(s,i){
     return '<article class="store rv" data-c="'+s.c+'">'+
       '<div class="slot"><div><span class="br"></span><b>Foto del local</b><i>3:2 · 1200 × 800 px · real</i></div></div>'+
       '<div class="store-b">'+
@@ -479,10 +524,80 @@ footer{background:var(--negro);color:var(--crema);padding:clamp(4rem,8vw,6rem) 0
         '<h3>Lukers '+s.n+'</h3>'+
         '<p>'+PIN+'<span>'+s.d+'</span></p>'+
         '<p>'+CLK+'<span>'+s.h+'</span></p>'+
-        '<a class="cta" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query='+
-          encodeURIComponent("Lukers "+s.n+" "+s.d+" Perú")+'">Cómo llegar</a>'+
+        '<div class="store-acc">'+
+          '<a class="cta" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query='+
+            encodeURIComponent("Lukers "+s.n+" "+s.d+" Perú")+'">Cómo llegar</a>'+
+          '<button class="ver-plano" type="button" data-i="'+i+'">Ver en el plano</button>'+
+        '</div>'+
       '</div></article>';
   }).join("");
+
+  /* ---------- Plano de tiendas ----------
+     Patron de fachada, igual que con los videos: Google Maps no se carga
+     hasta que alguien abre el plano, asi que hasta entonces la pagina no
+     instala cookies de terceros.
+
+     La direccion se manda como texto; no hacen falta coordenadas. Si alguna
+     tienda cayera en el sitio equivocado, se le pone su latitud y longitud
+     en `TIENDAS` y esta funcion las usa en lugar de la direccion. */
+  var CLAVE_MAPS = "";   // clave de la Embed API de Google, si se contrata
+  var plano      = document.getElementById("plano");
+  var tapa       = document.getElementById("planoTapa");
+  var marco      = null;
+  var elegida    = null;
+
+  function urlDelPlano(t){
+    var consulta = t.coords ? t.coords : "Lukers " + t.n + ", " + t.d + ", Per\u00fa";
+    if (CLAVE_MAPS) {
+      /* Via oficial: documentada y estable, pero pide clave y cuenta. */
+      return "https://www.google.com/maps/embed/v1/place?key=" + CLAVE_MAPS +
+             "&zoom=17&q=" + encodeURIComponent(consulta);
+    }
+    /* Sin clave. Funciona hoy, pero no esta documentada por Google: si algun
+       dia deja de responder, se contrata la clave y se rellena CLAVE_MAPS.
+       El boton "Como llegar" no depende de esto y seguiria funcionando. */
+    return "https://maps.google.com/maps?output=embed&z=17&q=" + encodeURIComponent(consulta);
+  }
+
+  function mostrarEnPlano(i){
+    var t = TIENDAS[i];
+    if (!marco){
+      var aviso = document.createElement("div");
+      aviso.className = "plano-cargando";
+      aviso.textContent = "Cargando el plano\u2026";
+      plano.appendChild(aviso);
+
+      marco = document.createElement("iframe");
+      marco.loading = "lazy";
+      marco.referrerPolicy = "no-referrer-when-downgrade";
+      /* Sin `allow="fullscreen"`: el plano no lo necesita y la propia pagina
+         no concede ese permiso, asi que solo ensuciaba la consola. */
+      marco.addEventListener("load", function(){ aviso.remove(); });
+      plano.appendChild(marco);
+      if (tapa) tapa.remove();
+    }
+    marco.title = "Plano de Lukers " + t.n + ", " + t.d;
+    marco.src   = urlDelPlano(t);
+
+    document.querySelectorAll(".store").forEach(function(c, j){
+      c.setAttribute("aria-current", j === i ? "true" : "false");
+    });
+    elegida = i;
+  }
+
+  /* La tapa abre el plano en la primera tienda que este a la vista. */
+  if (tapa) tapa.addEventListener("click", function(){
+    var visible = [].slice.call(document.querySelectorAll(".store"))
+      .findIndex(function(c){ return !c.classList.contains("hide"); });
+    mostrarEnPlano(visible < 0 ? 0 : visible);
+    plano.scrollIntoView({ behavior: "smooth", block: "center" });
+  });
+
+  document.getElementById("stores").addEventListener("click", function(e){
+    var b = e.target.closest(".ver-plano"); if (!b) return;
+    mostrarEnPlano(Number(b.dataset.i));
+    plano.scrollIntoView({ behavior: "smooth", block: "center" });
+  });
 
   document.getElementById("finder").addEventListener("click",function(e){
     var b=e.target.closest(".pill"); if(!b) return;
@@ -492,6 +607,16 @@ footer{background:var(--negro);color:var(--crema);padding:clamp(4rem,8vw,6rem) 0
     document.querySelectorAll(".store").forEach(function(s){
       s.classList.toggle("hide", c!=="Todas" && s.dataset.c!==c);
     });
+    /* Si la tienda que se esta viendo en el plano queda fuera del filtro,
+       el plano salta a la primera que si entra. Dejarlo apuntando a una
+       tienda que ya no se ve seria confuso. */
+    if (marco && elegida !== null){
+      var cartas = document.querySelectorAll(".store");
+      if (cartas[elegida] && cartas[elegida].classList.contains("hide")){
+        var otra = [].slice.call(cartas).findIndex(function(x){ return !x.classList.contains("hide"); });
+        if (otra >= 0) mostrarEnPlano(otra);
+      }
+    }
   });
 
 
