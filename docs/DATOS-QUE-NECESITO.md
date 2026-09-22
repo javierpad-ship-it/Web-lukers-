@@ -119,16 +119,41 @@ sé que antes os llamabais «Remate de Fábrica». ¿Cómo lo contamos?
 
 ## BLOQUE 6 — Fotografías
 
-Hay **17 huecos** esperando: la portada, 4 categorías y 12 tiendas.
+Actualizado el 22/09/2026. Antes aquí ponía «17 huecos»; ya no es cierto: las
+tarjetas de tienda perdieron la miniatura y los tres huecos de «Ofertas» se
+retiraron porque esa sección no existe.
 
-- ¿Tienes fotos de los locales? Sí / No / De algunos: ____
-- ¿Fotos del equipo trabajando? Sí / No
-- ¿Fotos de producto o de campaña? Sí / No
+**Faltan 8 piezas.**
+
+| Pieza | Formato | Quién tiene que salir |
+|---|---|---|
+| Portada | 1:1 · 800 × 800 px | libre |
+| Formal | 4:5 · 800 × 1000 px | una **mujer**, terno o sastrería |
+| Casual | 4:5 · 800 × 1000 px | una **familia** |
+| Urbano | 4:5 · 800 × 1000 px | un **hombre** joven, ropa de calle |
+| Deportivo | 4:5 · 800 × 1000 px | **niños** |
+| 3 portadas de vídeo | 9:16 · 720 × 1280 px | captura de cada TikTok |
+
+> **Por qué cada foto pide una persona distinta.** La etiqueta de la tarjeta
+> dice el estilo; quién puede comprar ahí lo cuenta la foto. Una mujer con
+> terno dice «formal» y dice «mujer» a la vez. Entre las cuatro tienen que
+> salir mujer, hombre y niños, que es lo que promete el titular «ropa de marca
+> para toda la familia».
+
+### Las fotos de las diez tiendas ya no son obligatorias, pero conviene
+
+Dejaron de verse en la web, pero **siguen usándose**: son la imagen que
+acompaña a cada tienda en Google. Lo ideal es la **fachada del local, de día y
+con el cartel visible**, porque es lo que mira quien está decidiendo si ir.
+
+Se suben desde el panel, en la pestaña Tiendas.
+
+- ¿Tienes fotos de las fachadas? Sí / No / De algunas: ____
 - ¿Quién puede hacerlas si no existen? → ____
 
-> Recordatorio: las fotos de tiendas y de equipo **tienen que ser reales**.
-> La IA sirve para ambiente y piezas editoriales, no para enseñar un local que
-> no es el tuyo ni personas que no trabajan contigo.
+> Recordatorio: las fotos de los locales **tienen que ser reales**. La IA sirve
+> para ambiente y piezas editoriales, no para enseñar una tienda que no es la
+> tuya ni personas que no trabajan contigo.
 
 ---
 

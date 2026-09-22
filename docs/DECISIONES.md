@@ -147,3 +147,51 @@ construye las dos formas y «Cómo llegar» no depende de eso.
 **Sin verificar:** no se ha podido ver ninguno de los diez planos porque
 Google está bloqueado en el entorno de desarrollo. Si alguna tienda cae en el
 sitio equivocado, se le pone `data-coords="lat,lon"` a su tarjeta.
+
+## 9. Lukers vende ropa de niño (22/09/2026)
+
+Confirmado por el propietario. Con eso, el titular **«Ropa de marca para toda
+la familia»** y la bajada que nombra a mujer, hombre y niños quedan
+respaldados: no son una promesa inventada.
+
+También queda en pie el hueco de foto `cat_deportivo`, que pide una foto de
+niños con ropa deportiva.
+
+## 10. Las categorías son cuatro mundos, no cuatro cosas (22/09/2026)
+
+Eran Formal, Casual, Calzado y Accesorios: dos estilos y dos tipos de producto
+en la misma fila. Ahora son **Formal, Casual, Urbano y Deportivo**: un solo
+criterio.
+
+**A quién va dirigido no lo dice la etiqueta, lo dice la foto.** Una mujer con
+terno dice «formal» y dice «mujer» a la vez, así que la etiqueta no tiene que
+cargar con las dos cosas. Por eso cada hueco de foto pide una persona distinta
+y entre los cuatro salen mujer, hombre y niños.
+
+## 11. El horario y el distrito que ve Google salen de los datos reales (22/09/2026)
+
+Dos fallos en los datos estructurados de tiendas, los dos encontrados al
+revisar el bloque antes de encenderlo:
+
+1. **El horario estaba escrito a mano**: `openingHours: "Mo-Su 10:00-22:00"`
+   fijo para las diez tiendas. Chiclayo, Tarapoto e Iquitos abren de 9:30 a
+   21:30. Google habría publicado un horario falso para tres locales, y alguien
+   habría llegado a las 21:45 a una tienda cerrada. Ahora se calcula desde la
+   columna `hours`, y si el texto no se puede interpretar la ficha sale **sin
+   horario**: una ficha sin horario es correcta, una con el horario equivocado
+   manda a la gente a una puerta cerrada.
+2. **El distrito no llegaba**: las seis tiendas de Lima mandaban
+   `addressLocality: "Lima"` y el distrito se perdía dentro del texto libre de
+   la dirección. El distrito es la señal que decide «ropa cerca de mí» y
+   «outlet en Chorrillos». Ahora va como `addressLocality`.
+
+El bloque **sigue apagado** (`TIENDAS_VERIFICADAS`). Solo se enciende cuando
+Lukers confirme el distrito de la ficha de Google de La Marina y el horario de
+Trujillo.
+
+## 12. La foto de tienda cambió de trabajo (22/09/2026)
+
+Al pasar la tarjeta de tienda a una fila sin miniatura, la foto dejó de verse
+en la web. Pero no es un botón muerto: alimenta el campo `image` de la ficha de
+Google. El panel no lo decía, así que se añadió un aviso encima de la tabla
+explicando para qué sirve y qué foto conviene (fachada, de día, con el cartel).

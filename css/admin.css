@@ -497,3 +497,17 @@
 .subs-table small svg,
 .msg-card svg,
 .btn-danger svg { display: inline-block; }
+
+/* Aviso corto encima de una tabla, para explicar algo que la tabla no dice
+   por sí sola (por ejemplo, para qué sirve la foto de una tienda). */
+.ayuda-tabla {
+  margin: 0 0 var(--s-3);
+  padding: .7rem .9rem;
+  border-left: 3px solid var(--azul);
+  border-radius: 0 var(--r-sm) var(--r-sm) 0;
+  background: color-mix(in srgb, var(--azul) 7%, transparent);
+  font-size: .82rem;
+  line-height: 1.55;
+  color: var(--text-soft);
+}
+.ayuda-tabla b { color: var(--text); }

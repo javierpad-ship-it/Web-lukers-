@@ -356,6 +356,56 @@ const REGION_POR_CIUDAD = {
 
 const HORARIO_POR_DEFECTO = "Lun a Dom · 10:00 a. m. – 10:00 p. m.";
 
+/**
+ * Convierte el horario que se escribe en el panel ("Lun a Dom · 9:30 a. m. –
+ * 9:30 p. m.") al formato que entiende schema.org ("Mo-Su 09:30-21:30").
+ *
+ * Antes este dato iba escrito a mano y era el mismo para las diez tiendas.
+ * Chiclayo, Tarapoto e Iquitos abren de 9:30 a 21:30, asi que Google recibia
+ * un horario falso para tres locales: alguien llegaba a las 21:45 y se
+ * encontraba la tienda cerrada.
+ *
+ * Si el texto no se puede interpretar devuelve null y la ficha sale SIN
+ * horario. Una ficha sin horario es correcta; una con el horario equivocado
+ * manda a la gente a una puerta cerrada y Google lo penaliza.
+ */
+function horarioSchema(texto) {
+  if (!texto) return null;
+  // Dos horas del tipo 10:00 / 9:30 / 10, cada una seguida de a. m. o p. m.
+  const re = /(\d{1,2})(?::(\d{2}))?\s*([ap])\.?\s*m\.?/gi;
+  const encontradas = [];
+  let m;
+  while ((m = re.exec(texto)) !== null) {
+    let hora = Number(m[1]);
+    const min = m[2] || "00";
+    const meridiano = m[3].toLowerCase();
+    if (hora < 1 || hora > 12) return null;
+    if (meridiano === "p" && hora !== 12) hora += 12;
+    if (meridiano === "a" && hora === 12) hora = 0;   // 12 a. m. es medianoche
+    encontradas.push(`${String(hora).padStart(2, "0")}:${min}`);
+  }
+  if (encontradas.length !== 2) return null;
+  const [abre, cierra] = encontradas;
+  if (abre === cierra) return null;
+  return `Mo-Su ${abre}-${cierra}`;
+}
+
+/**
+ * El distrito es la senial mas fuerte del SEO local: es lo que decide
+ * "ropa cerca de mi" y "outlet en Chorrillos". Va al final de la direccion,
+ * despues de la ultima coma ("Av. El Sol 1175, Chorrillos").
+ *
+ * Antes se mandaba la ciudad, asi que las seis tiendas de Lima decian
+ * addressLocality "Lima" y el distrito se perdia dentro del texto libre de
+ * streetAddress, donde pesa mucho menos.
+ */
+function distritoDe(direccion, ciudad) {
+  const partes = String(direccion || "").split(",");
+  if (partes.length < 2) return ciudad;
+  const ultima = partes[partes.length - 1].trim();
+  return ultima || ciudad;
+}
+
 function mapsUrl(nombre, direccion) {
   return "https://www.google.com/maps/search/?api=1&query=" +
     encodeURIComponent(`${nombre} ${direccion} Perú`);
@@ -393,6 +443,7 @@ function tarjetasDeTienda(stores) {
 function tiendasJsonLd(stores) {
   const fichas = stores.map((s) => {
     const region = REGION_POR_CIUDAD[s.city];
+    const horario = horarioSchema(s.hours || HORARIO_POR_DEFECTO);
     const ficha = {
       "@context": "https://schema.org",
       "@type": "ClothingStore",
@@ -402,11 +453,11 @@ function tiendasJsonLd(stores) {
       address: {
         "@type": "PostalAddress",
         streetAddress: s.address,
-        addressLocality: s.city,
+        addressLocality: distritoDe(s.address, s.city),
         addressCountry: "PE",
         ...(region ? { addressRegion: region } : {}),
       },
-      openingHours: "Mo-Su 10:00-22:00",
+      ...(horario ? { openingHours: horario } : {}),
       priceRange: "$$",
     };
     if (s.photo) ficha.image = `${SITE_URL}${s.photo}`;
