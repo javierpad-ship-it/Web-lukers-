@@ -209,3 +209,32 @@ llevan las dos horas (`HORARIO_10_22`, `HORARIO_930_2230`, `HORARIO_930_2130`).
 
 `horarioSchema()` no hizo falta tocarla: ya convertía cualquier hora, no solo
 las dos que había. Comprobado antes de darlo por bueno.
+
+## 14. El aviso de novedades sube a la segunda posición, como franja (22/09/2026)
+
+Estaba en la posición 9 de 10, enterrado. Para un outlet, enterarse antes de
+las llegadas nuevas es el gancho: la prenda buena se va en días.
+
+**Pero va como franja, no como sección completa.** Una sección entera ahí
+pediría el correo antes de haber enseñado nada —el visitante aún no sabe qué
+marcas hay ni que existen diez tiendas— y empujaría «Encuentra tu tienda»
+medio scroll hacia abajo, que es el objetivo principal del sitio. La franja se
+ve igual de pronto y ocupa 237 px en vez de unos 500.
+
+### Contraste: el azul de marca no puede llevar texto pequeño
+
+Al medirlo salió algo que venía de antes: **sobre el azul de marca (#008CFF)
+ni el blanco puro llega al mínimo** (3,39:1, cuando el texto normal pide
+4,5:1). La crema se queda en 2,93:1 y el texto del consentimiento en 2,64:1.
+
+La franja usa **`--azul-hondo` (#005CA8)**: crema 5,87:1, texto pequeño
+5,28:1, mensajes 5,45:1 y 5,74:1. Sigue siendo azul Lukers, pero se lee.
+
+Importa más aquí que en otros sitios porque esta franja es lo segundo que se
+ve y lleva un formulario: si no se lee el consentimiento, no hay
+consentimiento informado.
+
+> **Pendiente, del mismo problema:** la barra de anuncio de arriba del todo
+> (`.announce`) usa crema sobre `--azul`, o sea los mismos 2,93:1. No se ha
+> tocado porque cambiar el color de la barra superior es una decisión de marca,
+> no un arreglo técnico. Hay que decidirlo.

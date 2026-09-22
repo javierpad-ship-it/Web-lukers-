@@ -143,6 +143,45 @@
   </section>
 
   <!-- ========================= CATEGORÍAS ========================= -->
+  <!-- ========================= AVISO DE NOVEDADES =========================
+       Va aqui, de segunda, porque enterarse antes de las llegadas nuevas es
+       el gancho de un outlet: la prenda buena se va en dias.
+
+       Pero va como FRANJA y no como seccion completa. Una seccion entera
+       aqui pediria el correo antes de haber ensenado nada, y empujaria
+       "Encuentra tu tienda" medio scroll hacia abajo. La franja se ve
+       igual de pronto y apenas mueve el resto de la pagina. -->
+  <section class="franja-nl" aria-labelledby="nlTitulo">
+    <div class="container">
+      <div class="franja-nl__caja reveal">
+        <div class="franja-nl__texto">
+          <h2 id="nlTitulo"><span class="brillo" aria-hidden="true"></span> Entérate primero de las llegadas nuevas</h2>
+          <p>Te avisamos cuando llegan marcas nuevas y cuando empiezan las campañas en tu ciudad. Sin spam.</p>
+        </div>
+
+        <!--
+          El consentimiento va ANTES del boton y DENTRO del formulario.
+          Estaba despues: el primer intento fallaba siempre, y al quedar
+          fuera del <form> no se desmarcaba al enviar.
+        -->
+        <form class="franja-nl__form" id="newsletterForm" novalidate>
+          <div class="franja-nl__fila">
+            <label class="visually-hidden" for="nlEmail">Tu correo electrónico</label>
+            <input class="input" type="email" id="nlEmail" name="email" placeholder="tucorreo@ejemplo.com" autocomplete="email" required />
+            <button type="submit" class="btn btn--crema">Avísame</button>
+          </div>
+
+          <label class="consent" for="nlConsent">
+            <input type="checkbox" id="nlConsent" required />
+            <span>Autorizo a Lukers a escribirme con novedades, según la <a href="/privacidad">política de privacidad</a>. Puedo darme de baja cuando quiera.</span>
+          </label>
+
+          <p class="form-msg" id="nlMsg" role="status"></p>
+        </form>
+      </div>
+    </div>
+  </section>
+
   <section class="section section--sunken" id="categorias">
     <div class="container">
       <div class="section-head reveal">
@@ -376,38 +415,6 @@
   </section>
 
   <!-- ========================= NEWSLETTER ========================= -->
-  <section class="section section--tight">
-    <div class="container">
-      <div class="newsletter reveal">
-        <span class="brillo newsletter__brillo" aria-hidden="true"></span>
-        <div class="newsletter__inner">
-          <h2>Entérate primero de las llegadas nuevas</h2>
-          <p class="lead">Te avisamos cuando llegan marcas nuevas y cuando empiezan las campañas de descuento en tu ciudad. Sin spam.</p>
-
-          <!--
-            El consentimiento va ANTES del boton y DENTRO del formulario.
-            Estaba despues: el primer intento fallaba siempre, y al quedar
-            fuera del <form> no se desmarcaba al enviar.
-          -->
-          <form class="newsletter__box" id="newsletterForm" novalidate>
-            <div class="newsletter__form">
-              <label class="visually-hidden" for="nlEmail">Tu correo electrónico</label>
-              <input class="input" type="email" id="nlEmail" name="email" placeholder="tucorreo@ejemplo.com" autocomplete="email" required />
-            </div>
-
-            <label class="consent" for="nlConsent">
-              <input type="checkbox" id="nlConsent" required />
-              <span>Autorizo a Lukers a usar mi correo para enviarme novedades y promociones, según la <a href="/privacidad">política de privacidad</a>. Puedo darme de baja cuando quiera.</span>
-            </label>
-
-            <button type="submit" class="btn btn--crema">Suscribirme</button>
-            <p class="form-msg" id="nlMsg" role="status"></p>
-          </form>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- ========================= CONTACTO ========================= -->
   <section class="section" id="contacto">
     <div class="container">

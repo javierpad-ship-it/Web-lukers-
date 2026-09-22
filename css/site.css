@@ -232,16 +232,45 @@
 .value p { font-size: .94rem; color: var(--text-soft); }
 
 /* ---------- Newsletter ---------- */
-.newsletter { background: var(--azul); color: var(--crema); border-radius: var(--r-xl); padding: clamp(var(--s-6), 5vw, var(--s-8)); position: relative; overflow: hidden; }
-.newsletter h2, .newsletter .lead { color: var(--crema); }
-.newsletter .lead { opacity: .92; }
-.newsletter__form { display: flex; flex-wrap: wrap; gap: var(--s-3); margin-top: var(--s-5); }
-.newsletter__form .input { flex: 1 1 16rem; border-color: transparent; }
-.newsletter .consent { color: #CFE6FA; margin-top: var(--s-4); }
-.newsletter .consent a { color: var(--crema); }
-.newsletter .form-msg { color: #FFE0D6; }
-.newsletter .form-msg--ok { color: #CFF5DF; }
-.newsletter__brillo { position: absolute; right: -2rem; top: -2rem; --brillo-size: 12rem; --brillo-color: var(--crema); opacity: .12; pointer-events: none; }
+/* ---------- Franja de aviso de novedades ----------
+   Va de segunda, justo bajo la portada. Como franja y no como sección
+   completa: aquí se pide el correo antes de haber enseñado nada, así que
+   conviene que ocupe poco y no empuje «Encuentra tu tienda» hacia abajo. */
+.franja-nl { padding-block: var(--s-5); }
+
+.franja-nl__caja {
+  display: grid;
+  gap: var(--s-4);
+  padding: clamp(var(--s-4), 3vw, var(--s-6));
+  border-radius: var(--r-lg);
+  /* Azul hondo y no el azul de marca: sobre #008CFF ni el blanco puro llega
+     al contraste minimo (3,39:1 frente al 4,5:1 que pide el texto normal).
+     Con #005CA8 la crema sube a 5,87:1 y el texto pequeno del consentimiento
+     a 5,28:1. Aqui importa mas que en otros sitios porque esta franja es lo
+     segundo que se ve y lleva un formulario. */
+  background: var(--azul-hondo);
+  color: var(--crema);
+}
+@media (min-width: 56rem) {
+  .franja-nl__caja { grid-template-columns: 1fr minmax(20rem, 26rem); align-items: center; gap: var(--s-6); }
+}
+
+.franja-nl__texto h2 {
+  display: flex; align-items: center; gap: .5rem;
+  font-size: clamp(1.15rem, 2.2vw, 1.5rem);
+  line-height: 1.15; color: var(--crema);
+}
+.franja-nl__texto h2 .brillo { --brillo-size: 1.1rem; --brillo-color: var(--crema); flex: 0 0 auto; }
+.franja-nl__texto p { margin-top: .3rem; font-size: .88rem; line-height: 1.5; color: #CFE6FA; }
+
+.franja-nl__fila { display: flex; flex-wrap: wrap; gap: var(--s-2); }
+.franja-nl__fila .input { flex: 1 1 13rem; border-color: transparent; }
+.franja-nl__fila .btn { flex: 0 0 auto; }
+
+.franja-nl .consent { margin-top: var(--s-3); font-size: .78rem; color: #CFE6FA; }
+.franja-nl .consent a { color: var(--crema); }
+.franja-nl .form-msg { color: #FFE0D6; }
+.franja-nl .form-msg--ok { color: #CFF5DF; }
 
 /* ---------- Contacto ---------- */
 .contact-grid { display: grid; gap: clamp(var(--s-6), 4vw, var(--s-8)); }
@@ -406,15 +435,7 @@
 .supplier__note { font-size: .92rem; }
 
 /* ---------- Ajustes puntuales ---------- */
-.newsletter__inner { max-width: 40rem; }
-.newsletter__inner h2 + .lead { margin-top: var(--s-4); }
 .contact-head { margin-bottom: var(--s-5); }
-
-/* El formulario del newsletter apila: campo, consentimiento y botón. */
-.newsletter__box > * + * { margin-top: var(--s-4); }
-.newsletter__form { margin-top: 0; }
-.newsletter__box .btn { width: fit-content; }
-@media (max-width: 30rem) { .newsletter__box .btn { width: 100%; } }
 
 /* ---------- Avisos de la página legal ---------- */
 .aviso-pendiente {
