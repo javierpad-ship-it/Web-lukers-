@@ -281,23 +281,26 @@ Actualizado el 22/09/2026.
 1. **Distrito de la ficha de Google de La Marina.** ¿Dice San Miguel o Pueblo
    Libre? La web manda San Miguel. **Es lo único que falta para encender
    `TIENDAS_VERIFICADAS=1`** y que Google vea las diez ubicaciones.
-2. **Horario de Trujillo.** ¿10:00–22:00 o 9:30–21:30? Hoy está con el de
-   Lima, porque Lukers solo nombró a Chiclayo, Tarapoto e Iquitos al dar el
-   horario corto. Es la otra tienda de provincia.
-3. **Nota y número de reseñas de Google**, sumando las diez tiendas. Es el
+2. **Nota y número de reseñas de Google**, sumando las diez tiendas. Es el
    único hueco de la sección de comunidad.
-4. **RUC y razón social** contra SUNAT, antes de publicarlos.
-5. **Cómo se cuenta la historia**: 2001, 2019 o ambas.
-6. **URL real del Libro de Reclamaciones** en el sitio actual.
-7. **Teléfono y WhatsApp** correctos, con prefijo peruano (+51). Mientras
+3. **RUC y razón social** contra SUNAT, antes de publicarlos.
+4. **Cómo se cuenta la historia**: 2001, 2019 o ambas.
+5. **URL real del Libro de Reclamaciones** en el sitio actual.
+6. **Teléfono y WhatsApp** correctos, con prefijo peruano (+51). Mientras
    `WHATSAPP_NUMBER` esté vacío en `js/config.js`, los botones no se muestran.
-8. Si el catálogo `kyte.site` sigue activo y si debe enlazarse.
+7. Si el catálogo `kyte.site` sigue activo y si debe enlazarse.
 
 ### Resueltos
 
 - ~~Las direcciones de las diez tiendas~~ → confirmadas.
 - ~~Cuántas tiendas hay~~ → diez.
-- ~~Horarios~~ → dos: Lima 10–22, y Chiclayo, Tarapoto e Iquitos 9:30–21:30.
+- ~~Horarios~~ → **tres**:
+
+  | Horario | Tiendas |
+  |---|---|
+  | 10:00 – 22:00 | las seis de Lima |
+  | 9:30 – 22:30 | Trujillo |
+  | 9:30 – 21:30 | Chiclayo, Tarapoto, Iquitos |
 - ~~Si Pueblo Libre es una tienda aparte~~ → no, es la de Av. La Marina.
 - ~~Si Lukers vende ropa de niño~~ → sí.
 

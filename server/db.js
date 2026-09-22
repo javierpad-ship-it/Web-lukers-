@@ -16,11 +16,12 @@ let db;
      (sin sufijo) las diez tiendas reales, en lugar de las doce inventadas
      _b            horarios propios de Chiclayo, Tarapoto e Iquitos
      _c            la tienda de Av. La Marina pasa a llamarse "La Marina"
+     _d            Trujillo pasa a su horario propio (9:30 a 22:30)
 
-   Las tres se hicieron el 22/09/2026, antes de que nadie tocara el panel.
+   Las cuatro se hicieron el 22/09/2026, antes de que nadie tocara el panel.
    A partir de aqui, lo que se edite desde el panel manda: no volver a
    cambiar esta cadena sin avisar a Lukers. */
-const SEMILLA_TIENDAS = "stores_seed_reales_2026_09_c";
+const SEMILLA_TIENDAS = "stores_seed_reales_2026_09_d";
 
 /* ══════════════════════════════════════════════════════════════════════
    TIENDAS — origen de los datos
@@ -38,28 +39,31 @@ const SEMILLA_TIENDAS = "stores_seed_reales_2026_09_c";
    Dudas concretas anotadas en docs/HALLAZGOS-WEB-PUBLICA.md.
    ══════════════════════════════════════════════════════════════════════ */
 
-/* Dos horarios distintos: Lima abre de 10 a 10; las tres tiendas del norte
-   y la selva, de 9:30 a 9:30. Confirmado por Lukers el 22/09/2026. */
-const HORARIO_LIMA  = "Lun a Dom · 10:00 a. m. – 10:00 p. m.";
-const HORARIO_9Y30  = "Lun a Dom · 9:30 a. m. – 9:30 p. m.";
+/* Tres horarios distintos, confirmados por Lukers el 22/09/2026.
+   Los nombres dicen las dos horas a proposito: "HORARIO_LIMA" y
+   "HORARIO_9Y30" dejaron de servir en cuanto aparecio un segundo horario que
+   tambien empieza a las 9:30. */
+const HORARIO_10_22   = "Lun a Dom · 10:00 a. m. – 10:00 p. m.";  // las seis de Lima
+const HORARIO_930_2230 = "Lun a Dom · 9:30 a. m. – 10:30 p. m.";  // Trujillo
+const HORARIO_930_2130 = "Lun a Dom · 9:30 a. m. – 9:30 p. m.";   // Chiclayo, Tarapoto, Iquitos
 
 const INITIAL_STORES = [
   // Lima
-  { name: "Lukers Jr. de la Unión", city: "Lima",     address: "Jr. de la Unión 455, Cercado de Lima",     hours: HORARIO_LIMA },
-  { name: "Lukers Chorrillos",      city: "Lima",     address: "Av. El Sol 1175, Chorrillos",              hours: HORARIO_LIMA },
-  { name: "Lukers Independencia",   city: "Lima",     address: "Av. Alfredo Mendiola 3688, Independencia", hours: HORARIO_LIMA },
-  { name: "Lukers Lince",           city: "Lima",     address: "Av. Prolongación Iquitos 2635, Lince",     hours: HORARIO_LIMA },
+  { name: "Lukers Jr. de la Unión", city: "Lima",     address: "Jr. de la Unión 455, Cercado de Lima",     hours: HORARIO_10_22 },
+  { name: "Lukers Chorrillos",      city: "Lima",     address: "Av. El Sol 1175, Chorrillos",              hours: HORARIO_10_22 },
+  { name: "Lukers Independencia",   city: "Lima",     address: "Av. Alfredo Mendiola 3688, Independencia", hours: HORARIO_10_22 },
+  { name: "Lukers Lince",           city: "Lima",     address: "Av. Prolongación Iquitos 2635, Lince",     hours: HORARIO_10_22 },
   /* Se llama por la avenida, no por el distrito: las publicaciones de Lukers
      la anuncian como San Miguel y dentro de la empresa se la conoce como
      Pueblo Libre. Av. La Marina separa ambos distritos en ese tramo.
      "La Marina" es ademas como la nombran los clientes. */
-  { name: "Lukers La Marina",       city: "Lima",     address: "Av. La Marina 1666, San Miguel",           hours: HORARIO_LIMA },
-  { name: "Lukers Breña",           city: "Lima",     address: "Av. Alfonso Ugarte 1234-1236, Breña",      hours: HORARIO_LIMA },
+  { name: "Lukers La Marina",       city: "Lima",     address: "Av. La Marina 1666, San Miguel",           hours: HORARIO_10_22 },
+  { name: "Lukers Breña",           city: "Lima",     address: "Av. Alfonso Ugarte 1234-1236, Breña",      hours: HORARIO_10_22 },
   // Provincias
-  { name: "Lukers Trujillo",        city: "Trujillo", address: "Jr. Pizarro 519, Trujillo",                hours: HORARIO_LIMA },
-  { name: "Lukers Chiclayo",        city: "Chiclayo", address: "Av. Luis Gonzales 1285, Chiclayo",         hours: HORARIO_9Y30 },
-  { name: "Lukers Tarapoto",        city: "Tarapoto", address: "Jr. Martínez de Compagñón 246, Tarapoto",  hours: HORARIO_9Y30 },
-  { name: "Lukers Iquitos",         city: "Iquitos",  address: "Jr. Sargento Lores 162, Iquitos",          hours: HORARIO_9Y30 },
+  { name: "Lukers Trujillo",        city: "Trujillo", address: "Jr. Pizarro 519, Trujillo",                hours: HORARIO_930_2230 },
+  { name: "Lukers Chiclayo",        city: "Chiclayo", address: "Av. Luis Gonzales 1285, Chiclayo",         hours: HORARIO_930_2130 },
+  { name: "Lukers Tarapoto",        city: "Tarapoto", address: "Jr. Martínez de Compagñón 246, Tarapoto",  hours: HORARIO_930_2130 },
+  { name: "Lukers Iquitos",         city: "Iquitos",  address: "Jr. Sargento Lores 162, Iquitos",          hours: HORARIO_930_2130 },
 ];
 
 const INITIAL_BRANDS = {

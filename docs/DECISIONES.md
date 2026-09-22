@@ -195,3 +195,17 @@ Al pasar la tarjeta de tienda a una fila sin miniatura, la foto dejó de verse
 en la web. Pero no es un botón muerto: alimenta el campo `image` de la ficha de
 Google. El panel no lo decía, así que se añadió un aviso encima de la tabla
 explicando para qué sirve y qué foto conviene (fachada, de día, con el cartel).
+
+## 13. Trujillo tiene horario propio (22/09/2026)
+
+Confirmado por Lukers: **9:30 a. m. – 10:30 p. m.** Estaba con el horario de
+Lima porque, al dar el horario corto, solo se nombró a Chiclayo, Tarapoto e
+Iquitos.
+
+Con esto los horarios pasan de dos a tres, y las constantes de `server/db.js`
+se renombraron: `HORARIO_LIMA` y `HORARIO_9Y30` dejaron de decir la verdad en
+cuanto aparecieron dos horarios que empiezan a las 9:30. Ahora los nombres
+llevan las dos horas (`HORARIO_10_22`, `HORARIO_930_2230`, `HORARIO_930_2130`).
+
+`horarioSchema()` no hizo falta tocarla: ya convertía cualquier hora, no solo
+las dos que había. Comprobado antes de darlo por bueno.
