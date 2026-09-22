@@ -200,6 +200,15 @@
         <h2>Encuentra tu tienda Lukers</h2>
         <p class="lead">Estamos en Lima y en provincias. Elige la tuya y ve cómo llegar.</p>
       </div>
+      <div class="plano reveal" id="plano">
+        <button class="plano__tapa" type="button" id="planoTapa">
+          <span class="brillo" aria-hidden="true"></span>
+          <b>Ver las tiendas en el plano</b>
+          <span>Elige una tienda de la lista y el plano te lleva hasta su puerta.</span>
+          <i aria-hidden="true">Abrir el plano</i>
+          <em>Se carga Google Maps, que instala sus propias cookies.</em>
+        </button>
+      </div>
       <div class="grid grid-3" id="storeGrid"></div>
     </div>
   </section>
@@ -277,28 +286,34 @@
   </section>
 
   <!-- ========================= TESTIMONIOS ========================= -->
+  <!-- Los tres testimonios que habia aqui eran inventados: citas atribuidas a
+       personas con nombre y apellido sobre una empresa real. Ver docs/DECISIONES.md.
+       En su lugar van videos publicados por clientas reales. -->
   <section class="section section--sunken" id="comunidad">
     <div class="container">
       <div class="section-head reveal">
         <span class="eyebrow"><span class="brillo" aria-hidden="true"></span> Nuestra comunidad</span>
         <h2>Lo que dicen de nosotros</h2>
+        <p class="lead">Vídeos reales de gente real. El reproductor de TikTok
+          <strong>solo se carga cuando tocas un vídeo</strong>: hasta entonces la página
+          no pesa ni instala rastreadores.</p>
       </div>
-      <div class="grid grid-3 reveal">
-        <figure class="card"><div class="card__body">
-          <span class="brillo" aria-hidden="true"></span>
-          <blockquote><p>«Compro en Lukers desde hace más de diez años. La garantía de originalidad y la atención en tienda hacen toda la diferencia.»</p></blockquote>
-          <figcaption class="quote-by"><b>Carlos R.</b><br />Cliente · San Miguel, Lima</figcaption>
-        </div></figure>
-        <figure class="card"><div class="card__body">
-          <span class="brillo brillo--turquesa" aria-hidden="true"></span>
-          <blockquote><p>«Trabajar en Lukers me dio mi primera oportunidad formal. Hoy lidero una tienda y sigo creciendo con la empresa.»</p></blockquote>
-          <figcaption class="quote-by"><b>María S.</b><br />Jefa de tienda · Trujillo</figcaption>
-        </div></figure>
-        <figure class="card"><div class="card__body">
-          <span class="brillo brillo--lila" aria-hidden="true"></span>
-          <blockquote><p>«Como proveedores valoramos su seriedad: pagos puntuales y una relación comercial transparente de verdad.»</p></blockquote>
-          <figcaption class="quote-by"><b>Luis A.</b><br />Socio comercial · Lima</figcaption>
-        </div></figure>
+
+      <div class="ugc reveal">
+        <div class="ugc__grid" id="ugcGrid"></div>
+
+        <div class="card resenas">
+          <div class="card__body">
+            <span class="eyebrow"><span class="brillo" aria-hidden="true"></span> Opiniones verificadas</span>
+            <p class="resenas__nota">
+              <span class="dato-pendiente">nota de Google</span>
+              <span class="dato-pendiente">n.º de reseñas</span>
+            </p>
+            <p class="resenas__texto">El vídeo emociona; la reseña de Google convence.
+              Ese dato es verificable y es lo que mira alguien antes de ir a una tienda.
+              Se toma de las fichas de Google de las tiendas.</p>
+          </div>
+        </div>
       </div>
     </div>
   </section>

@@ -103,3 +103,47 @@ que es bastante peor.
   contenido real.
 
 **Nada de este repositorio debe publicarse hasta sustituir ese contenido.**
+
+---
+
+## 7. Los testimonios inventados, fuera (22/09/2026)
+
+La portada tenía tres testimonios firmados con nombre y apellido —«Carlos R.,
+cliente, San Miguel», «María S., jefa de tienda, Trujillo», «Luis A., socio
+comercial»— que **no existen**. Los escribió una sesión de IA anterior como
+relleno. Poner palabras en boca de personas inventadas sobre una empresa real
+no es un detalle de copy: es una afirmación falsa sobre Lukers, y encima la
+más fácil de desmontar.
+
+**En su lugar:** vídeos publicados por clientas reales en TikTok
+(`@annys_cas`, `@lenaahurtado`, `@kennethtristanm`), con crédito visible al
+autor y enlace al vídeo original. El reproductor de TikTok se carga solo
+cuando alguien toca un vídeo, así que la página no arrastra rastreadores de
+terceros mientras nadie lo pide.
+
+**Lo que falta ahí:** la nota y el número de reseñas de Google. Están marcados
+como dato pendiente, sin cifra inventada. Es el dato que de verdad convence a
+alguien antes de ir a una tienda, y es verificable.
+
+**Aviso de mantenimiento:** una sección de vídeos se pudre si nadie la toca.
+El tercero es de octubre de 2024. Tres vídeos de hace dos años dan peor
+impresión que no tener sección.
+
+## 8. El plano de tiendas empieza cerrado (22/09/2026)
+
+Se puede elegir una tienda y ver dónde está sin salir de la página. Pero
+Google Maps incrustado pesa cerca de 1 MB e instala cookies de Google en
+cuanto carga, mire o no el visitante el plano. Por eso empieza cerrado, con
+una tapa que lo dice, y no se pide nada a Google hasta que alguien lo abre.
+
+El botón «Cómo llegar» no cambia: en móvil, lo que lleva a alguien a la tienda
+es abrir su propia app de mapas con la ruta empezada.
+
+**Deuda técnica asumida:** la dirección del plano no lleva clave y no está
+documentada por Google. Funciona hoy; si dejara de responder hay que contratar
+la clave de la Embed API y rellenar `CLAVE_MAPS` en `js/site.js`. El código ya
+construye las dos formas y «Cómo llegar» no depende de eso.
+
+**Sin verificar:** no se ha podido ver ninguno de los diez planos porque
+Google está bloqueado en el entorno de desarrollo. Si alguna tienda cae en el
+sitio equivocado, se le pone `data-coords="lat,lon"` a su tarjeta.

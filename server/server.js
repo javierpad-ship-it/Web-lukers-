@@ -357,13 +357,13 @@ function tarjetasDeTienda(stores) {
   const pin = '<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11Z"/><circle cx="12" cy="10" r="2.6"/></svg>';
   const reloj = '<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>';
 
-  return stores.map((s) => {
+  return stores.map((s, i) => {
     const foto = s.photo
       ? `<img src="${escapeHtml(s.photo)}" alt="Tienda Lukers ${escapeHtml(s.name)}" loading="lazy" decoding="async" />`
       : `<div class="media__placeholder"><span class="brillo" aria-hidden="true"></span><span>Foto de la tienda</span></div>`;
 
     return `
-        <article class="card store-card card--hover">
+        <article class="card store-card card--hover" data-nombre="${escapeHtml(s.name)}" data-direccion="${escapeHtml(s.address)}">
           <div class="media media--3x2">${foto}</div>
           <div class="card__body">
             <span class="store-card__city">${escapeHtml(s.city)}</span>
@@ -372,6 +372,7 @@ function tarjetasDeTienda(stores) {
             <p class="store-card__meta">${reloj}<span>${escapeHtml(s.hours || HORARIO_POR_DEFECTO)}</span></p>
             <div class="store-card__actions">
               <a class="btn btn--primary btn--sm" href="${mapsUrl(s.name, s.address)}" target="_blank" rel="noopener">Cómo llegar</a>
+              <button class="btn btn--outline btn--sm js-ver-plano" type="button" data-i="${i}">Ver en el plano</button>
             </div>
           </div>
         </article>`;

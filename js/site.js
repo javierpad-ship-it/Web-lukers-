@@ -94,7 +94,7 @@ async function cargarTiendas() {
       return;
     }
 
-    grid.innerHTML = stores.map((s) => {
+    grid.innerHTML = stores.map((s, i) => {
       const foto = s.photo
         ? `<img src="${escapeHtml(s.photo)}" alt="Tienda Lukers ${escapeHtml(s.name)}" loading="lazy" decoding="async" />`
         : `<div class="media__placeholder"><span class="brillo" aria-hidden="true"></span><span>Foto de la tienda</span></div>`;
@@ -104,7 +104,7 @@ async function cargarTiendas() {
         : "";
 
       return `
-        <article class="card store-card card--hover">
+        <article class="card store-card card--hover" data-nombre="${escapeHtml(s.name)}" data-direccion="${escapeHtml(s.address)}">
           <div class="media media--3x2">${foto}</div>
           <div class="card__body">
             <span class="store-card__city">${escapeHtml(s.city)}</span>
@@ -113,6 +113,7 @@ async function cargarTiendas() {
             <p class="store-card__meta">${ICONO_RELOJ}<span>${escapeHtml(s.hours || "Lun a Dom · 10:00 a. m. – 10:00 p. m.")}</span></p>
             <div class="store-card__actions">
               <a class="btn btn--primary btn--sm" href="${mapsUrl(s.address, s.name)}" target="_blank" rel="noopener">Cómo llegar</a>
+              <button class="btn btn--outline btn--sm js-ver-plano" type="button" data-i="${i}">Ver en el plano</button>
               ${wa}
             </div>
           </div>
@@ -228,3 +229,150 @@ async function cargarMarcas() {
 cargarImagenes();
 cargarTiendas();
 cargarMarcas();
+
+/* ============================================================
+   Plano de tiendas
+   ------------------------------------------------------------
+   Patrón de fachada, igual que con los vídeos: Google Maps no se
+   carga hasta que alguien pulsa «Abrir el plano», así que hasta
+   ese momento la página no instala cookies de terceros.
+
+   Los datos los lee de las propias tarjetas (data-nombre y
+   data-direccion) y no de una lista aparte, porque las tarjetas
+   las puede haber pintado el servidor antes de llegar aquí.
+   ============================================================ */
+(function initPlano() {
+  const plano = $("#plano");
+  const grid  = $("#storeGrid");
+  if (!plano || !grid) return;
+
+  /**
+   * Clave de la Embed API de Google. Mientras esté vacía se usa una
+   * dirección sin clave que funciona hoy, pero que Google no documenta.
+   * Si algún día dejara de responder, se contrata la clave y se pega
+   * aquí: no hay que tocar nada más. El botón «Cómo llegar» no depende
+   * de esto y seguiría funcionando igual.
+   */
+  const CLAVE_MAPS = "";
+
+  let tapa  = $("#planoTapa");
+  let marco = null;
+  let elegida = null;
+
+  const tarjetas = () => $$(".store-card", grid);
+
+  function urlDelPlano(tarjeta) {
+    const nombre = tarjeta.dataset.nombre || "Lukers";
+    const dir    = tarjeta.dataset.direccion || "";
+    // Si alguna tienda cayera en el sitio equivocado, se le pone
+    // data-coords="-12.123,-77.123" y se usa eso en vez de la dirección.
+    const consulta = tarjeta.dataset.coords || `${nombre}, ${dir}, Perú`;
+    return CLAVE_MAPS
+      ? `https://www.google.com/maps/embed/v1/place?key=${CLAVE_MAPS}&zoom=17&q=${encodeURIComponent(consulta)}`
+      : `https://maps.google.com/maps?output=embed&z=17&q=${encodeURIComponent(consulta)}`;
+  }
+
+  function mostrar(tarjeta) {
+    if (!tarjeta) return;
+    if (!marco) {
+      const cargando = document.createElement("div");
+      cargando.className = "plano__cargando";
+      cargando.textContent = "Cargando el plano…";
+      plano.appendChild(cargando);
+
+      marco = document.createElement("iframe");
+      marco.loading = "lazy";
+      marco.referrerPolicy = "no-referrer-when-downgrade";
+      marco.addEventListener("load", () => cargando.remove());
+      plano.appendChild(marco);
+      if (tapa) { tapa.remove(); tapa = null; }
+    }
+    marco.title = `Plano de ${tarjeta.dataset.nombre}, ${tarjeta.dataset.direccion}`;
+    marco.src   = urlDelPlano(tarjeta);
+
+    tarjetas().forEach((c) => c.setAttribute("aria-current", c === tarjeta ? "true" : "false"));
+    elegida = tarjeta;
+    plano.scrollIntoView({ behavior: "smooth", block: "center" });
+  }
+
+  if (tapa) tapa.addEventListener("click", () => mostrar(tarjetas()[0]));
+
+  grid.addEventListener("click", (e) => {
+    const btn = e.target.closest(".js-ver-plano");
+    if (!btn) return;
+    mostrar(btn.closest(".store-card"));
+  });
+
+  // Sin tiendas no hay nada que enseñar: el plano sobra.
+  const observador = new MutationObserver(() => {
+    if (!tarjetas().length && !marco) plano.remove();
+  });
+  observador.observe(grid, { childList: true });
+})();
+
+/* ============================================================
+   Vídeos de la comunidad (TikTok)
+   ------------------------------------------------------------
+   Fachada otra vez: se ve la portada, y el reproductor de TikTok
+   solo entra cuando alguien pulsa un vídeo.
+
+   Cada vídeo necesita su portada: vertical 9:16, mínimo
+   720 × 1280 px. Se sube desde el panel, como las fotos de tienda.
+   ============================================================ */
+(function initUgc() {
+  const grid = $("#ugcGrid");
+  if (!grid) return;
+
+  const VIDEOS = [
+    { user: "annys_cas",       id: "7666985672225377556", fecha: "jul 2026" },
+    { user: "lenaahurtado",    id: "7577916134561762580", fecha: "nov 2025" },
+    { user: "kennethtristanm", id: "7421334424396123398", fecha: "oct 2024" },
+  ];
+
+  const ICONO_TIKTOK = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.6 5.8a4.3 4.3 0 0 1-1.1-2.8h-3v12a2.5 2.5 0 1 1-1.8-2.4V9.5a5.6 5.6 0 1 0 4.8 5.5V9.3a7.3 7.3 0 0 0 4.2 1.3V7.7a4.3 4.3 0 0 1-3.1-1.9Z"/></svg>';
+  const ICONO_PLAY   = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>';
+
+  grid.innerHTML = VIDEOS.map((v) => `
+    <figure class="vid" data-id="${escapeHtml(v.id)}" data-user="${escapeHtml(v.user)}">
+      <div class="vid__tapa">
+        <div>
+          <span class="brillo" aria-hidden="true"></span>
+          <b>Portada del vídeo</b><i>9:16 · 720 × 1280 px</i>
+        </div>
+      </div>
+      <span class="vid__red">${ICONO_TIKTOK}</span>
+      <span class="vid__play">${ICONO_PLAY}</span>
+      <figcaption class="vid__meta">
+        <b>@${escapeHtml(v.user)}</b><span>TikTok · ${escapeHtml(v.fecha)}</span>
+      </figcaption>
+      <button class="vid__btn" type="button" aria-label="Reproducir el vídeo de @${escapeHtml(v.user)} en TikTok"></button>
+    </figure>`).join("");
+
+  grid.addEventListener("click", (e) => {
+    const btn = e.target.closest(".vid__btn");
+    if (!btn) return;
+    const fig = btn.closest(".vid");
+    if (fig.dataset.abierto === "1") return;
+    fig.dataset.abierto = "1";
+
+    const url = `https://www.tiktok.com/@${fig.dataset.user}/video/${fig.dataset.id}`;
+
+    const marco = document.createElement("iframe");
+    marco.src = `https://www.tiktok.com/embed/v2/${fig.dataset.id}`;
+    marco.title = `Vídeo de @${fig.dataset.user} en TikTok`;
+    marco.loading = "lazy";
+    marco.allow = "autoplay; encrypted-media; picture-in-picture";
+    marco.style.cssText = "position:absolute;inset:0;width:100%;height:100%;border:0;border-radius:inherit;z-index:4;background:#000";
+
+    // Si el vídeo se borra o TikTok no carga, queda el enlace al original.
+    const salida = document.createElement("a");
+    salida.href = url;
+    salida.target = "_blank";
+    salida.rel = "noopener";
+    salida.textContent = "Ver en TikTok";
+    salida.style.cssText = "position:absolute;left:.9rem;bottom:.7rem;z-index:5;font-size:.74rem;color:#fff";
+
+    fig.innerHTML = "";
+    fig.append(marco, salida);
+  });
+})();
