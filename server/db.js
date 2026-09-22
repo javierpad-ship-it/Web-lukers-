@@ -9,8 +9,11 @@ fs.mkdirSync(DATA_DIR, { recursive: true });
 
 let db;
 
-/* Cambia esta cadena solo si hay que forzar otra sustitucion de tiendas. */
-const SEMILLA_TIENDAS = "stores_seed_reales_2026_09";
+/* Cambia esta cadena solo si hay que forzar otra sustitucion de tiendas.
+   OJO: cambiarla PISA lo que se haya editado desde el panel. Se subio a
+   "_b" el 22/09/2026 para corregir los horarios de Chiclayo, Tarapoto e
+   Iquitos; en ese momento nadie habia editado nada todavia. */
+const SEMILLA_TIENDAS = "stores_seed_reales_2026_09_b";
 
 /* ══════════════════════════════════════════════════════════════════════
    TIENDAS — origen de los datos
@@ -28,19 +31,24 @@ const SEMILLA_TIENDAS = "stores_seed_reales_2026_09";
    Dudas concretas anotadas en docs/HALLAZGOS-WEB-PUBLICA.md.
    ══════════════════════════════════════════════════════════════════════ */
 
+/* Dos horarios distintos: Lima abre de 10 a 10; las tres tiendas del norte
+   y la selva, de 9:30 a 9:30. Confirmado por Lukers el 22/09/2026. */
+const HORARIO_LIMA  = "Lun a Dom · 10:00 a. m. – 10:00 p. m.";
+const HORARIO_9Y30  = "Lun a Dom · 9:30 a. m. – 9:30 p. m.";
+
 const INITIAL_STORES = [
   // Lima
-  { name: "Lukers Jr. de la Unión", city: "Lima",          address: "Jr. de la Unión 455, Cercado de Lima",          hours: "Lun a Dom · 10:00 a. m. – 10:00 p. m." },
-  { name: "Lukers Chorrillos",      city: "Lima",          address: "Av. El Sol 1175, Chorrillos",                   hours: "Lun a Dom · 10:00 a. m. – 10:00 p. m." },
-  { name: "Lukers Independencia",   city: "Lima",          address: "Av. Alfredo Mendiola 3688, Independencia",      hours: "Lun a Dom · 10:00 a. m. – 10:00 p. m." },
-  { name: "Lukers Lince",           city: "Lima",          address: "Av. Prolongación Iquitos 2635, Lince",          hours: "Lun a Dom · 10:00 a. m. – 10:00 p. m." },
-  { name: "Lukers San Miguel",      city: "Lima",          address: "Av. La Marina 1666, San Miguel",                hours: "Lun a Dom · 10:00 a. m. – 10:00 p. m." },
-  { name: "Lukers Breña",           city: "Lima",          address: "Av. Alfonso Ugarte 1234-1236, Breña",           hours: "Lun a Dom · 10:00 a. m. – 10:00 p. m." },
+  { name: "Lukers Jr. de la Unión", city: "Lima",     address: "Jr. de la Unión 455, Cercado de Lima",     hours: HORARIO_LIMA },
+  { name: "Lukers Chorrillos",      city: "Lima",     address: "Av. El Sol 1175, Chorrillos",              hours: HORARIO_LIMA },
+  { name: "Lukers Independencia",   city: "Lima",     address: "Av. Alfredo Mendiola 3688, Independencia", hours: HORARIO_LIMA },
+  { name: "Lukers Lince",           city: "Lima",     address: "Av. Prolongación Iquitos 2635, Lince",     hours: HORARIO_LIMA },
+  { name: "Lukers San Miguel",      city: "Lima",     address: "Av. La Marina 1666, San Miguel",           hours: HORARIO_LIMA },
+  { name: "Lukers Breña",           city: "Lima",     address: "Av. Alfonso Ugarte 1234-1236, Breña",      hours: HORARIO_LIMA },
   // Provincias
-  { name: "Lukers Trujillo",        city: "Trujillo",      address: "Jr. Pizarro 519, Trujillo",                     hours: "Lun a Dom · 10:00 a. m. – 10:00 p. m." },
-  { name: "Lukers Chiclayo",        city: "Chiclayo",      address: "Av. Luis Gonzales 1285, Chiclayo",              hours: "Lun a Dom · 10:00 a. m. – 10:00 p. m." },
-  { name: "Lukers Tarapoto",        city: "Tarapoto",      address: "Jr. Martínez de Compagñón 246, Tarapoto",       hours: "Lun a Dom · 10:00 a. m. – 10:00 p. m." },
-  { name: "Lukers Iquitos",         city: "Iquitos",       address: "Jr. Sargento Lores 162, Iquitos",               hours: "Lun a Dom · 10:00 a. m. – 10:00 p. m." },
+  { name: "Lukers Trujillo",        city: "Trujillo", address: "Jr. Pizarro 519, Trujillo",                hours: HORARIO_LIMA },
+  { name: "Lukers Chiclayo",        city: "Chiclayo", address: "Av. Luis Gonzales 1285, Chiclayo",         hours: HORARIO_9Y30 },
+  { name: "Lukers Tarapoto",        city: "Tarapoto", address: "Jr. Martínez de Compagñón 246, Tarapoto",  hours: HORARIO_9Y30 },
+  { name: "Lukers Iquitos",         city: "Iquitos",  address: "Jr. Sargento Lores 162, Iquitos",          hours: HORARIO_9Y30 },
 ];
 
 const INITIAL_BRANDS = {

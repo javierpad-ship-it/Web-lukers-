@@ -450,17 +450,19 @@ footer{background:var(--negro);color:var(--crema);padding:clamp(4rem,8vw,6rem) 0
   /* Las diez tiendas, con las direcciones que Lukers publica en sus redes.
      Pendientes de que Lukers las confirme: ver docs/HALLAZGOS-WEB-PUBLICA.md */
   var CIUDADES=["Todas","Lima","Trujillo","Chiclayo","Tarapoto","Iquitos"];
+  var H10="Lun a Dom \u00b7 10 a. m. \u2013 10 p. m.";
+  var H93="Lun a Dom \u00b7 9:30 a. m. \u2013 9:30 p. m.";
   var TIENDAS=[
-    {c:"Lima",n:"Jr. de la Unión", d:"Jr. de la Unión 455, Cercado de Lima"},
-    {c:"Lima",n:"Chorrillos",      d:"Av. El Sol 1175, Chorrillos"},
-    {c:"Lima",n:"Independencia",   d:"Av. Alfredo Mendiola 3688, Independencia"},
-    {c:"Lima",n:"Lince",           d:"Av. Prolongación Iquitos 2635, Lince"},
-    {c:"Lima",n:"San Miguel",      d:"Av. La Marina 1666, San Miguel"},
-    {c:"Lima",n:"Breña",           d:"Av. Alfonso Ugarte 1234-1236, Breña"},
-    {c:"Trujillo",n:"Trujillo",    d:"Jr. Pizarro 519, Trujillo"},
-    {c:"Chiclayo",n:"Chiclayo",    d:"Av. Luis Gonzales 1285, Chiclayo"},
-    {c:"Tarapoto",n:"Tarapoto",    d:"Jr. Martínez de Compagñón 246, Tarapoto"},
-    {c:"Iquitos",n:"Iquitos",      d:"Jr. Sargento Lores 162, Iquitos"}
+    {c:"Lima",n:"Jr. de la Uni\u00f3n", d:"Jr. de la Uni\u00f3n 455, Cercado de Lima",     h:H10},
+    {c:"Lima",n:"Chorrillos",      d:"Av. El Sol 1175, Chorrillos",              h:H10},
+    {c:"Lima",n:"Independencia",   d:"Av. Alfredo Mendiola 3688, Independencia", h:H10},
+    {c:"Lima",n:"Lince",           d:"Av. Prolongaci\u00f3n Iquitos 2635, Lince",     h:H10},
+    {c:"Lima",n:"San Miguel",      d:"Av. La Marina 1666, San Miguel",           h:H10},
+    {c:"Lima",n:"Bre\u00f1a",          d:"Av. Alfonso Ugarte 1234-1236, Bre\u00f1a",      h:H10},
+    {c:"Trujillo",n:"Trujillo",    d:"Jr. Pizarro 519, Trujillo",                h:H10},
+    {c:"Chiclayo",n:"Chiclayo",    d:"Av. Luis Gonzales 1285, Chiclayo",         h:H93},
+    {c:"Tarapoto",n:"Tarapoto",    d:"Jr. Mart\u00ednez de Compag\u00f1\u00f3n 246, Tarapoto",  h:H93},
+    {c:"Iquitos",n:"Iquitos",      d:"Jr. Sargento Lores 162, Iquitos",          h:H93}
   ];
   var PIN='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11Z"/><circle cx="12" cy="10" r="2.6"/></svg>';
   var CLK='<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>';
@@ -476,7 +478,7 @@ footer{background:var(--negro);color:var(--crema);padding:clamp(4rem,8vw,6rem) 0
         '<span class="city">'+s.c+'</span>'+
         '<h3>Lukers '+s.n+'</h3>'+
         '<p>'+PIN+'<span>'+s.d+'</span></p>'+
-        '<p>'+CLK+'<span>Lun a Dom · 10 a. m. – 10 p. m.</span></p>'+
+        '<p>'+CLK+'<span>'+s.h+'</span></p>'+
         '<a class="cta" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query='+
           encodeURIComponent("Lukers "+s.n+" "+s.d+" Perú")+'">Cómo llegar</a>'+
       '</div></article>';

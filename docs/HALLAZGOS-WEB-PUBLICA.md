@@ -66,22 +66,32 @@ bloqueado por la política de red de este entorno, igual que Instagram,
 Facebook y Threads. Solo se ha podido llegar a los textos que el buscador
 muestra de esas publicaciones.
 
-### Cuatro dudas que solo Lukers puede cerrar
+### Las dudas, cerradas por Lukers el 22/09/2026
 
-1. **Chorrillos: ¿1175 o 1197?** Las publicaciones recientes como Lukers dicen
-   **1175**. Una antigua, todavía como «Remate de Fábrica», decía **1197**.
-   Puede ser un traslado, un error de una de las dos, o dos puertas del mismo
-   local. Se ha puesto 1175.
-2. **Iquitos: ¿162 o 182?** Casi todas dicen **162**; una dice 182. Se ha
-   puesto 162.
-3. **Pueblo Libre.** Una publicación antigua («visítanos en nuestras 7
-   tiendas») menciona Pueblo Libre. No aparece en ninguna lista reciente y el
-   propietario dice que hoy son diez. Se asume **cerrada o trasladada**.
-   Confirmar.
-4. **Horarios.** Todas las publicaciones dicen 10:00–22:00 todos los días.
-   Una fuente indica que Chorrillos cierra a las 21:30 los domingos. Se ha
-   puesto 10:00–22:00 para las diez. Si alguna tienda tiene horario propio,
-   hay que corregirla desde el panel.
+1. **Chorrillos: 1175.** Confirmado. El 1197 de la publicación antigua era de
+   la etapa Remate de Fábrica.
+2. **Iquitos: 162.** Confirmado. El 182 de una publicación era un error.
+3. **Pueblo Libre no es una tienda aparte:** es la de **Av. La Marina 1666**.
+   La publicación antigua la llamaba Pueblo Libre. Siguen siendo diez.
+4. **Horarios.** Hay dos:
+   - Lima (seis tiendas) y Trujillo → **10:00 a 22:00**, todos los días.
+   - **Chiclayo, Tarapoto e Iquitos → 9:30 a 21:30**, todos los días.
+
+### Una cosa sin cerrar: ¿San Miguel o Pueblo Libre?
+
+La tienda de Av. La Marina 1666 aparece como **San Miguel** en todas las
+publicaciones de Lukers, y el propietario la llama **Pueblo Libre**. Av. La
+Marina hace frontera entre los dos distritos en ese tramo, así que las dos
+cosas pueden sonar ciertas.
+
+**Importa, y no es un detalle de redacción.** El distrito que ponga la web
+tiene que ser **exactamente el mismo** que figura en la ficha de Google
+Business de esa tienda. Si no coinciden, Google recibe señales contradictorias
+sobre la misma ubicación, y eso es justo lo que castiga el posicionamiento
+local. De momento se ha dejado **San Miguel**, que es lo que Lukers publica.
+
+**Para cerrarlo:** abrir la ficha de Google de esa tienda y copiar el distrito
+tal cual aparezca ahí.
 
 ### Lo que sigue apagado a propósito
 
@@ -268,9 +278,9 @@ Queda por revisar cualquier sitio del código o del copy que siga diciendo
 
 ## Resumen: lo que hay que confirmar, por orden de urgencia
 
-1. ~~Las direcciones de las tiendas~~ → **hecho**, con cuatro dudas abiertas en
-   el punto 1: Chorrillos 1175 o 1197, Iquitos 162 o 182, si Pueblo Libre
-   cerró, y si alguna tienda tiene horario propio.
+1. ~~Las direcciones de las tiendas~~ → **hecho y confirmado por Lukers**.
+   Queda un solo detalle: si la tienda de Av. La Marina 1666 va como San
+   Miguel o como Pueblo Libre (ver punto 1).
 2. ~~Cuántas tiendas hay~~ → **diez**.
 3. **RUC y razón social** contra SUNAT, antes de publicarlos.
 4. **Cómo se cuenta la historia**: 2001, 2019 o ambas.
