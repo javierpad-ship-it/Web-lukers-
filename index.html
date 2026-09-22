@@ -200,16 +200,27 @@
         <h2>Encuentra tu tienda Lukers</h2>
         <p class="lead">Estamos en Lima y en provincias. Elige la tuya y ve cómo llegar.</p>
       </div>
-      <div class="plano reveal" id="plano">
-        <button class="plano__tapa" type="button" id="planoTapa">
-          <span class="brillo" aria-hidden="true"></span>
-          <b>Ver las tiendas en el plano</b>
-          <span>Elige una tienda de la lista y el plano te lleva hasta su puerta.</span>
-          <i aria-hidden="true">Abrir el plano</i>
-          <em>Se carga Google Maps, que instala sus propias cookies.</em>
-        </button>
+      <!-- El filtro solo sirve con JavaScript: por eso nace oculto y es el
+           propio script el que lo muestra. Sin JS se ven las diez, que es
+           el comportamiento correcto, no una version rota. -->
+      <div class="zonas reveal" id="zonas" role="group" aria-label="Filtrar tiendas por zona" hidden>
+        <button class="zona is-on" type="button" data-zona="todas" aria-pressed="true">Todas</button>
+        <button class="zona" type="button" data-zona="lima" aria-pressed="false">Lima</button>
+        <button class="zona" type="button" data-zona="provincia" aria-pressed="false">Provincias</button>
       </div>
-      <div class="grid grid-3" id="storeGrid"></div>
+
+      <div class="tiendas-cols reveal">
+        <div class="plano" id="plano">
+          <button class="plano__tapa" type="button" id="planoTapa">
+            <span class="brillo" aria-hidden="true"></span>
+            <b>Ver las tiendas en el plano</b>
+            <span>Elige una tienda de la lista y el plano te lleva hasta su puerta.</span>
+            <i aria-hidden="true">Abrir el plano</i>
+            <em>Se carga Google Maps, que instala sus propias cookies.</em>
+          </button>
+        </div>
+        <div class="tiendas-lista" id="storeGrid"></div>
+      </div>
     </div>
   </section>
 

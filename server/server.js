@@ -353,26 +353,34 @@ function mapsUrl(nombre, direccion) {
     encodeURIComponent(`${nombre} ${direccion} Perú`);
 }
 
+/* Lima o provincia: es el unico corte que le sirve a alguien que busca
+   donde comprar. Las nueve ciudades sueltas no ayudan a decidir. */
+function zona(ciudad) {
+  return String(ciudad).trim().toLowerCase() === "lima" ? "lima" : "provincia";
+}
+
 function tarjetasDeTienda(stores) {
   const pin = '<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11Z"/><circle cx="12" cy="10" r="2.6"/></svg>';
   const reloj = '<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>';
 
-  return stores.map((s, i) => {
+  return stores.map((s) => {
+    // En la miniatura no cabe el texto "Foto de la tienda": solo la pieza
+    // de marca. El aviso de que faltan fotos va una sola vez, en el titular.
     const foto = s.photo
       ? `<img src="${escapeHtml(s.photo)}" alt="Tienda Lukers ${escapeHtml(s.name)}" loading="lazy" decoding="async" />`
-      : `<div class="media__placeholder"><span class="brillo" aria-hidden="true"></span><span>Foto de la tienda</span></div>`;
+      : `<div class="media__placeholder"><span class="brillo" aria-hidden="true"></span></div>`;
 
     return `
-        <article class="card store-card card--hover" data-nombre="${escapeHtml(s.name)}" data-direccion="${escapeHtml(s.address)}">
-          <div class="media media--3x2">${foto}</div>
-          <div class="card__body">
-            <span class="store-card__city">${escapeHtml(s.city)}</span>
+        <article class="tienda" data-zona="${zona(s.city)}" data-nombre="${escapeHtml(s.name)}" data-direccion="${escapeHtml(s.address)}">
+          <div class="tienda__foto media">${foto}</div>
+          <div class="tienda__cuerpo">
+            <span class="tienda__ciudad">${escapeHtml(s.city)}</span>
             <h3>${escapeHtml(s.name)}</h3>
-            <p class="store-card__meta">${pin}<span>${escapeHtml(s.address)}</span></p>
-            <p class="store-card__meta">${reloj}<span>${escapeHtml(s.hours || HORARIO_POR_DEFECTO)}</span></p>
-            <div class="store-card__actions">
+            <p class="tienda__dato">${pin}<span>${escapeHtml(s.address)}</span></p>
+            <p class="tienda__dato">${reloj}<span>${escapeHtml(s.hours || HORARIO_POR_DEFECTO)}</span></p>
+            <div class="tienda__acciones">
               <a class="btn btn--primary btn--sm" href="${mapsUrl(s.name, s.address)}" target="_blank" rel="noopener">Cómo llegar</a>
-              <button class="btn btn--outline btn--sm js-ver-plano" type="button" data-i="${i}">Ver en el plano</button>
+              <button class="btn btn--outline btn--sm js-ver-plano" type="button">Ver en el plano</button>
             </div>
           </div>
         </article>`;
@@ -425,11 +433,11 @@ function portadaConTiendas() {
   }
   if (!stores.length) return html;
 
-  const tarjetas = `<div class="grid grid-3" id="storeGrid" data-servidor="1">${tarjetasDeTienda(stores)}\n      </div>`;
+  const tarjetas = `<div class="tiendas-lista" id="storeGrid" data-servidor="1">${tarjetasDeTienda(stores)}\n        </div>`;
   const jsonLd = `  ${tiendasJsonLd(stores)}\n</head>`;
   // Se usa una función de reemplazo a propósito: con una cadena, JavaScript
   // interpretaría $$, $& o $1 dentro del contenido y lo corrompería.
-  html = html.replace('<div class="grid grid-3" id="storeGrid"></div>', () => tarjetas);
+  html = html.replace('<div class="tiendas-lista" id="storeGrid"></div>', () => tarjetas);
   // Los datos estructurados SOLO se publican cuando alguien de Lukers ha
   // verificado las direcciones. Las que trae el repositorio son ficticias:
   // enseniarselas a Google situaria los locales donde no estan.

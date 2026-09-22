@@ -64,6 +64,12 @@ async function cargarImagenes() {
 const ICONO_PIN   = '<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11Z"/><circle cx="12" cy="10" r="2.6"/></svg>';
 const ICONO_RELOJ = '<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>';
 
+/* Lima o provincia: es el único corte que le sirve a alguien que busca
+   dónde comprar. Las nueve ciudades sueltas no ayudan a decidir. */
+function zona(ciudad) {
+  return String(ciudad).trim().toLowerCase() === "lima" ? "lima" : "provincia";
+}
+
 function mapsUrl(direccion, nombre) {
   return "https://www.google.com/maps/search/?api=1&query=" +
     encodeURIComponent(`${nombre} ${direccion} Perú`);
@@ -94,26 +100,28 @@ async function cargarTiendas() {
       return;
     }
 
-    grid.innerHTML = stores.map((s, i) => {
+    grid.innerHTML = stores.map((s) => {
+      // En la miniatura no cabe el texto "Foto de la tienda": solo la pieza
+      // de marca. El aviso de que faltan fotos va una vez, en el titular.
       const foto = s.photo
         ? `<img src="${escapeHtml(s.photo)}" alt="Tienda Lukers ${escapeHtml(s.name)}" loading="lazy" decoding="async" />`
-        : `<div class="media__placeholder"><span class="brillo" aria-hidden="true"></span><span>Foto de la tienda</span></div>`;
+        : `<div class="media__placeholder"><span class="brillo" aria-hidden="true"></span></div>`;
 
       const wa = WHATSAPP_OK
-        ? `<a class="btn btn--outline btn--sm" href="${whatsappLink(`Hola Lukers 👋 quiero consultar por la tienda ${s.name}.`)}" target="_blank" rel="noopener">WhatsApp</a>`
+        ? `<a class="btn btn--ghost btn--sm" href="${whatsappLink(`Hola Lukers 👋 quiero consultar por la tienda ${s.name}.`)}" target="_blank" rel="noopener">WhatsApp</a>`
         : "";
 
       return `
-        <article class="card store-card card--hover" data-nombre="${escapeHtml(s.name)}" data-direccion="${escapeHtml(s.address)}">
-          <div class="media media--3x2">${foto}</div>
-          <div class="card__body">
-            <span class="store-card__city">${escapeHtml(s.city)}</span>
+        <article class="tienda" data-zona="${zona(s.city)}" data-nombre="${escapeHtml(s.name)}" data-direccion="${escapeHtml(s.address)}">
+          <div class="tienda__foto media">${foto}</div>
+          <div class="tienda__cuerpo">
+            <span class="tienda__ciudad">${escapeHtml(s.city)}</span>
             <h3>${escapeHtml(s.name)}</h3>
-            <p class="store-card__meta">${ICONO_PIN}<span>${escapeHtml(s.address)}</span></p>
-            <p class="store-card__meta">${ICONO_RELOJ}<span>${escapeHtml(s.hours || "Lun a Dom · 10:00 a. m. – 10:00 p. m.")}</span></p>
-            <div class="store-card__actions">
+            <p class="tienda__dato">${ICONO_PIN}<span>${escapeHtml(s.address)}</span></p>
+            <p class="tienda__dato">${ICONO_RELOJ}<span>${escapeHtml(s.hours || "Lun a Dom · 10:00 a. m. – 10:00 p. m.")}</span></p>
+            <div class="tienda__acciones">
               <a class="btn btn--primary btn--sm" href="${mapsUrl(s.address, s.name)}" target="_blank" rel="noopener">Cómo llegar</a>
-              <button class="btn btn--outline btn--sm js-ver-plano" type="button" data-i="${i}">Ver en el plano</button>
+              <button class="btn btn--outline btn--sm js-ver-plano" type="button">Ver en el plano</button>
               ${wa}
             </div>
           </div>
@@ -259,7 +267,15 @@ cargarMarcas();
   let marco = null;
   let elegida = null;
 
-  const tarjetas = () => $$(".store-card", grid);
+  /* Se considera visible si hay al menos 200 px del plano dentro de la
+     ventana: con menos, el salto sí ayuda. */
+  const seVe = (el) => {
+    const r = el.getBoundingClientRect();
+    return Math.min(r.bottom, window.innerHeight) - Math.max(r.top, 0) > 200;
+  };
+
+  const tarjetas  = () => $$(".tienda", grid);
+  const visibles  = () => tarjetas().filter((c) => !c.hidden);
 
   function urlDelPlano(tarjeta) {
     const nombre = tarjeta.dataset.nombre || "Lukers";
@@ -272,7 +288,7 @@ cargarMarcas();
       : `https://maps.google.com/maps?output=embed&z=17&q=${encodeURIComponent(consulta)}`;
   }
 
-  function mostrar(tarjeta) {
+  function mostrar(tarjeta, irAlPlano = false) {
     if (!tarjeta) return;
     if (!marco) {
       const cargando = document.createElement("div");
@@ -292,16 +308,52 @@ cargarMarcas();
 
     tarjetas().forEach((c) => c.setAttribute("aria-current", c === tarjeta ? "true" : "false"));
     elegida = tarjeta;
-    plano.scrollIntoView({ behavior: "smooth", block: "center" });
+    // El salto de vista solo cuando lo pide una persona, y solo si el plano
+    // no se ve ya: en pantalla ancha se queda fijo al desplazarse, así que
+    // muchas veces está delante y mover la página sería un salto gratuito.
+    if (irAlPlano && !seVe(plano)) plano.scrollIntoView({ behavior: "smooth", block: "center" });
   }
 
-  if (tapa) tapa.addEventListener("click", () => mostrar(tarjetas()[0]));
+  if (tapa) tapa.addEventListener("click", () => mostrar(visibles()[0], true));
 
   grid.addEventListener("click", (e) => {
     const btn = e.target.closest(".js-ver-plano");
     if (!btn) return;
-    mostrar(btn.closest(".store-card"));
+    mostrar(btn.closest(".tienda"), true);
   });
+
+  /* ---------- Filtro Lima / provincias ----------
+     Se usa el atributo `hidden` y no una clase: así la tienda escondida
+     desaparece también para un lector de pantalla y para la búsqueda del
+     navegador, no solo a la vista. */
+  const zonas = $("#zonas");
+  if (zonas) {
+    zonas.hidden = false;   // solo sirve con JS; por eso nace oculto
+
+    zonas.addEventListener("click", (e) => {
+      const btn = e.target.closest(".zona");
+      if (!btn) return;
+      const z = btn.dataset.zona;
+
+      $$(".zona", zonas).forEach((b) => {
+        const activo = b === btn;
+        b.classList.toggle("is-on", activo);
+        b.setAttribute("aria-pressed", String(activo));
+      });
+
+      tarjetas().forEach((c) => {
+        c.hidden = z !== "todas" && c.dataset.zona !== z;
+      });
+
+      /* Si la tienda que se está viendo en el plano queda fuera del filtro,
+         el plano salta a la primera que sí entra. Dejarlo apuntando a una
+         tienda que ya no se ve sería confuso. */
+      if (marco && elegida && elegida.hidden) {
+        const otra = visibles()[0];
+        if (otra) mostrar(otra);
+      }
+    });
+  }
 
   // Sin tiendas no hay nada que enseñar: el plano sobra.
   const observador = new MutationObserver(() => {
