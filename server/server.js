@@ -106,7 +106,13 @@ const db = getDb();
 /*  Slots de imágenes del diseño que se pueden cambiar desde el panel  */
 /* ------------------------------------------------------------------ */
 const SLOTS = [
-  { slot: "hero_main", label: "Imagen principal (portada / hero)", hint: "Cuadrada · 800 × 800 px", ratio: "1 / 1" },
+  /* La portada paso a ser un bloque grande con la foto desangrada hasta sus
+     bordes: ocupa cerca de 700 px de ancho, que en una pantalla de alta
+     densidad son 1400 px reales. Los 800 px que pedia antes se veian
+     borrosos. */
+  { slot: "hero_main", label: "Imagen principal (portada)",
+    hint: "Vertical · mínimo 1600 × 2000 px · una persona con ropa de Lukers, a la DERECHA del encuadre. Lo ideal es un PNG con la persona RECORTADA y el fondo transparente: así se funde con el bloque. Deja aire arriba y abajo, que en móvil se recorta más estrecha.",
+    ratio: "4 / 5" },
   /* Se retiraron look_ella, look_el y look_urbano: pedían fotos para una
      sección de "Ofertas" que ya no existe en ninguna página. Quien subiera
      una imagen ahí la estaría subiendo a la nada. Si vuelve esa sección,

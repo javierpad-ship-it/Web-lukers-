@@ -238,3 +238,52 @@ consentimiento informado.
 > (`.announce`) usa crema sobre `--azul`, o sea los mismos 2,93:1. No se ha
 > tocado porque cambiar el color de la barra superior es una decisión de marca,
 > no un arreglo técnico. Hay que decidirlo.
+
+## 15. FALLO GRAVE ENCONTRADO: ninguna foto subida llegaba a verse (23/09/2026)
+
+Al probar la portada nueva con una foto de verdad salió que **ninguna imagen
+subida desde el panel se había visto nunca en la web**. Ni la de portada ni las
+cuatro de categorías.
+
+La causa, en `cargarImagenes()` de `js/site.js`: la imagen se creaba suelta, con
+`loading="lazy"`, y solo se metía en la página **dentro** del evento `load`.
+Una imagen con carga diferida que no está en el documento espera a entrar en
+pantalla para cargarse — pero solo iba a entrar al cargarse. Se bloqueaba sola:
+ni `load`, ni `error`, ni petición al servidor. Y el `catch` de alrededor está
+vacío, así que no aparecía nada en la consola.
+
+Arreglado: la imagen se mete en el documento **antes** de darle `src`, la pieza
+de marca se retira cuando la foto carga, y si la foto falla se retira la imagen
+y se queda la pieza de marca. La de portada además carga sin diferir, porque
+está en el primer pantallazo.
+
+**Por qué no se había visto:** nadie había subido todavía ninguna foto. El
+circuito de subida funcionaba —el archivo se guardaba y la API lo devolvía—,
+así que el panel decía que todo iba bien.
+
+## 16. Portada nueva: un solo bloque (23/09/2026)
+
+Referencia pedida por Lukers: la portada de SumUp. Lo que produce esa sensación
+son cuatro cosas, y se aplicaron las cuatro:
+
+1. **Un solo lienzo redondeado** con la foto y el texto dentro. Antes eran dos
+   columnas con un hueco: se leían como dos piezas sueltas.
+2. **La foto se desangra** hasta los bordes del lienzo, sin esquinas ni sombra
+   propias. El fondo del hueco es el mismo del lienzo para que una foto
+   recortada en PNG se funda sin costura.
+3. **Titular enorme contra texto pequeño**: 86 px contra 16 px en escritorio.
+   El cuerpo se bajó a propósito; bajar el texto normal sube el contraste tanto
+   como subir el titular.
+4. **Menos elementos**: fuera la etiqueta de arriba, los brillos de fondo y la
+   cajita flotante. Su contenido («revisa la prenda en tienda») se dobló dentro
+   del párrafo.
+
+Las cuatro cifras salen del lienzo a una franja propia debajo. Lukers confirma
+que son ciertas, así que se quedan; solo dejan de competir con el titular.
+
+También subió `--container` de 1240 a 1320 px y la escala de títulos.
+
+> **Lo que no se puede resolver con código:** el efecto de la referencia es en
+> su mayor parte la fotografía. La de SumUp es una producción con la persona
+> recortada. Mientras no llegue esa foto, el bloque se ve limpio y ordenado,
+> pero no se ve así. El encargo exacto está en el hueco `hero_main` del panel.

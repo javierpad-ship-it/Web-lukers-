@@ -95,50 +95,51 @@
 <main id="contenido">
 
   <!-- ========================= PORTADA ========================= -->
-  <section class="hero">
-    <div class="hero__brillos" aria-hidden="true">
-      <span class="brillo b1"></span>
-      <span class="brillo b2"></span>
-      <span class="brillo b3"></span>
-    </div>
+  <!-- ========================= PORTADA =========================
+       Un solo bloque: la foto y el texto viven dentro del mismo lienzo y la
+       foto se desangra hasta sus bordes. Antes eran dos columnas con un hueco
+       en medio, y se leian como dos piezas sueltas.
 
-    <div class="container hero__grid">
-      <div class="hero__content">
-        <span class="eyebrow">
-          <span class="brillo" aria-hidden="true"></span>
-          Marcas originales de USA y Europa
-        </span>
-        <h1>Mejores marcas, <span class="text-accent">mejores precios.</span></h1>
-        <p class="lead">
-          Más de 60 marcas originales con hasta <strong>70% de descuento</strong>,
-          en tu tienda Lukers más cercana. Sin intermediarios y con garantía de autenticidad.
-        </p>
-        <div class="hero__cta">
-          <a href="#tiendas" class="btn btn--primary">Encuentra tu tienda</a>
-          <a href="#categorias" class="btn btn--outline">Ver categorías</a>
+       Se quitaron la etiqueta de arriba, los brillos de fondo y la cajita
+       flotante: la fuerza aqui es el titular grande contra el texto pequeno,
+       y cada elemento extra se la quita.
+
+       El contenido de la cajita ("revisa la prenda en tienda") se doblo
+       dentro del parrafo. Ver docs/DECISIONES.md, punto 1, antes de tocarlo. -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero__lienzo">
+        <div class="hero__texto">
+          <h1>Mejores marcas, <span class="text-accent">mejores precios.</span></h1>
+          <p>
+            Marcas originales de USA y Europa en tu tienda Lukers más cercana.
+            Sin intermediarios: revisa la prenda en tienda antes de llevártela.
+          </p>
+          <div class="hero__cta">
+            <a href="#tiendas" class="btn btn--primary">Encuentra tu tienda</a>
+            <a href="#categorias" class="btn btn--outline">Ver categorías</a>
+          </div>
         </div>
 
-        <dl class="hero__stats">
-          <div class="hero__stat"><dt class="visually-hidden">Marcas originales</dt><dd><b data-count="60">60</b><span>marcas originales</span></dd></div>
-          <div class="hero__stat"><dt class="visually-hidden">Tiendas</dt><dd><b data-count="10">10</b><span>tiendas en el Perú</span></dd></div>
-          <div class="hero__stat"><dt class="visually-hidden">Descuento máximo</dt><dd><b data-count="70" data-suffix="%">70%</b><span>de descuento</span></dd></div>
-          <div class="hero__stat"><dt class="visually-hidden">Autenticidad</dt><dd><b>100%</b><span>original, garantizado</span></dd></div>
-        </dl>
-      </div>
-
-      <div class="hero__visual reveal">
-        <div class="media media--4x5" data-slot="hero_main">
+        <!-- Conserva `data-slot` y el `.media__placeholder` de dentro porque
+             cargarImagenes() en js/site.js los necesita: borra el placeholder
+             y mete un <img> ahi. Sin eso, la foto entra y no se ve. -->
+        <div class="media hero__foto" data-slot="hero_main">
           <div class="media__placeholder">
             <span class="brillo brillo--turquesa" aria-hidden="true"></span>
             <span>Foto de portada</span>
           </div>
         </div>
-        <!-- Ver docs/DECISIONES.md, punto 1, antes de cambiar este bloque. -->
-        <div class="brillo-box hero__note">
-          <b>Marcas originales</b>
-          <span>Revisa la prenda en tienda antes de llevártela.</span>
-        </div>
       </div>
+
+      <!-- Las cifras salen del bloque principal para que el titular respire,
+           pero se quedan: Lukers confirma que son ciertas. -->
+      <dl class="cifras reveal">
+        <div class="cifra"><dt>Marcas originales</dt><dd><b data-count="60">60</b></dd></div>
+        <div class="cifra"><dt>Tiendas en el Perú</dt><dd><b data-count="10">10</b></dd></div>
+        <div class="cifra"><dt>De descuento</dt><dd><b data-count="70" data-suffix="%">70%</b></dd></div>
+        <div class="cifra"><dt>Original, garantizado</dt><dd><b>100%</b></dd></div>
+      </dl>
     </div>
   </section>
 

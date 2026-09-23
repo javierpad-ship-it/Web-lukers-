@@ -44,15 +44,29 @@ async function cargarImagenes() {
     huecos.forEach((hueco) => {
       const url = images[hueco.dataset.slot];
       if (!url) return;            // sin foto: se queda la pieza de marca
+
       const img = new Image();
       img.alt = "";
-      img.loading = "lazy";
       img.decoding = "async";
+      /* La portada está en el primer pantallazo: cargarla con retraso es
+         justo lo contrario de lo que conviene. Las demás sí van con retraso. */
+      img.loading = hueco.dataset.slot === "hero_main" ? "eager" : "lazy";
+
       img.addEventListener("load", () => {
         const ph = $(".media__placeholder", hueco);
         if (ph) ph.remove();
-        hueco.appendChild(img);
       });
+      /* Si la foto no llega (borrada, ruta mala), se retira y se queda la
+         pieza de marca, que es mejor que un hueco roto. */
+      img.addEventListener("error", () => img.remove());
+
+      /* IMPORTANTE: la imagen se mete en el documento ANTES de darle `src`.
+         Antes se hacía al revés y se metía dentro del "load", con
+         loading="lazy" puesto. Una imagen suelta con carga diferida espera a
+         entrar en pantalla para cargarse, pero solo entraba al cargarse: se
+         bloqueaba sola y NINGUNA foto subida desde el panel llegó nunca a
+         verse, ni la de portada ni las cuatro de categorías. */
+      hueco.appendChild(img);
       img.src = url;
     });
   } catch {

@@ -76,7 +76,7 @@
   --t:    .24s var(--ease);
 
   --header-h: 72px;
-  --container: 1240px;
+  --container: 1320px;
   --gutter: clamp(1.25rem, 4vw, 2.5rem);
 }
 
@@ -151,13 +151,13 @@ ul, ol { list-style: none; padding: 0; }
 }
 
 .display-1, h1 {
-  font-size: clamp(2.6rem, 6.5vw, 5rem);
-  line-height: .95;
+  font-size: clamp(2.9rem, 6vw, 5.5rem);
+  line-height: .92;
   letter-spacing: -0.035em;
 }
 .display-2, h2 {
-  font-size: clamp(1.9rem, 4vw, 3rem);
-  line-height: 1.02;
+  font-size: clamp(2.1rem, 4.4vw, 3.4rem);
+  line-height: 1;
   letter-spacing: -0.028em;
 }
 .display-3, h3 {
@@ -167,8 +167,11 @@ ul, ol { list-style: none; padding: 0; }
 }
 
 .lead {
-  font-size: clamp(1.05rem, 1.5vw, 1.25rem);
-  line-height: 1.55;
+  /* El cuerpo BAJA a proposito. Bajar el texto normal sube el contraste
+     con el titular tanto como subir el titular, y es lo que da la sensacion
+     de orden. */
+  font-size: clamp(1rem, 1.2vw, 1.12rem);
+  line-height: 1.6;
   color: var(--text-soft);
   max-width: 54ch;
 }
