@@ -149,44 +149,63 @@
 .hero__foto > img { position: absolute; inset: 0; }
 
 /* ---------- Cifras, como pastillas bajo la portada ----------
-   Cada pastilla toma el ancho de su contenido y bajan de línea solas en
-   móvil: no se fuerzan columnas. */
+   Cuatro columnas iguales que ocupan el mismo ancho que el bloque de
+   arriba. Antes cada pastilla tomaba el ancho de su texto y se amontonaban
+   a la izquierda, dejando medio ancho vacío: se veía descolgado. */
 .cifras {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--s-3);
-  margin-top: var(--s-5);
+  margin-top: var(--s-4);
 }
+@media (min-width: 48rem) { .cifras { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 
 .cifra {
-  display: inline-flex;
-  /* El HTML dice primero qué es (<dt>) y luego el número (<dd>); a la
-     vista va al revés, que es como se lee de un vistazo. */
-  flex-direction: row-reverse;
+  display: flex;
+  /* En el HTML va primero qué es (<dt>) y luego el número (<dd>); a la
+     vista, el número arriba, que es lo que se lee de un vistazo. */
+  flex-direction: column-reverse;
   align-items: center;
-  gap: .6rem;
-  padding: .45rem 1.25rem .45rem .45rem;
+  justify-content: center;
+  gap: .5rem;
+  padding: var(--s-4) var(--s-3);
+  text-align: center;
   border: 1px solid var(--line);
-  border-radius: 999px;
+  border-radius: var(--r-xl);
   background: var(--surface);
 }
+/* El óvalo azul claro con el número. «hasta» va fuera del <b> porque el
+   contador de js/site.js reescribe el <b> entero al animarse. */
+/* El óvalo mide LO MISMO en las cuatro pastillas, lleve «60» o
+   «hasta 80%»: si cada uno toma el ancho de su número, la fila se ve
+   desordenada. Ancho fijo pensado para el más largo, sin pasar nunca del
+   ancho de la tarjeta.
 
-.cifra dd { margin: 0; }
-.cifra b {
-  display: block;
-  padding: .3rem .85rem;
+   Se probó también la versión alargada (número a la izquierda, texto a la
+   derecha) en escritorio: con óvalos iguales no cabía y las etiquetas se
+   partían en dos y tres líneas. Apilado se lee bien en todos los tamaños. */
+.cifra dd {
+  display: inline-flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: .3rem;
+  flex: 0 0 auto;
+  width: min(100%, 9.5rem);
+  margin: 0;
+  padding: .35rem .4rem;
   border-radius: 999px;
   background: color-mix(in srgb, var(--azul) 10%, transparent);
-  font-family: var(--font-display);
-  font-weight: 400;
-  font-size: clamp(1.35rem, 2vw, 1.7rem);
-  line-height: 1.1;
-  letter-spacing: -.02em;
   color: var(--azul-hondo);
 }
-/* Una sola línea siempre: con el borde del todo redondo, una pastilla
-   partida en dos líneas queda deformada. */
-.cifra dt { font-size: .88rem; line-height: 1.3; color: var(--text-soft); white-space: nowrap; }
+.cifra small { font-size: .78rem; font-weight: 700; }
+.cifra b {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1.4rem, 2vw, 1.75rem);
+  line-height: 1.1;
+  letter-spacing: -.02em;
+}
+.cifra dt { font-size: .86rem; line-height: 1.3; color: var(--text-soft); }
 
 /* ---------- Categorías ---------- */
 .cat-card { position: relative; display: block; border-radius: var(--r-lg); overflow: hidden; }

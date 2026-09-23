@@ -102,7 +102,7 @@ La maqueta publica estas frases. Marca cuáles son ciertas:
 | Afirmación | ¿Es cierta? |
 |---|---|
 | «Más de 60 marcas» | Sí / No / La cifra real es ____ |
-| «Hasta 70% de descuento» | Sí / No / Lo real es ____ |
+| «Hasta 70% de descuento» | **Corregido: hasta 80% en tus marcas favoritas** (23/09/2026) |
 | «Prendas desde S/ 9.90» | Sí / No |
 | «Más de 300 trabajadores» | Sí / No / Son ____ |
 | «100% original, garantizado» | Sí / No |

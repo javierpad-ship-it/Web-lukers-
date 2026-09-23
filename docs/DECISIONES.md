@@ -287,3 +287,15 @@ También subió `--container` de 1240 a 1320 px y la escala de títulos.
 > su mayor parte la fotografía. La de SumUp es una producción con la persona
 > recortada. Mientras no llegue esa foto, el bloque se ve limpio y ordenado,
 > pero no se ve así. El encargo exacto está en el hueco `hero_main` del panel.
+
+## 17. El descuento es «hasta 80%», no 70% (23/09/2026)
+
+Corregido por Lukers: el descuento llega **hasta el 80% en tus marcas
+favoritas**. Cambiado en la pastilla de la portada y en las dos descripciones
+que ven Google y las redes al compartir la página (`meta description` y
+`og:description`).
+
+Lo que sigue valiendo del punto 2: en Perú, INDECOPI puede pedir que se
+sustente un «hasta X%» con precios de referencia reales. Conviene tener a mano
+algún producto que efectivamente se venda con ese 80% frente a su precio
+original.
