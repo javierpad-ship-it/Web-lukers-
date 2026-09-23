@@ -148,34 +148,45 @@
 }
 .hero__foto > img { position: absolute; inset: 0; }
 
-/* ---------- Cifras, en su propia franja bajo la portada ---------- */
+/* ---------- Cifras, como pastillas bajo la portada ----------
+   Cada pastilla toma el ancho de su contenido y bajan de línea solas en
+   móvil: no se fuerzan columnas. */
 .cifras {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: var(--s-4) var(--s-5);
-  margin-top: var(--s-6);
-  padding-top: var(--s-5);
-  border-top: 1px solid var(--line);
-}
-@media (min-width: 48rem) { .cifras { grid-template-columns: repeat(4, 1fr); } }
-@media (min-width: 48rem) {
-  .cifra + .cifra { padding-left: var(--s-5); border-left: 1px solid var(--line); }
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-3);
+  margin-top: var(--s-5);
 }
 
+.cifra {
+  display: inline-flex;
+  /* El HTML dice primero qué es (<dt>) y luego el número (<dd>); a la
+     vista va al revés, que es como se lee de un vistazo. */
+  flex-direction: row-reverse;
+  align-items: center;
+  gap: .6rem;
+  padding: .45rem 1.25rem .45rem .45rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+}
+
+.cifra dd { margin: 0; }
 .cifra b {
   display: block;
+  padding: .3rem .85rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--azul) 10%, transparent);
   font-family: var(--font-display);
   font-weight: 400;
-  font-size: clamp(1.9rem, 3vw, 2.6rem);
-  line-height: 1;
-  letter-spacing: -.03em;
-  color: var(--accent);
+  font-size: clamp(1.35rem, 2vw, 1.7rem);
+  line-height: 1.1;
+  letter-spacing: -.02em;
+  color: var(--azul-hondo);
 }
-/* El <dt> va debajo del <dd> a proposito: primero el numero, que es lo que
-   se lee de un vistazo, y despues de que es. */
-.cifra { display: flex; flex-direction: column-reverse; gap: var(--s-1); }
-.cifra dt { font-size: .82rem; line-height: 1.35; color: var(--text-soft); }
-.cifra dd { margin: 0; }
+/* Una sola línea siempre: con el borde del todo redondo, una pastilla
+   partida en dos líneas queda deformada. */
+.cifra dt { font-size: .88rem; line-height: 1.3; color: var(--text-soft); white-space: nowrap; }
 
 /* ---------- Categorías ---------- */
 .cat-card { position: relative; display: block; border-radius: var(--r-lg); overflow: hidden; }
